@@ -1,0 +1,14 @@
+.alert-danger , .alert-success{
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top:10px;
+}
+.card-title{
+  width: 95%;
+}
+.fa-search{
+  margin-left: 5px;
+}
+.add_btn{
+  margin-bottom: 10px;
+}
