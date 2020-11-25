@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2020 at 02:52 PM
+-- Generation Time: Nov 25, 2020 at 09:06 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -40,6 +40,30 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `title`, `created_at`, `updated_at`) VALUES
 (2, 'category1', '2020-11-16 06:02:45', '2020-11-16 06:02:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat`
+--
+
+CREATE TABLE `chat` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `msg` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_user` bigint(20) UNSIGNED DEFAULT NULL,
+  `booking_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `chat`
+--
+
+INSERT INTO `chat` (`id`, `msg`, `from_user`, `booking_id`, `created_at`, `updated_at`) VALUES
+(1, 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', 6, 1, '2020-11-13 12:20:23', NULL),
+(2, 'iiiiiiiiiiiiii', 6, 1, '2020-11-24 12:23:15', NULL),
+(3, 'kkkkkkkkkkkk', 2, 1, '2020-11-24 13:23:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +107,8 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`id`, `msg`, `send_date`, `from_user`, `request_id`, `created_at`, `updated_at`) VALUES
 (1, 'i will see the problem', '2020-11-15 22:00:00', 1, 1, '2020-11-16 16:35:10', '2020-11-16 16:35:10'),
-(2, 'hi thereee any problem alse', '2020-11-17 22:00:00', 1, 1, '2020-11-18 10:57:44', '2020-11-18 10:57:44');
+(2, 'hi thereee any problem alse', '2020-11-17 22:00:00', 1, 1, '2020-11-18 10:57:44', '2020-11-18 10:57:44'),
+(3, 'is the problem exist', '2020-11-17 22:00:00', 1, 1, '2020-11-18 18:45:04', '2020-11-18 18:45:04');
 
 -- --------------------------------------------------------
 
@@ -119,7 +144,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2020_11_16_172556_add_requests_table', 10),
 (19, '2020_11_16_172749_add_messages_table', 11),
 (20, '2020_11_18_072910_add_programme_design', 12),
-(21, '2020_11_18_073651_add_type_to_programm_design', 13);
+(21, '2020_11_18_073651_add_type_to_programm_design', 13),
+(22, '2020_11_24_115415_add_chat_messages', 14),
+(23, '2020_11_24_144102_add_programm_design_calendar', 15),
+(24, '2020_11_24_161639_add_programme_desig_to_calendar', 16),
+(25, '2020_11_24_183343_add_images_programme_design', 17),
+(26, '2020_11_24_214943_add_trainer_withdrow', 18);
 
 -- --------------------------------------------------------
 
@@ -142,8 +172,8 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `msg`, `send_date`, `user_id`, `is_send`, `created_at`, `updated_at`) VALUES
-(2, 'notify 1111111111111111', NULL, 2, 0, '2020-11-16 14:07:46', '2020-11-16 14:07:46'),
-(3, 'notifyyyyyyyyyyyyyyyy', NULL, 10, 0, '2020-11-18 10:58:13', '2020-11-18 10:58:13');
+(3, 'notifyyyyyyyyyyyyyyyy', NULL, 10, 0, '2020-11-18 10:58:13', '2020-11-18 10:58:13'),
+(4, 'hi user there are new notification', NULL, 2, 0, '2020-11-18 18:45:39', '2020-11-18 18:45:39');
 
 -- --------------------------------------------------------
 
@@ -189,6 +219,27 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `programme_images`
+--
+
+CREATE TABLE `programme_images` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `programme_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `programme_images`
+--
+
+INSERT INTO `programme_images` (`id`, `image`, `programme_id`, `created_at`, `updated_at`) VALUES
+(1, '/img/programme/50342d96a8c99c04a2d40e9ab106e5b3.jpg', 6, '2020-11-24 16:40:33', '2020-11-24 16:40:33');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `programm_designs`
 --
 
@@ -196,7 +247,6 @@ CREATE TABLE `programm_designs` (
   `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `desc` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vedio` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `media_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -208,10 +258,38 @@ CREATE TABLE `programm_designs` (
 -- Dumping data for table `programm_designs`
 --
 
-INSERT INTO `programm_designs` (`id`, `title`, `desc`, `image`, `vedio`, `media_type`, `created_at`, `updated_at`, `type`) VALUES
-(1, 'excerices 1', 'Look, my liege! The Knights Who Say Ni demand a sacrifice! …Are you suggesting that coconuts migr', '/img/programme/c3831af73bd85032331e6520d2dd66a7.jpg', NULL, 'image', '2020-11-18 07:11:46', '2020-11-18 07:19:07', 'exercises'),
-(2, 'excercise two', 'excerrrrrrrrrrrrrrrrrrrrrrrr', '/img/programme/81065e7ed7d922c8daf9c4c19b86cae8.jpg', '<iframe width=\"377\" height=\"243\" src=\"https://www.youtube.com/embed/oc4QS2USKmk\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 'vedio', '2020-11-18 10:06:40', '2020-11-18 10:32:58', 'exercises'),
-(3, 'excercise3333', 'this is excercise 333', '/img/programme/e87a97c2904e0ef86b8f5ebfc4b307e3.jpg', NULL, 'image', '2020-11-18 10:59:02', '2020-11-18 11:39:13', 'exercises');
+INSERT INTO `programm_designs` (`id`, `title`, `desc`, `vedio`, `media_type`, `created_at`, `updated_at`, `type`) VALUES
+(1, 'excerices 1', 'Look, my liege! The Knights Who Say Ni demand a sacrifice! …Are you suggesting that coconuts migr', NULL, 'image', '2020-11-18 07:11:46', '2020-11-18 07:19:07', 'exercises'),
+(2, 'excercise two', 'excerrrrrrrrrrrrrrrrrrrrrrrr', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/1piFN_ioMVI\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 'vedio', '2020-11-18 10:06:40', '2020-11-24 16:09:37', 'exercises'),
+(3, 'excercise3333', 'this is excercise 333', NULL, 'image', '2020-11-18 10:59:02', '2020-11-18 11:39:13', 'exercises'),
+(4, 'excercise new edit', 'this is excercies new  this is excercies new this is excercies new this is excercies new this is excercies new this is excercies new this is excercies new', '', 'image', '2020-11-18 18:46:48', '2020-11-19 11:56:31', 'exercises'),
+(5, 'daily meals content', 'daily meals content daily meals content daily meals content', NULL, 'image', '2020-11-24 14:41:20', '2020-11-24 14:41:20', 'dietary meals'),
+(6, 'food 3', 'food 3 food 3 food 3 food 3 food 3 food 3', '', 'image', '2020-11-24 15:16:11', '2020-11-24 16:59:17', 'food supplements');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `programm_design_calendar`
+--
+
+CREATE TABLE `programm_design_calendar` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `start` timestamp NULL DEFAULT NULL,
+  `end` timestamp NULL DEFAULT NULL,
+  `booking_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `programme_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `programm_design_calendar`
+--
+
+INSERT INTO `programm_design_calendar` (`id`, `start`, `end`, `booking_id`, `created_at`, `updated_at`, `programme_id`) VALUES
+(1, '2020-11-20 16:26:16', '2020-11-21 16:26:16', 1, NULL, NULL, 1),
+(2, '2020-11-23 16:41:37', NULL, 1, NULL, NULL, 5),
+(3, '2020-11-26 17:16:22', '2020-11-27 17:16:22', 1, NULL, NULL, 6);
 
 -- --------------------------------------------------------
 
@@ -234,7 +312,7 @@ CREATE TABLE `requests` (
 --
 
 INSERT INTO `requests` (`id`, `msg`, `send_date`, `user_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'this is first request', '2020-11-18 12:57:57', 2, 'in progress', NULL, '2020-11-18 10:57:57');
+(1, 'this is first request', '2020-11-18 20:44:34', 2, 'in progress', NULL, '2020-11-18 18:44:34');
 
 -- --------------------------------------------------------
 
@@ -321,6 +399,23 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (9, 'trainer2', 'trainer2@yahoo.com', NULL, '$2y$10$gIrm9vRq/Kwz72jiBCV57OH0ABKuH4e.oWPvYLht72b5m7RY0nOrS', NULL, '2020-11-16 07:16:49', '2020-11-16 07:16:49', 2, '/img/profile/cf60ce1b74487bbb83ee651077e7692f.png', 'this is trainer2', 2, 2),
 (10, 'test3', 'test3@yahoo.com', NULL, '$2y$10$7ulntF6hUYbal9zYqtu4XefODM6vJGS/qIyJZxpJEg4DoQGot9N/q', NULL, '2020-11-16 12:38:10', '2020-11-16 12:38:10', 3, NULL, NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `withdrow_record`
+--
+
+CREATE TABLE `withdrow_record` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `withdrw_num` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `withdrw_amount` double(8,2) NOT NULL,
+  `is_execute` int(11) NOT NULL DEFAULT 0,
+  `execute_date` timestamp NULL DEFAULT NULL,
+  `trainer_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -330,6 +425,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `chat_from_user_foreign` (`from_user`),
+  ADD KEY `chat_booking_id_foreign` (`booking_id`);
 
 --
 -- Indexes for table `countries`
@@ -372,10 +475,25 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indexes for table `programme_images`
+--
+ALTER TABLE `programme_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `programme_images_programme_id_foreign` (`programme_id`);
+
+--
 -- Indexes for table `programm_designs`
 --
 ALTER TABLE `programm_designs`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `programm_design_calendar`
+--
+ALTER TABLE `programm_design_calendar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `programm_design_calendar_booking_id_foreign` (`booking_id`),
+  ADD KEY `programm_design_calendar_programme_id_foreign` (`programme_id`);
 
 --
 -- Indexes for table `requests`
@@ -408,6 +526,13 @@ ALTER TABLE `users`
   ADD KEY `users_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `withdrow_record`
+--
+ALTER TABLE `withdrow_record`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `withdrow_record_trainer_id_foreign` (`trainer_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -415,31 +540,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `chat`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `package`
@@ -448,9 +579,21 @@ ALTER TABLE `package`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `programme_images`
+--
+ALTER TABLE `programme_images`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `programm_designs`
 --
 ALTER TABLE `programm_designs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `programm_design_calendar`
+--
+ALTER TABLE `programm_design_calendar`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -475,11 +618,24 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `withdrow_record`
+--
+ALTER TABLE `withdrow_record`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `chat`
+--
+ALTER TABLE `chat`
+  ADD CONSTRAINT `chat_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `chat_from_user_foreign` FOREIGN KEY (`from_user`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `messages`
@@ -501,6 +657,19 @@ ALTER TABLE `package`
   ADD CONSTRAINT `package_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `programme_images`
+--
+ALTER TABLE `programme_images`
+  ADD CONSTRAINT `programme_images_programme_id_foreign` FOREIGN KEY (`programme_id`) REFERENCES `programm_designs` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `programm_design_calendar`
+--
+ALTER TABLE `programm_design_calendar`
+  ADD CONSTRAINT `programm_design_calendar_booking_id_foreign` FOREIGN KEY (`booking_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `programm_design_calendar_programme_id_foreign` FOREIGN KEY (`programme_id`) REFERENCES `programm_designs` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `requests`
 --
 ALTER TABLE `requests`
@@ -519,6 +688,12 @@ ALTER TABLE `transactions`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `withdrow_record`
+--
+ALTER TABLE `withdrow_record`
+  ADD CONSTRAINT `withdrow_record_trainer_id_foreign` FOREIGN KEY (`trainer_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
