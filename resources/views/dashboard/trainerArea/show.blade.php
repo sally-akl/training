@@ -178,6 +178,10 @@
       </div>
       <div class="card-body border-bottom py-3">
         <div class="d-flex">
+          <a href="#" class="btn btn-primary add_btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+            Add withdrow request
+          </a>
 
         </div>
         <div class="table-responsive">
@@ -231,6 +235,8 @@
                     {{ date("Y-m-d",strtotime($withd->execute_date))}}
                   @endif
                 </td>
+
+
               </tr>
               @endforeach
             </tbody>
@@ -294,8 +300,102 @@
 
   </div>
 </div>
+
+<div class="modal modal-blur fade" id="add_edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add withdrow request</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="alert alert-danger alert-danger-modal" style="display:none">
+
+      </div>
+      <div class="alert alert-success alert-success-modal" style="display:none">
+
+      </div>
+      <form method="POST" action='{{url("/dashboard/trainers/withdraw/add")}}' class="form_submit_model">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Amount</label>
+            <input type="text" class="form-control" name="amount">
+          </div>
+
+          <input type="hidden" name="method_type" value="add" />
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
+            @lang('site.cancel')
+          </a>
+          <button type="submit" class="btn btn-primary">+ {{ __('site.save') }} </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 @section('footerjscontent')
 <script type="text/javascript">
+var _sucess = function(response)
+{
+  if(response.sucess)
+  {
+    $(".alert-success-modal").html(response.sucess_text);
+    $(".alert-success-modal").css("display","block");
+    $('#add_edit_modal').modal('hide');
+    $("input[name='method_type']").val("add");
+    window.location.href = '{{url("/dashboard/trainers")}}';
+  }
+  else
+  {
+    var $error_text = "";
+    var errors = response.errors;
+
+    $.each(errors, function (key, value) {
+      $error_text +=value+"<br>";
+    });
+
+    $(".alert-danger-modal").html($error_text);
+    $(".alert-danger-modal").css("display","block");
+
+  }
+
+}
+$(".add_btn").on("click",function(){
+    $("input[name='method_type']").val("add");
+    $(".form_submit_model").attr("action",'{{url("/dashboard/trainers/withdraw/add")}}');
+    $('#add_edit_modal').modal('show');
+    return false;
+});
+$(".form_submit_model").submit(function(e){
+
+    e.preventDefault();
+    var submit_form_url = $(this).attr('action');
+    var $method_is = "POST";
+    var formData = new FormData($(this)[0]);
+    $(".alert-success-modal").css("display","none");
+    $(".alert-danger-modal").css("display","none");
+
+    $.ajax({
+            url: submit_form_url,
+            type: $method_is,
+            data: formData,
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+              _sucess(response);
+            },
+            error : function( data )
+            {
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+    });
+    return false;
+});
 </script>
 @endsection

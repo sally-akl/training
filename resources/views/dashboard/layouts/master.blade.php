@@ -26,8 +26,8 @@
               @if(Auth::user())
                 @if(Auth::user()->role->name=="admin")
                    @include('dashboard.layouts.menu')
-                @elseif(Auth::user()->role->name=="customer")
-                    @include('dashboard.layouts.customer_menu')
+                @elseif(Auth::user()->role->name=="Trainer")
+                    @include('dashboard.layouts.trainer_menu')
                 @endif
               @endif
             </div>

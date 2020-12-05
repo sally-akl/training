@@ -17,63 +17,64 @@
   </div>
 </div>
 @else
-<div class="page-header">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <h2 class="page-title">
-                @lang('site.Users')
-                </h2>
-              </div>
-              <!-- Page title actions -->
-              <div class="col-auto ml-auto d-print-none">
-                <a href="./." class="btn btn-primary add_btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                  @lang('site.new_add')
-                </a>
-              </div>
-            </div>
-</div>
-<div class="row">
-  @include("dashboard.utility.sucess_message")
-  @foreach ($customers as $key => $user)
-  <div class="col-md-6 col-xl-3">
-           <div class="card">
-             <div class="card-body text-center">
-               <div class="mb-3">
-                 <span class="avatar avatar-xl">
-                   @php   $words = explode(" ", $user->name);
-                         $output= "";
-                         foreach ($words as $w) {
-                            $output .= $w[0];
-                          }
-                          echo $output;
-                    @endphp
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">@lang('site.Users')</h3>
+  </div>
+  <div class="card-body border-bottom py-3">
+    <div class="d-flex">
+      <a href="./." class="btn btn-primary add_btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        @lang('site.new_add')
+      </a>
+    </div>
+    <div class="table-responsive">
+      @include("dashboard.utility.sucess_message")
+      <table class="table card-table table-vcenter text-nowrap datatable">
+        <thead>
+          <tr>
 
-                 </span>
-               </div>
-               <div class="card-title mb-1">{{$user->name}}</div>
-               <div class="text-muted">{{$user->email}}</div>
-             </div>
-             <div class="row" style="margin-bottom: 10px;">
-                 <div class="col-md-6" style="text-align:right">
-                   <a class='btn btn-info btn-xs  edit_btn' bt-data="{{$user->id}}">
-                    <i class="far fa-edit"></i>
-                  </a>
-                 </div>
-                 <div class="col-md-6">
-                   <a href="#" class="btn btn-danger btn-xs  delete_btn"  bt-data="{{$user->id}}">
-                     <i class="far fa-trash-alt"></i>
-                   </a>
-                 </div>
-             </div>
-           </div>
-         </div>
-  @endforeach
-</div>
-<div class="row">
-   <div class="col-md-12 col-xl-12">
-     {{$customers->links('dashboard.vendor.pagination.default')}}
-   </div>
+            <th></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($customers as $key => $user)
+          <tr>
+            <td>
+
+              <span class="avatar avatar-xl" >
+                @php   $words = explode(" ", $user->name);
+                      $output= "";
+                      foreach ($words as $w) {
+                         $output .= $w[0];
+                       }
+                       echo $output;
+                 @endphp
+              </span>
+
+              </td>
+              <td>{{$user->name}}</td>
+              <td>{{$user->email}}</td>
+            <td class="text-right">
+              <a class='btn btn-info btn-xs edit_btn' bt-data="{{$user->id}}">
+    						<i class="far fa-edit"></i>
+    					</a>
+    					<a href="#" class="btn btn-danger btn-xs delete_btn"  bt-data="{{$user->id}}">
+    						<i class="far fa-trash-alt"></i>
+    					</a>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer d-flex align-items-center">
+      {{$customers->links('dashboard.vendor.pagination.default')}}
+    </div>
+  </div>
 </div>
 @endif
 

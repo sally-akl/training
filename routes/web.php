@@ -31,6 +31,12 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('messages/send','Dashboard\SupportController@sendMessage');
   Route::post('bookings/programme/{id}','Dashboard\BookingController@getBookingProgrammes');
   Route::resource('programmeimage','Dashboard\ProgrammeImagesController');
+  Route::get('trainers','Dashboard\TrainerAreaController@index');
+  Route::post('trainers/withdraw/add','Dashboard\TrainerAreaController@addwithdraw');
+  Route::get('trainers/profile','Dashboard\TrainerAreaController@profile');
+  Route::post('trainers/profile/edit','Dashboard\TrainerAreaController@update');
+
+
 
 
 });

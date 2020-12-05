@@ -49,4 +49,8 @@ class User extends Authenticatable
   {
     return $this->hasMany('App\Withdrow','trainer_id');
   }
+  public function packages()
+  {
+    return $this->hasMany('App\Package','user_id');
+  }
 }

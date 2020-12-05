@@ -18,11 +18,6 @@
     </a>
     <ul class="dropdown-menu dropdown-menu-columns  dropdown-menu-columns-2">
       <li >
-        <a class="dropdown-item" href='{{url("/dashboard/country")}}'>
-          @lang('site.countries')
-        </a>
-      </li>
-      <li >
         <a class="dropdown-item" href='{{url("/dashboard/category")}}'>
           @lang('site.categories')
         </a>

@@ -10,7 +10,7 @@
     @lang('site.add_new_records')
   </p>
   <div class="empty-action">
-    <a href="#" class="btn btn-primary add_btn">
+    <a href="{{ url('dashboard/programme/create') }}" class="btn btn-primary add_btn">
       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
       @lang('site.new_add')
     </a>
@@ -61,7 +61,7 @@
     </div>
   </div>
     <div class="d-flex">
-      <a href="./." class="btn btn-primary add_btn">
+      <a href="{{ url('dashboard/programme/create') }}" class="btn btn-primary add_btn">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
         @lang('site.new_add')
       </a>
@@ -91,7 +91,7 @@
             <td>{{$programme->type}}</td>
             <td>{{$programme->media_type}}</td>
             <td class="text-right">
-              <a class='btn btn-info btn-xs edit_btn' bt-data="{{$programme->id}}">
+              <a href='{{url("/dashboard/programme")}}/{{$programme->id}}/edit' class='btn btn-info btn-xs' >
     						<i class="far fa-edit"></i>
     					</a>
     					<a href="#" class="btn btn-danger btn-xs delete_btn"  bt-data="{{$programme->id}}">
@@ -101,10 +101,8 @@
     						Details
     					</a>
               @if($programme->media_type == "image")
-              <a href="#" class="btn  btn-xs add_new_image"  bt-data="{{$programme->id}}">
-    						Add Image
-    					</a>
-              @else
+               <span></span>
+              @elseif($programme->media_type == "vedio")
               <a href="#" class="btn  btn-xs vedio_view"  data-vedio="{{$programme->vedio}}">
                View Vedio
               </a>
@@ -122,87 +120,6 @@
 </div>
 @endif
 
-<div class="modal modal-blur fade" id="add_edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">@lang('site.new_add')</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-        </button>
-      </div>
-      <div class="alert alert-danger alert-danger-modal" style="display:none">
-
-      </div>
-      <div class="alert alert-success alert-success-modal" style="display:none">
-
-      </div>
-      <form method="POST" action="{{ url('dashboard/programme') }}" class="form_submit_model" enctype="multipart/form-data">
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">@lang('site.programme_title')</label>
-                <input type="text" class="form-control" name="title">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">@lang('site.upload_programme')</label>
-                <select name="upload_type" class="form-control">
-                  <option value="">@lang('site.select')</option>
-                  <option value="image">@lang('site.image')</option>
-                  <option value="vedio">@lang('site.vedio')</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 upload_vedio"  style="display:none">
-              <div class="mb-3">
-                 <label class="form-label">@lang('site.link')</label>
-                 <input type="text" class="form-control" name="vedio">
-                 <div class="vedio_edit" style="display:none" >
-                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">@lang('site.programme_type')</label>
-                <select name="programme_type" class="form-control">
-                  <option value="">@lang('site.select')</option>
-                  <option value="exercises">@lang('site.exercises')</option>
-                  <option value="dietary meals">@lang('site.dietary_meals')</option>
-                  <option value="food supplements">@lang('site.food_supplements')</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-12">
-            <div class="mb-3">
-              <label class="form-label">@lang('site.programme_desc')</label>
-              <textarea class="form-control desc" rows="3" name="desc"></textarea>
-            </div>
-          </div>
-          <input type="hidden" name="method_type" value="add" />
-          <input type="hidden" name="item_id" value="0" />
-          <input type="hidden" name="vedio_or_image" value="" />
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
-            @lang('site.cancel')
-          </a>
-          <button type="submit" class="btn btn-primary">+ {{ __('site.save') }} </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 <div class="modal modal-blur fade" id="vedio_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -378,17 +295,6 @@
       });
 
         return false;
-  });
-  $(".add_btn").on("click",function(){
-      $(".password_div").css("display","flex");
-      $(".upload_img").css("display","none");
-      $(".upload_vedio").css("display","none");
-      $(".img_edit").css("display","none");
-      $(".vedio_edit").css("display","none");
-      $("input[name='method_type']").val("add");
-      $(".form_submit_model").attr("action",'{{url("/dashboard/programme")}}');
-      $('#add_edit_modal').modal('show');
-      return false;
   });
   $(".form_submit_model").submit(function(e){
 
