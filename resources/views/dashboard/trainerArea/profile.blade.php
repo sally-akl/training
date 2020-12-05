@@ -10,7 +10,7 @@
     </div>
     <div class="table-responsive">
       @include("dashboard.utility.sucess_message")
-      <form method="POST" action="{{ url('dashboard/trainers') }}/profile/edit" class="form_submit_model" enctype="multipart/form-data">
+      <form method="POST" action="{{ url('dashboard/trainers') }}/profile/edit"  enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
           <div class="row">
@@ -144,6 +144,9 @@
               <a class='btn  btn-xs' href="{{url('/dashboard/package')}}/{{$package->id}}">
     						Show
     					</a>
+              <a class='btn btn-info btn-xs edit_btn' bt-data="{{$package->id}}">
+    						<i class="far fa-edit"></i>
+    					</a>
               <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-data="{{$package->id}}">
                 <i class="far fa-trash-alt"></i>
               </a>
@@ -190,6 +193,34 @@
               <option value="months">Months</option>
             </select>
           </div>
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="text" class="form-control" name="package_price">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Package Type</label>
+            <select name="package_type" class="form-control">
+              <option value="">@lang('site.select')</option>
+              <option value="free" >Free</option>
+              <option value="paid">Paid</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Package Status</label>
+            <select name="package_status" class="form-control">
+              <option value="">@lang('site.select')</option>
+              <option value="active" >Active</option>
+              <option value="not active">Not active</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Package description </label>
+            <textarea class="form-control desc" rows="3" name="pack_desc"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Package questionnaire</label>
+            <textarea class="form-control desc" rows="3" name="pack_question"></textarea>
+          </div>
 
           <input type="hidden" name="method_type" value="add" />
         </div>
@@ -222,6 +253,116 @@ $(".delete_it_sure").on("click",function(){
           if(result.sucess)
             window.location.href = '{{url("/dashboard/trainers/profile")}}';
   }});
+});
+var _sucess = function(response)
+{
+  if(response.sucess)
+  {
+    $(".alert-success-modal").html(response.sucess_text);
+    $(".alert-success-modal").css("display","block");
+    $('#add_edit_modal').modal('hide');
+    $("input[name='method_type']").val("add");
+    window.location.href = '{{url("/dashboard/trainers/profile")}}';
+  }
+  else
+  {
+    var $error_text = "";
+    var errors = response.errors;
+
+    $.each(errors, function (key, value) {
+      $error_text +=value+"<br>";
+    });
+
+    $(".alert-danger-modal").html($error_text);
+    $(".alert-danger-modal").css("display","block");
+
+  }
+
+}
+$(".edit_btn").on("click",function()
+{
+    var id = $(this).attr("bt-data");
+    var url_edit = '{{url("/dashboard/package")}}'+"/"+id;
+    $(".form_submit_model").attr("action",url_edit);
+    $.ajax({
+        url: '{{url("/dashboard/package")}}'+"/"+id+"/edit",
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          $("input[name='package_name']").val(response.package_name);
+          $("input[name='package_duration']").val(response.package_duration);
+          $("select[name='package_duration_type']").val(response.package_duration_type);
+          $("input[name='package_price']").val(response.package_price);
+          $("select[name='package_type']").val(response.package_type);
+          $("select[name='package_status']").val(response.package_status);
+          $("textarea[name='pack_desc']").val(response.package_desc);
+          $("textarea[name='pack_question']").val(response.package_questionaire);
+          $("input[name='method_type']").val("edit");
+          $('#add_edit_modal').modal('show');
+        },
+    });
+
+      return false;
+});
+$(".form_submit_model").submit(function(e){
+
+    e.preventDefault();
+    var submit_form_url = $(this).attr('action');
+    var $method_is = "POST";
+    var formData = new FormData($(this)[0]);
+    $(".alert-success-modal").css("display","none");
+    $(".alert-danger-modal").css("display","none");
+
+    if(formData.get("method_type") == "edit")
+    {
+        $method_is = "PUT";
+        var data = {
+           package_name : $("input[name='package_name']").val(),
+           package_duration : $("input[name='package_duration']").val(),
+           package_duration_type : $("select[name='package_duration_type']").val(),
+           package_price : $("input[name='package_price']").val(),
+           package_type :   $("select[name='package_type']").val(),
+           package_status : $("select[name='package_status']").val(),
+           pack_desc :   $("textarea[name='pack_desc']").val(),
+           pack_question : $("textarea[name='pack_question']").val(),
+        };
+        $.ajax({
+            type: $method_is,
+            url: submit_form_url,
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (response) {
+              _sucess(response);
+            },
+          error : function( data )
+          {
+
+          },
+        });
+    }
+    else {
+      $.ajax({
+                url: submit_form_url,
+                type: $method_is,
+                data: formData,
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+                  _sucess(response);
+                },
+              error : function( data )
+              {
+
+              },
+              cache: false,
+              contentType: false,
+              processData: false
+      });
+
+    }
+
+      return false;
 });
 </script>
 @endsection
