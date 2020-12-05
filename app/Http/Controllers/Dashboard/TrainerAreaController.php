@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Transactions;
 use Session;
 use Validator;
 
@@ -95,6 +96,16 @@ class TrainerAreaController extends Controller
       $user->image = $photo_name;
       $user->save();
       return redirect('dashboard/trainers/profile')->with("message","Sucessfully Updated");
+    }
+    public function clients()
+    {
+      $customers =  User::selectraw("users.* , package.package_duration_type , package.package_duration , transactions.transfer_date , package.package_name , transactions.id as trans_id")->join("transactions","user_id","users.id")->join("package","package_id","package.id")->where("role_id",3)->where("package.user_id",Auth::id())->paginate($this->pagination_num);
+      return view('dashboard.trainerArea.clients',compact('customers'));
+    }
+    public function client_details($id)
+    {
+      $transaction = Transactions::findOrFail($id);
+      return view('dashboard.trainerArea.client_details',compact('transaction'));
     }
     private  function getCode($length = 10)
     {

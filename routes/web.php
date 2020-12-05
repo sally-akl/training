@@ -35,6 +35,8 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('trainers/withdraw/add','Dashboard\TrainerAreaController@addwithdraw');
   Route::get('trainers/profile','Dashboard\TrainerAreaController@profile');
   Route::post('trainers/profile/edit','Dashboard\TrainerAreaController@update');
+  Route::get('trainers/clients','Dashboard\TrainerAreaController@clients');
+  Route::get('trainers/clients/details/{id}','Dashboard\TrainerAreaController@client_details');
 
 
 
