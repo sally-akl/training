@@ -188,9 +188,9 @@
             <label class="form-label">Duration type</label>
             <select name="package_duration_type" class="form-control">
               <option value="">@lang('site.select')</option>
-              <option value="days" >Days</option>
-              <option value="weeks">Weeks</option>
-              <option value="months">Months</option>
+              <option value="day" >Days</option>
+              <option value="week">Weeks</option>
+              <option value="month">Months</option>
             </select>
           </div>
           <div class="mb-3">

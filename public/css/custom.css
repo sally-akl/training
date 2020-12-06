@@ -19,3 +19,15 @@
 .div_h_20{
   height: 20px;
 }
+.days .col-lg-1{
+  background-color: #206bc4;
+  color: #fff;
+  border-right: 1px solid #fff;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
+}
+.days .col-lg-1 a{
+  color: #fff !important;
+}

@@ -37,6 +37,22 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('trainers/profile/edit','Dashboard\TrainerAreaController@update');
   Route::get('trainers/clients','Dashboard\TrainerAreaController@clients');
   Route::get('trainers/clients/details/{id}','Dashboard\TrainerAreaController@client_details');
+  Route::get('trainers/programmes/design/{day}/{package_id}/{user_id?}','Dashboard\ProgrammeDesignController@index');
+  Route::get('trainers/programmes/save/{type}/{id}','Dashboard\ProgrammeDesignController@addprogramme');
+  Route::post('trainers/programmes/add','Dashboard\ProgrammeDesignController@createplan');
+  Route::get('trainers/programmes/detaills/{id}','Dashboard\ProgrammeDesignController@show');
+  Route::get('trainers/programmes/delete/{day}/{package_id}/{programme_id}/{user_id?}','Dashboard\ProgrammeDesignController@destroy');
+  Route::resource('sections','Dashboard\SectionController');
+  Route::group(['prefix'=>'recepies'],function () {
+    Route::get('/',['uses'=>'Dashboard\RecepiesController@index']);
+    Route::get('create',['uses'=>'Dashboard\RecepiesController@create']);
+    Route::post('/store',['before' => 'csrf','uses'=>'Dashboard\RecepiesController@store']);
+    Route::get('/{id}/edit',['uses'=>'Dashboard\RecepiesController@edit']);
+    Route::post('/{id}',['before' => 'csrf','uses'=>'Dashboard\RecepiesController@update']);
+    Route::get('index/{id}',['uses'=>'Dashboard\RecepiesController@destroy']);
+    Route::get('select/integration/{id}',['uses'=>'Dashboard\RecepiesController@select_integration']);
+ });
+
 
 
 

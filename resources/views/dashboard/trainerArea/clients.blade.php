@@ -69,7 +69,7 @@
 
               </td>
               <td>
-                <a class='btn  btn-xs card-btn' href="{{url('/dashboard/clients/details')}}/{{$user->trans_id}}">
+                <a class='btn  btn-xs card-btn' href="{{url('/dashboard/trainers/clients/details')}}/{{$user->trans_id}}">
                   Details
                 </a>
 

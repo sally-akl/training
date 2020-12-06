@@ -12,4 +12,8 @@ class Programme extends Model
     {
       return $this->hasMany('App\ProgrammeImages','programme_id');
     }
+    public function integrate()
+    {
+      return $this->hasMany('App\ProgrammeIntegrent','programme_id');
+    }
 }
