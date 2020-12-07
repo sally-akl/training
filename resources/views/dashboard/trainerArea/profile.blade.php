@@ -144,6 +144,9 @@
               <a class='btn  btn-xs' href="{{url('/dashboard/package')}}/{{$package->id}}">
     						Show
     					</a>
+              <a class='btn  btn-xs' href="{{url('/dashboard/packages/programmedesign')}}/{{$package->id}}">
+    						Programme design
+    					</a>
               <a class='btn btn-info btn-xs edit_btn' bt-data="{{$package->id}}">
     						<i class="far fa-edit"></i>
     					</a>

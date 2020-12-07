@@ -5,6 +5,7 @@
         <div class="modal-title">@lang('site.are_you_sure')</div>
         <div>@lang('site.if_you_do_delete')</div>
         <input type="hidden" name="delete_val" value="0" />
+        <input type="hidden" name="type_val" value="" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-link link-secondary mr-auto" data-dismiss="modal">@lang('site.cancel')</button>

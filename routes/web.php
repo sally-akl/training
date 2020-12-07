@@ -51,8 +51,10 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
     Route::post('/{id}',['before' => 'csrf','uses'=>'Dashboard\RecepiesController@update']);
     Route::get('index/{id}',['uses'=>'Dashboard\RecepiesController@destroy']);
     Route::get('select/integration/{id}',['uses'=>'Dashboard\RecepiesController@select_integration']);
- });
-
+  });
+  Route::get('trainers/receips/delete/{day}/{package_id}/{programme_id}/{section}/{user_id?}','Dashboard\ProgrammeDesignController@destroy_receps');
+  Route::get('trainers/receps/detaills/{id}','Dashboard\ProgrammeDesignController@show_receps');
+  Route::get('packages/programmedesign/{id}','Dashboard\TrainerAreaController@showprogramme');
 
 
 

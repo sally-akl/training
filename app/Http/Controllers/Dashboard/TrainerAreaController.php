@@ -107,6 +107,11 @@ class TrainerAreaController extends Controller
       $transaction = Transactions::findOrFail($id);
       return view('dashboard.trainerArea.client_details',compact('transaction'));
     }
+    public function showprogramme($id)
+    {
+       $package = \App\Package::findOrFail($id);
+       return view('dashboard.trainerArea.programme_design',compact('package'));
+    }
     private  function getCode($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

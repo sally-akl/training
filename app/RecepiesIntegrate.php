@@ -12,4 +12,8 @@ class RecepiesIntegrate extends Model
     {
         return $this->belongsTo('App\Programme','programme_id');
     }
+    public function integrate()
+    {
+        return $this->belongsTo('App\ProgrammeIntegrent','integrate_programme_id');
+    }
 }

@@ -16,4 +16,8 @@ class Plan extends Model
     {
         return $this->belongsTo('App\Programme','programme_design_id');
     }
+    public function recepe()
+    {
+        return $this->belongsTo('App\Receips','recepe_id');
+    }
 }
