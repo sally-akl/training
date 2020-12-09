@@ -26,4 +26,19 @@ class DashboardController extends Controller
     {
         return view('dashboard.home');
     }
+    public function chat(Request $request)
+    {
+      $sender = $request->sender;
+      $receiver = $request->receiver;
+      $booking = $request->booking;
+      $message = $request->msg;
+      $chat = new \App\Chat();
+      $chat->msg = $message;
+      $chat->from_user  = $sender;
+      $chat->to_user = $receiver;
+      $chat->booking_id  = $booking;
+      $chat->save();
+      return "ok";
+    }
+
 }

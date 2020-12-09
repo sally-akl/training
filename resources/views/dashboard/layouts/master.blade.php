@@ -28,6 +28,8 @@
                    @include('dashboard.layouts.menu')
                 @elseif(Auth::user()->role->name=="Trainer")
                     @include('dashboard.layouts.trainer_menu')
+                @elseif(Auth::user()->role->name=="user")
+                    @include('dashboard.layouts.user_menu')
                 @endif
               @endif
             </div>

@@ -55,6 +55,9 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('trainers/receips/delete/{day}/{package_id}/{programme_id}/{section}/{user_id?}','Dashboard\ProgrammeDesignController@destroy_receps');
   Route::get('trainers/receps/detaills/{id}','Dashboard\ProgrammeDesignController@show_receps');
   Route::get('packages/programmedesign/{id}','Dashboard\TrainerAreaController@showprogramme');
+  Route::get('usersarea/subscrips','Dashboard\UserAreaController@subscrips');
+  Route::get('usersarea/subscrips/details/{id}','Dashboard\UserAreaController@subscrip_details');
+  Route::post('chat/save','Dashboard\DashboardController@chat');
 
 
 
