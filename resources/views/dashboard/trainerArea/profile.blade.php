@@ -144,9 +144,7 @@
               <a class='btn  btn-xs' href="{{url('/dashboard/package')}}/{{$package->id}}">
     						Show
     					</a>
-              <a class='btn  btn-xs' href="{{url('/dashboard/packages/programmedesign')}}/{{$package->id}}">
-    						Programme design
-    					</a>
+
               <a class='btn btn-info btn-xs edit_btn' bt-data="{{$package->id}}">
     						<i class="far fa-edit"></i>
     					</a>
@@ -187,15 +185,7 @@
             <label class="form-label">@lang('site.pack_duration')</label>
             <input type="number" class="form-control" name="package_duration">
           </div>
-          <div class="mb-3">
-            <label class="form-label">Duration type</label>
-            <select name="package_duration_type" class="form-control">
-              <option value="">@lang('site.select')</option>
-              <option value="day" >Days</option>
-              <option value="week">Weeks</option>
-              <option value="month">Months</option>
-            </select>
-          </div>
+          <input type="hidden" name="package_duration_type" value="week"/>
           <div class="mb-3">
             <label class="form-label">Price</label>
             <input type="text" class="form-control" name="package_price">
@@ -294,7 +284,7 @@ $(".edit_btn").on("click",function()
         success: function (response) {
           $("input[name='package_name']").val(response.package_name);
           $("input[name='package_duration']").val(response.package_duration);
-          $("select[name='package_duration_type']").val(response.package_duration_type);
+          $("input[name='package_duration_type']").val(response.package_duration_type);
           $("input[name='package_price']").val(response.package_price);
           $("select[name='package_type']").val(response.package_type);
           $("select[name='package_status']").val(response.package_status);
@@ -322,7 +312,7 @@ $(".form_submit_model").submit(function(e){
         var data = {
            package_name : $("input[name='package_name']").val(),
            package_duration : $("input[name='package_duration']").val(),
-           package_duration_type : $("select[name='package_duration_type']").val(),
+           package_duration_type : $("input[name='package_duration_type']").val(),
            package_price : $("input[name='package_price']").val(),
            package_type :   $("select[name='package_type']").val(),
            package_status : $("select[name='package_status']").val(),

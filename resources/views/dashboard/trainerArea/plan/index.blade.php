@@ -6,6 +6,11 @@
       <h2 class="page-title">
           Day {{$day}} - Package ( {{\App\Package::find($package)->package_name}} )
       </h2>
+      <ol class="breadcrumb" aria-label="breadcrumbs" style="margin-top:10px;">
+        <li class="breadcrumb-item"><a href='{{url("dashboard/trainers/clients/details")}}/{{$transaction_num}}'>Client Data</a></li>
+        <li class="breadcrumb-item"><a href='{{url("dashboard/trainers/programmes/days")}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}'>Week {{$week}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">Programme design of Week {{$week}} / Day {{$day}}</a></li>
+      </ol>
     </div>
   </div>
 </div>
@@ -51,7 +56,7 @@
                                       <a href="{{ url('dashboard/trainers/programmes/detaills') }}/{{$programme->programme->id}}" class="btn  btn-xs "  bt-data="{{$programme->id}}">
                                         Details
                                       </a>
-                                      <a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$day}}-{{$package}}-{{$user_id}}-{{$programme->programme->id}}">
+                                      <a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$day}}-{{$week}}-{{$transaction_num}}-{{$package}}-{{$user_id}}-{{$programme->programme->id}}">
                                        <i class="far fa-trash-alt"></i>
                                      </a>
                                     </td>
@@ -64,7 +69,7 @@
                           </div>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" style="margin-top:150px;">
                           <div class="card-title">Select more excercises</div>
                           <div class="table-responsive">
                            <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}'>
@@ -86,7 +91,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                  @php  $programme_data = \App\Programme::where("type","exercises")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10); @endphp
+                                  @php  $programme_data = \App\Programme::where("type","exercises")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10); @endphp
                                   @foreach ($programme_data as $key => $programme)
                                   <tr>
                                     <td><input type="checkbox" name="selected_excercise" value="{{$programme->id}}"  /></td>
@@ -102,6 +107,8 @@
                             <input type="hidden" name="package_num" value="{{$package}}" />
                             <input type="hidden" name="user_num" value="{{$user_id}}" />
                             <input type="hidden" name="programme_type" value="excercises" />
+                            <input type="hidden" name="transaction" value="{{$transaction_num}}"/>
+                            <input type="hidden" name="week" value="{{$week}}"/>
                             @if(count($programme_data)>0)
                               <button type="submit" class="btn btn-primary" style="margin-top:10px;">Add excercises</button>
                             @endif
@@ -116,19 +123,9 @@
                       <div id="tab-top-2" class="card tab-pane">
                         <div class="card-body">
                           <div class="card-title">Recepies</div>
-                              <div class="card-tabs">
-                                  <!-- Cards navigation -->
-                                  <ul class="nav nav-tabs">
-                                    @foreach(\App\Section::all() as $k=>$section)
-                                      <li class="nav-item"><a href="#{{$section->section_name}}" class="nav-link {{$k==0?'active':''}}" data-toggle="tab">{{$section->section_name}}</a></li>
-                                    @endforeach
-                                  </ul>
-                                  <div class="tab-content">
-                                    <!-- Content of card #1 -->
-                                    @foreach(\App\Section::all() as $k=>$section)
-                                    <div id="{{$section->section_name}}" class="card tab-pane {{$k==0?'active':''}} show">
+
                                       <div class="card-body">
-                                        <div class="card-title">{{$section->section_name}} Receips</div>
+                                        <div class="card-title">Receips</div>
                                         <div class="table-responsive">
 
                                           <table class="table card-table table-vcenter text-nowrap datatable">
@@ -148,8 +145,8 @@
                                               </tr>
                                             </thead>
                                             <tbody>
-                                                @if(array_key_exists($section->id,$plan_section_receps))
-                                                @foreach ($plan_section_receps[$section->id] as $key => $receps)
+
+                                                @foreach ($plan_section_receps as $key => $receps)
                                                 <tr>
                                                   <td><img src="{{url('/')}}{{$receps->recepe->image}}" width="100" height="100" /></td>
                                                   <td>{{$receps->recepe->name}}</td>
@@ -158,21 +155,21 @@
                                                     <a href="{{ url('dashboard/trainers/receps/detaills') }}/{{$receps->recepe->id}}" class="btn  btn-xs "  bt-data="{{$receps->recepe->id}}">
                                                       Details
                                                     </a>
-                                                    <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$day}}-{{$package}}-{{$user_id}}-{{$receps->recepe->id}}-{{$section->id}}">
+                                                    <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$day}}-{{$package}}-{{$user_id}}-{{$receps->recepe->id}}">
                                                      <i class="far fa-trash-alt"></i>
                                                    </a>
                                                   </td>
 
                                                 </tr>
                                                 @endforeach
-                                                @endif
+
 
                                             </tbody>
                                           </table>
                                         </div>
                                         <!--  next cart -->
 
-                                        <div class="card-body">
+                                        <div class="card-body" style="margin-top:150px;">
                                           <div class="card-title">Select more recepies</div>
                                           <div class="table-responsive">
                                            <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}'>
@@ -194,7 +191,7 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                  @php  $receps_data = \App\Receips::whereraw("id  not IN(select recepe_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and section_id='".$section->id."' and  programme_design_id  IS NULL)")->paginate(10); @endphp
+                                                  @php  $receps_data = \App\Receips::whereraw("id  not IN(select recepe_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."'  and  programme_design_id  IS NULL)")->paginate(10); @endphp
                                                   @foreach ($receps_data as $key => $receps)
                                                   <tr>
                                                     <td><input type="checkbox" name="selected_recepies" value="{{$receps->id}}"  /></td>
@@ -215,7 +212,9 @@
                                             <input type="hidden" name="package_num" value="{{$package}}" />
                                             <input type="hidden" name="user_num" value="{{$user_id}}" />
                                             <input type="hidden" name="programme_type" value="recepies" />
-                                            <input type="hidden" name="section_val" value="{{$section->id}}" />
+                                            <input type="hidden" name="transaction" value="{{$transaction_num}}"/>
+                                            <input type="hidden" name="week" value="{{$week}}"/>
+
                                             @if(count($receps_data)>0)
                                               <button type="submit" class="btn btn-primary" style="margin-top:10px;">Add recepies</button>
                                             @endif
@@ -228,10 +227,6 @@
 
 
                                       </div>
-                                    </div>
-                                    @endforeach
-                                  </div>
-                          </div>
 
                         </div>
                       </div>
@@ -265,7 +260,7 @@
                                       <a href="{{ url('dashboard/trainers/programmes/detaills') }}/{{$programme->programme->id}}" class="btn  btn-xs "  bt-data="{{$programme->id}}">
                                         Details
                                       </a>
-                                      <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$day}}-{{$package}}-{{$user_id}}-{{$programme->programme->id}}">
+                                      <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$day}}-{{$week}}-{{$transaction_num}}-{{$package}}-{{$user_id}}-{{$programme->programme->id}}">
                                        <i class="far fa-trash-alt"></i>
                                      </a>
                                     </td>
@@ -276,7 +271,7 @@
                               </tbody>
                             </table>
                           </div>
-                          <div class="card-body">
+                          <div class="card-body" style="margin-top:150px;">
                             <div class="card-title">Select more food supplements</div>
                             <div class="table-responsive">
                              <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}'>
@@ -296,7 +291,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    @php  $programme_data = \App\Programme::where("type","food supplements")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10); @endphp
+                                    @php  $programme_data = \App\Programme::where("type","food supplements")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10); @endphp
                                     @foreach ($programme_data as $key => $programme)
                                     <tr>
                                       <td><input type="checkbox" name="selected_supplement" value="{{$programme->id}}"  /></td>
@@ -312,6 +307,8 @@
                               <input type="hidden" name="package_num" value="{{$package}}" />
                               <input type="hidden" name="user_num" value="{{$user_id}}" />
                               <input type="hidden" name="programme_type" value="supliment" />
+                              <input type="hidden" name="transaction" value="{{$transaction_num}}"/>
+                              <input type="hidden" name="week" value="{{$week}}"/>
                               @if(count($programme_data)>0)
                                <button type="submit" class="btn btn-primary" style="margin-top:10px;">Add food supliment</button>
                               @endif

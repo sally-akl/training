@@ -26,7 +26,11 @@ class ProgrammeDesignController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index($day , $package , $user_id = 0)
+    public function days($week,$transaction_num,$package,$user_id)
+    {
+      return view('dashboard.trainerArea.prograame_design_days',compact('week','transaction_num','package','user_id'));
+    }
+    public function index($day ,$week, $transaction_num ,  $package , $user_id = 0)
     {
       $id = Auth::id();
       $user = Auth::user();
@@ -36,11 +40,13 @@ class ProgrammeDesignController extends Controller
                                 ->whereraw("(programm_designs.type = 'exercises' or programm_designs.type ='food supplements')")
                                 ->where("package_user_plan.package_id",$package)
                                 ->where("package_user_plan.day_num",$day)
+                                ->where("package_user_plan.transaction_id",$transaction_num)
                                 ->paginate($this->pagination_num);
 
         $plan_receps = Plan::join("receips","receips.id","package_user_plan.recepe_id")
                             ->where("package_user_plan.package_id",$package)
                             ->where("package_user_plan.day_num",$day)
+                            ->where("package_user_plan.transaction_id",$transaction_num)
                             ->paginate($this->pagination_num);
       }
       else{
@@ -49,11 +55,13 @@ class ProgrammeDesignController extends Controller
                                 ->whereraw("(programm_designs.type = 'exercises' or programm_designs.type ='food supplements')")
                                 ->whereraw("(package_user_plan.package_id = $package or package_user_plan.user_id=$user_id)")
                                 ->where("package_user_plan.day_num",$day)
+                                ->where("package_user_plan.transaction_id",$transaction_num)
                                 ->paginate($this->pagination_num);
 
         $plan_receps = Plan::join("receips","receips.id","package_user_plan.recepe_id")
                             ->whereraw("(package_user_plan.package_id = $package or package_user_plan.user_id=$user_id)")
                             ->where("package_user_plan.day_num",$day)
+                            ->where("package_user_plan.transaction_id",$transaction_num)
                             ->paginate($this->pagination_num);
 
       }
@@ -69,15 +77,8 @@ class ProgrammeDesignController extends Controller
         if($p->programme->type == "food supplements")
           $plan["supliment"][] = $p;
       }
-      $plan_section_receps = [];
-      foreach($plan_receps as $recp)
-      {
-        if(!array_key_exists($recp->section_id,$plan_section_receps))
-          $plan_section_receps[$recp->section_id] = [];
-
-          $plan_section_receps[$recp->section_id][] = $recp;
-      }
-      return view('dashboard.trainerArea.plan.index',compact('plan','day','package','user_id','plan_section_receps'));
+      $plan_section_receps = $plan_receps;
+      return view('dashboard.trainerArea.plan.index',compact('plan','day','package','user_id','plan_section_receps','transaction_num','week'));
     }
 
     public function addprogramme($type , $id)
@@ -105,6 +106,8 @@ class ProgrammeDesignController extends Controller
       $day = $request->day_num;
       $package = $request->package_num;
       $user = $request->user_num;
+      $transaction_num = $request->transaction;
+      $week = $request->week;
 
       $values = Session::get($type."_values");
       if($type == "excercises" || $type == "supliment" )
@@ -115,6 +118,7 @@ class ProgrammeDesignController extends Controller
           $plan->day_num = $day;
           $plan->package_id = $package;
           $plan->programme_design_id = $val;
+          $plan->transaction_id = $transaction_num;
           if($user != 0)
             $plan->user_id = $user;
           $plan->save();
@@ -128,7 +132,8 @@ class ProgrammeDesignController extends Controller
           $plan->day_num = $day;
           $plan->package_id = $package;
           $plan->recepe_id = $val;
-          $plan->section_id = $request->section_val;
+          $plan->transaction_id = $transaction_num;
+        //  $plan->section_id = $request->section_val;
           if($user != 0)
             $plan->user_id = $user;
           $plan->save();
@@ -137,7 +142,7 @@ class ProgrammeDesignController extends Controller
       }
 
       Session::forget($type."_values");
-      return redirect('dashboard/trainers/programmes/design/'.$day.'/'.$package.'/'.$user)->with("message","Sucessfully Added");
+      return redirect('dashboard/trainers/programmes/design/'.$day.'/'.$week.'/'.$transaction_num.'/'.$package.'/'.$user)->with("message","Sucessfully Added");
     }
     public function show($id)
     {

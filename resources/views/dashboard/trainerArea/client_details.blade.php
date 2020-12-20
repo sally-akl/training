@@ -198,7 +198,7 @@
 </div>
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Programme design</h3>
+    <h3 class="card-title">Programme design ({{$transaction->package->package_duration_type}})s</h3>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">
@@ -208,7 +208,7 @@
         if($transaction->package->package_duration_type == "day")
           $days = $transaction->package->package_duration;
         elseif($transaction->package->package_duration_type == "week")
-          $days = $transaction->package->package_duration * 7;
+          $days = $transaction->package->package_duration ;
         elseif($transaction->package->package_duration_type == "month")
           $days = $transaction->package->package_duration * 30;
       @endphp
@@ -219,13 +219,13 @@
         @if($i == 1)
           <div class="row days">
         @endif
-        @if($i%8 == 0 && $i !=1)
+        @if($i%9 == 0 && $i !=1)
           @php $i = 1;   @endphp
           </div>
           <div class="row days">
         @endif
         <div class="col-lg-1">
-          <a href='{{url("dashboard/trainers/programmes/design")}}/{{$day}}/{{$transaction->package->id}}/{{$transaction->user->id}}'> Day {{$day}} </a>
+          <a href='{{url("dashboard/trainers/programmes/days")}}/{{$day}}/{{$transaction->id}}/{{$transaction->package->id}}/{{$transaction->user->id}}'> Week {{$day}} </a>
         </div>
        @php $i++;   @endphp
       @endfor

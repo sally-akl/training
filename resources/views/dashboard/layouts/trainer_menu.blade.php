@@ -28,25 +28,13 @@
     </a>
   </li>
   <li class="nav-item  dropdown  {{$controller == 'RecepiesController'  ?'active':'' }}">
-    <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
+    <a class="nav-link" href='{{url("/dashboard/recepies")}}'>
       <span class="nav-link-icon d-md-none d-lg-inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path d="M5 6h10a1 1 0 0 1 1 1v8a4 4 0 0 1 -4 4h-4a4 4 0 0 1 -4 -4v-8a1 1 0 0 1 1 -1"></path><path d="M16 9h2a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-2"></path></svg>
       </span>
       <span class="nav-link-title">
         Recepies
       </span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-columns  dropdown-menu-columns-2">
-      <li >
-        <a class="dropdown-item" href='{{url("/dashboard/sections")}}'>
-          Sections
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href='{{url("/dashboard/recepies")}}'>
-            manage recepies
-        </a>
-      </li>
-    </ul>
   </li>
 
 </ul>

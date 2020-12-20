@@ -37,7 +37,8 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('trainers/profile/edit','Dashboard\TrainerAreaController@update');
   Route::get('trainers/clients','Dashboard\TrainerAreaController@clients');
   Route::get('trainers/clients/details/{id}','Dashboard\TrainerAreaController@client_details');
-  Route::get('trainers/programmes/design/{day}/{package_id}/{user_id?}','Dashboard\ProgrammeDesignController@index');
+  Route::get('trainers/programmes/days/{week}/{transaction}/{package_id}/{user_id?}','Dashboard\ProgrammeDesignController@days');
+  Route::get('trainers/programmes/design/{day}/{week}/{transaction}/{package_id}/{user_id?}','Dashboard\ProgrammeDesignController@index');
   Route::get('trainers/programmes/save/{type}/{id}','Dashboard\ProgrammeDesignController@addprogramme');
   Route::post('trainers/programmes/add','Dashboard\ProgrammeDesignController@createplan');
   Route::get('trainers/programmes/detaills/{id}','Dashboard\ProgrammeDesignController@show');
