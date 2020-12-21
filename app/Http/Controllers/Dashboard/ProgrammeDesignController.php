@@ -220,10 +220,28 @@ class ProgrammeDesignController extends Controller
       }
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
     }
+    public function copyday(Request $request)
+    {
+      $copy_to = $request->to_transaction;
+      $transaction_copy_num = $request->transaction_copy_num;
+      $copy_type = $request->copy_type;
+      $transaction = \App\Transactions::find($transaction_copy_num);
+      $transaction_to = \App\Transactions::find($copy_to);
+      $day_num = $request->day_num;
 
-
-
-
-
+      $plans = $transaction->plan()->whereraw("day_num =".$day_num)->get();
+      foreach($plans as $plan)
+      {
+        $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
+                                    'package_id' => $transaction_to->package_id  ,
+                                    'user_id'=> $transaction_to->user_id ,
+                                    'programme_design_id'=>$plan->programme_design_id,
+                                    'recepe_id'=>$plan->recepe_id,
+                                    'transaction_id'=>$copy_to,
+             ]);
+        $p->save();
+      }
+      return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
+    }
 
 }

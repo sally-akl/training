@@ -106,7 +106,7 @@ $(".form_submit_model").submit(function(e){
                 success: function (response) {
                   if(response.sucess)
                   {
-                    $(".alert-success-modal").html("تم نسخ البرنامج بنجاح");
+                    $(".alert-success-modal").html("تم نسخ الاسبوع بنجاح");
                     $(".alert-success-modal").css("display","block");
                   }
                 },

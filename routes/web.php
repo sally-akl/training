@@ -45,6 +45,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('trainers/programmes/delete/{id}','Dashboard\ProgrammeDesignController@destroy');
   Route::post('trainers/programmes/copy','Dashboard\ProgrammeDesignController@copy');
   Route::post('trainers/programmes/copyweek','Dashboard\ProgrammeDesignController@copyweek');
+  Route::post('trainers/programmes/copyday','Dashboard\ProgrammeDesignController@copyday');
   Route::resource('sections','Dashboard\SectionController');
   Route::group(['prefix'=>'recepies'],function () {
     Route::get('/',['uses'=>'Dashboard\RecepiesController@index']);
