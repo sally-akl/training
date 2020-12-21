@@ -196,12 +196,48 @@
 
   </div>
 </div>
+<div class="modal modal-blur fade" id="show_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Copy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger alert-danger-modal" style="display:none">
+        </div>
+        <div class="alert alert-success alert-success-modal" style="display:none">
+        </div>
+        <form action="{{ url('dashboard/trainers/programmes/copy') }}" method="post" class="form_submit_model">
+          <div class="row">
+
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Copy to transaction</label>
+                <select name="to_transaction" class="form-control">
+                  @php  $trans_to = \App\Transactions::where("id","!=",$transaction->id)->get();  @endphp
+                  @foreach($trans_to as $t_to)
+                    <option value="{{$t_to->id}}">{{$t_to->transaction_num}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="transaction_copy_num" value="{{$transaction->id}}" />
+          <input type="hidden" name="copy_type" value="programme" />
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Programme design ({{$transaction->package->package_duration_type}})s</h3>
-    <form action="" method="post">
-      <input type="hidden" name="transaction_copy_num" value="{{$transaction->id}}" />
-    </form>
+    <button type="button" class="btn btn-primary copy_btn">Copy Programme design</button>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">
@@ -243,5 +279,42 @@
 <script src="{{ asset('js/chat.js') }}"></script>
 @endif
 <script type="text/javascript">
+$(".copy_btn").on("click",function(){
+  $('#show_modal').modal('show');
+});
+$(".form_submit_model").submit(function(e){
+
+    e.preventDefault();
+    var submit_form_url = $(this).attr('action');
+    var $method_is = "POST";
+    formData = new FormData($(this)[0]);
+    $(".alert-success-modal").css("display","none");
+    $(".alert-danger-modal").css("display","none");
+    $.ajax({
+                url: submit_form_url,
+                type: $method_is,
+                data: formData,
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+                  if(response.sucess)
+                  {
+                    $(".alert-success-modal").html("تم نسخ البرنامج بنجاح");
+                    $(".alert-success-modal").css("display","block");
+                  }
+                },
+              error : function( data )
+              {
+
+              },
+              cache: false,
+              contentType: false,
+              processData: false
+      });
+
+
+
+      return false;
+});
 </script>
 @endsection

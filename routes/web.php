@@ -43,6 +43,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('trainers/programmes/add','Dashboard\ProgrammeDesignController@createplan');
   Route::get('trainers/programmes/detaills/{id}','Dashboard\ProgrammeDesignController@show');
   Route::get('trainers/programmes/delete/{id}','Dashboard\ProgrammeDesignController@destroy');
+  Route::post('trainers/programmes/copy','Dashboard\ProgrammeDesignController@copy');
   Route::resource('sections','Dashboard\SectionController');
   Route::group(['prefix'=>'recepies'],function () {
     Route::get('/',['uses'=>'Dashboard\RecepiesController@index']);

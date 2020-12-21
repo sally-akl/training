@@ -24,4 +24,8 @@ class Transactions extends Model
     {
       return $this->hasMany('App\Chat','booking_id');
     }
+    public function plan()
+    {
+      return $this->hasMany('App\Plan','transaction_id');
+    }
 }
