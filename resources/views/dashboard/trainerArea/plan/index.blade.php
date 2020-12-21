@@ -36,12 +36,8 @@
                                   <th>
                                      @lang('site.programme_title')
                                   </th>
-                                  <th>
-                                     @lang('site.programme_type')
-                                  </th>
-                                  <th>
-                                     @lang('site.upload_programme')
-                                  </th>
+
+
                                   <th></th>
                                 </tr>
                               </thead>
@@ -49,14 +45,19 @@
                                 @if(array_key_exists("excercises",$plan))
                                   @foreach ($plan["excercises"] as $key => $programme)
                                   <tr>
-                                    <td>{{$programme->programme->title}}</td>
-                                    <td>{{$programme->programme->type}}</td>
-                                    <td>{{$programme->programme->media_type}}</td>
+                                    <td>{{$programme->programme->title}}
+                                      <div><span>Description :- </span><span>{{ substr($programme->programme->desc,0,100)}}</span></div>
+                                        <div><span>@lang('site.upload_programme') :- </span><span  class="badge bg-blue">{{$programme->programme->media_type}}</span></div>
+                                        <div><span>Number of sets :- </span><span  class="badge bg-azure">{{$programme->programme->number_of_sets}}</span></div>
+                                    </td>
+
+
+
                                     <td class="text-right">
-                                      <a href="{{ url('dashboard/trainers/programmes/detaills') }}/{{$programme->programme->id}}" class="btn  btn-xs "  bt-data="{{$programme->id}}">
+                                      <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->programme->id}}">
                                         Details
                                       </a>
-                                      <a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$day}}-{{$week}}-{{$transaction_num}}-{{$package}}-{{$user_id}}-{{$programme->programme->id}}">
+                                      <a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$programme->plan_id}}">
                                        <i class="far fa-trash-alt"></i>
                                      </a>
                                     </td>
@@ -71,6 +72,23 @@
 
                         <div class="card-body" style="margin-top:150px;">
                           <div class="card-title">Select more excercises</div>
+                          <div class="row" style="margin-top:5px;margin-bottom:30px;">
+                            <div class="col-sm-12">
+                              <form action="" method="get" />
+                              <div class="row form-group row">
+
+                                <label class="col-sm-2 form-control-label label-sm">Programme name</label>
+                                <div class="col-sm-6">
+                                    <input id="inputHorizontalSuccess" name= "p_name"  value="{{ $programme_search }}"  class="form-control  form-control-success" type="text">
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                              </div>
+
+                              </form>
+                            </div>
+                          </div>
                           <div class="table-responsive">
                            <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}'>
                              @csrf
@@ -81,23 +99,32 @@
                                   <th>
                                      @lang('site.programme_title')
                                   </th>
-                                  <th>
-                                     @lang('site.programme_type')
-                                  </th>
-                                  <th>
-                                     @lang('site.upload_programme')
-                                  </th>
+
                                   <th></th>
                                 </tr>
                               </thead>
                               <tbody>
-                                  @php  $programme_data = \App\Programme::where("type","exercises")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10); @endphp
+                                  @php
+                                    if(empty($programme_search))
+                                      $programme_data = \App\Programme::where("type","exercises")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10);
+                                    else
+                                      $programme_data = \App\Programme::where("type","exercises")->where('title', 'LIKE', '%'.$programme_search.'%')->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10);
+                                  @endphp
                                   @foreach ($programme_data as $key => $programme)
                                   <tr>
                                     <td><input type="checkbox" name="selected_excercise" value="{{$programme->id}}"  /></td>
-                                    <td>{{$programme->title}}</td>
-                                    <td>{{$programme->type}}</td>
-                                    <td>{{$programme->media_type}}</td>
+                                    <td>{{$programme->title}}
+                                      <div><span>Description :- </span><span>{{ substr($programme->desc,0,100)}}</span></div>
+                                        <div><span>@lang('site.upload_programme') :- </span><span  class="badge bg-blue">{{$programme->media_type}}</span></div>
+                                        <div><span>Number of sets :- </span><span  class="badge bg-azure">{{$programme->number_of_sets}}</span></div>
+                                    </td>
+
+                                    <td>
+                                      <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->id}}">
+                                        Details
+                                      </a>
+                                    </td>
+
 
                                   </tr>
                                   @endforeach
@@ -135,11 +162,9 @@
                                                   Image
                                                 </th>
                                                 <th>
-                                                   Title
+                                                   Details
                                                 </th>
-                                                <th>
-                                                   Description
-                                                </th>
+
 
                                                 <th></th>
                                               </tr>
@@ -149,13 +174,33 @@
                                                 @foreach ($plan_section_receps as $key => $receps)
                                                 <tr>
                                                   <td><img src="{{url('/')}}{{$receps->recepe->image}}" width="100" height="100" /></td>
-                                                  <td>{{$receps->recepe->name}}</td>
-                                                  <td>{{$receps->recepe->desciption}}</td>
+                                                  <td>{{$receps->recepe->name}}
+                                                      <div><span>Description :- </span><span>{{$receps->recepe->desciption}}</span></div>
+                                                      @php
+
+                                                        $Calories = 0;
+                                                        $Carbs = 0;
+                                                        $Protein = 0;
+                                                        $Fat = 0;
+                                                        foreach($receps->recepe->integrate as $k=>$sp)
+                                                        {
+                                                          $Calories +=$sp->integrate->calories ;
+                                                          $Carbs += $sp->integrate->carbs;
+                                                          $Protein += $sp->integrate->protein;
+                                                          $Fat += $sp->integrate->fat;
+
+                                                        }
+
+                                                      @endphp
+                                                      <div><span class="badge bg-azure">Calories	 : {{$Calories	}}</span>   <span class="badge bg-purple">Carbs	 : {{$Carbs	}}</span>  <span class="badge bg-green">Protein	 : {{$Protein	}}</span>  <span class="badge bg-orange">Fat	 : {{$Fat}}</span></div>
+
+                                                  </td>
+
                                                   <td class="text-right">
-                                                    <a href="{{ url('dashboard/trainers/receps/detaills') }}/{{$receps->recepe->id}}" class="btn  btn-xs "  bt-data="{{$receps->recepe->id}}">
+                                                    <a href="#" class="btn  btn-xs show_recep"  bt-data="{{$receps->recepe->id}}">
                                                       Details
                                                     </a>
-                                                    <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$day}}-{{$package}}-{{$user_id}}-{{$receps->recepe->id}}">
+                                                    <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$receps->plan_id}}">
                                                      <i class="far fa-trash-alt"></i>
                                                    </a>
                                                   </td>
@@ -171,6 +216,23 @@
 
                                         <div class="card-body" style="margin-top:150px;">
                                           <div class="card-title">Select more recepies</div>
+                                          <div class="row" style="margin-top:5px;margin-bottom:30px;">
+                                            <div class="col-sm-12">
+                                              <form action="" method="get" />
+                                              <div class="row form-group row">
+
+                                                <label class="col-sm-2 form-control-label label-sm">Recepie name</label>
+                                                <div class="col-sm-6">
+                                                    <input id="inputHorizontalSuccess" name= "recepie_name"  value="{{ $recepie_search }}"  class="form-control  form-control-success" type="text">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" class="btn btn-primary">Search</button>
+                                                </div>
+                                              </div>
+
+                                              </form>
+                                            </div>
+                                          </div>
                                           <div class="table-responsive">
                                            <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}'>
                                              @csrf
@@ -182,24 +244,47 @@
                                                     Image
                                                   </th>
                                                   <th>
-                                                     Title
+                                                     Details
                                                   </th>
-                                                  <th>
-                                                     Description
-                                                  </th>
+
                                                   <th></th>
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                  @php  $receps_data = \App\Receips::whereraw("id  not IN(select recepe_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."'  and  programme_design_id  IS NULL)")->paginate(10); @endphp
+                                                  @php
+                                                   if(empty($recepie_search))
+                                                     $receps_data = \App\Receips::whereraw("id  not IN(select recepe_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."'  and  programme_design_id  IS NULL)")->paginate(10);
+                                                   else
+                                                    $receps_data = \App\Receips::where('name', 'LIKE', '%'.$recepie_search.'%')->whereraw("id  not IN(select recepe_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."'  and  programme_design_id  IS NULL)")->paginate(10); 
+                                                  @endphp
                                                   @foreach ($receps_data as $key => $receps)
                                                   <tr>
                                                     <td><input type="checkbox" name="selected_recepies" value="{{$receps->id}}"  /></td>
                                                     <td><img src="{{url('/')}}{{$receps->image}}" width="100" height="100" /></td>
-                                                    <td>{{$receps->name}}</td>
-                                                    <td>{{$receps->desciption}}</td>
+                                                    <td>{{$receps->name}}
+                                                        <div><span>Description :- </span><span>{{$receps->desciption}}</span></div>
+                                                        @php
+
+                                                          $Calories = 0;
+                                                          $Carbs = 0;
+                                                          $Protein = 0;
+                                                          $Fat = 0;
+                                                          foreach($receps->integrate as $k=>$sp)
+                                                          {
+                                                            $Calories +=$sp->integrate->calories ;
+                                                            $Carbs += $sp->integrate->carbs;
+                                                            $Protein += $sp->integrate->protein;
+                                                            $Fat += $sp->integrate->fat;
+
+                                                          }
+
+                                                        @endphp
+                                                        <div><span class="badge bg-azure">Calories	 : {{$Calories	}}</span>   <span class="badge bg-purple">Carbs	 : {{$Carbs	}}</span>  <span class="badge bg-green">Protein	 : {{$Protein	}}</span>  <span class="badge bg-orange">Fat	 : {{$Fat}}</span></div>
+
+                                                    </td>
+
                                                     <td class="text-right">
-                                                      <a href="{{ url('dashboard/trainers/receps/detaills') }}/{{$receps->id}}" class="btn  btn-xs "  bt-data="{{$receps->id}}">
+                                                      <a href="#" class="btn  btn-xs show_recep"  bt-data="{{$receps->id}}">
                                                         Details
                                                       </a>
                                                     </td>
@@ -243,7 +328,7 @@
                                      @lang('site.programme_title')
                                   </th>
                                   <th>
-                                     @lang('site.programme_type')
+
                                   </th>
 
                                   <th></th>
@@ -253,17 +338,20 @@
                                 @if(array_key_exists("supliment",$plan))
                                   @foreach ($plan["supliment"] as $key => $programme)
                                   <tr>
-                                    <td>{{$programme->programme->title}}</td>
-                                    <td>{{$programme->programme->type}}</td>
 
-                                    <td class="text-right">
-                                      <a href="{{ url('dashboard/trainers/programmes/detaills') }}/{{$programme->programme->id}}" class="btn  btn-xs "  bt-data="{{$programme->id}}">
+                                    <td>{{$programme->programme->title}}
+                                       <div><span>Serving size :- </span><span  class="badge bg-azure">{{$programme->programme->serving_size}}</span></div>
+                                    </td>
+                                    <td>{{substr($programme->programme->desc,0,100)}}</td>
+                                    <td>
+                                      <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->programme->id}}">
                                         Details
                                       </a>
-                                      <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$day}}-{{$week}}-{{$transaction_num}}-{{$package}}-{{$user_id}}-{{$programme->programme->id}}">
+                                      <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$programme->plan_id}}">
                                        <i class="far fa-trash-alt"></i>
                                      </a>
                                     </td>
+
 
                                   </tr>
                                   @endforeach
@@ -273,6 +361,23 @@
                           </div>
                           <div class="card-body" style="margin-top:150px;">
                             <div class="card-title">Select more food supplements</div>
+                            <div class="row" style="margin-top:5px;margin-bottom:30px;">
+                              <div class="col-sm-12">
+                                <form action="" method="get" />
+                                <div class="row form-group row">
+
+                                  <label class="col-sm-2 form-control-label label-sm">Supplement name</label>
+                                  <div class="col-sm-6">
+                                      <input id="inputHorizontalSuccess" name= "food_supliment_name"  value="{{ $suplement_search }}"  class="form-control  form-control-success" type="text">
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <button type="submit" class="btn btn-primary">Search</button>
+                                  </div>
+                                </div>
+
+                                </form>
+                              </div>
+                            </div>
                             <div class="table-responsive">
                              <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}'>
                                @csrf
@@ -284,19 +389,34 @@
                                        @lang('site.programme_title')
                                     </th>
                                     <th>
-                                       @lang('site.programme_type')
+
                                     </th>
 
                                     <th></th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    @php  $programme_data = \App\Programme::where("type","food supplements")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10); @endphp
+                                    @php
+
+                                      if(empty($suplement_search))
+                                        $programme_data = \App\Programme::where("type","food supplements")->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10);
+                                      else
+                                        $programme_data = \App\Programme::where("type","food supplements")->where('title', 'LIKE', '%'.$suplement_search.'%')->whereraw("id  not IN(select programme_design_id from package_user_plan where day_num='".$day."' and package_id='".$package."' and transaction_id='".$transaction_num."' and recepe_id IS NULL and section_id  IS NULL)")->paginate(10);
+
+                                    @endphp
                                     @foreach ($programme_data as $key => $programme)
                                     <tr>
                                       <td><input type="checkbox" name="selected_supplement" value="{{$programme->id}}"  /></td>
-                                      <td>{{$programme->title}}</td>
-                                      <td>{{$programme->type}}</td>
+                                      <td>{{$programme->title}}
+                                         <div><span>Serving size :- </span><span  class="badge bg-azure">{{$programme->serving_size}}</span></div>
+                                      </td>
+                                      <td>{{substr($programme->desc,0,100)}}</td>
+                                      <td>
+                                        <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->id}}">
+                                          Details
+                                        </a>
+
+                                      </td>
 
 
                                     </tr>
@@ -325,6 +445,20 @@
                       </div>
                     </div>
                   </div>
+  </div>
+</div>
+<div class="modal modal-blur fade" id="show_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="all_content">
+      </div>
+    </div>
   </div>
 </div>
 @include("dashboard/utility/modal_delete")
@@ -370,28 +504,40 @@
   $(".delete_it_sure").on("click",function(){
     var id = $("input[name='delete_val']").val();
     var type_val = $("input[name='type_val']").val();
-    id =  id.split("-");
-    var  day = id[0];
-    var  package_id = id[1];
-    var  user_id = id[2];
-    var programme_id = id[3];
 
 
-    var url_delete = '{{url("/dashboard/trainers/programmes/delete")}}'+"/"+day+"/"+package_id+"/"+programme_id+"/"+user_id;
+    var url_delete = '{{url("/dashboard/trainers/programmes/delete")}}'+"/"+id;
     if(type_val == "recep")
     {
-      var section = id[4];
-      url_delete = '{{url("/dashboard/trainers/receips/delete")}}'+"/"+day+"/"+package_id+"/"+programme_id+"/"+section+"/"+user_id;
+      url_delete = '{{url("/dashboard/trainers/receips/delete")}}'+"/"+id;
     }
-
 
     $.ajax({url: url_delete , success: function(result){
             var result = JSON.parse(result);
             if(result.sucess)
             {
-              window.location.href = '{{url("/dashboard/trainers/programmes/design")}}/{{$day}}/{{$package}}/{{$user_id}}';
+              window.location.href = '{{url("/dashboard/trainers/programmes/design")}}/{{$day}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}';
             }
     }});
   });
+  $(".show_details").on("click",function(){
+    var id = $(this).attr("bt-data");
+    $.ajax({url: '{{url("/dashboard/trainers/programmes/detaills")}}'+"/"+id , success: function(result){
+      $(".all_content").html("");
+      $(".all_content").html(result);
+      $('#show_modal').modal('show');
+    }});
+  });
+  $(".show_recep").on("click",function(){
+    var id = $(this).attr("bt-data");
+    $.ajax({url: "{{ url('dashboard/trainers/receps/detaills') }}"+"/"+id , success: function(result){
+      $(".all_content").html("");
+      $(".all_content").html(result);
+      $('#show_modal').modal('show');
+    }});
+  });
+
+
+
 </script>
 @endsection

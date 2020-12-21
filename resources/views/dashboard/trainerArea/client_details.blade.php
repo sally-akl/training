@@ -199,6 +199,9 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Programme design ({{$transaction->package->package_duration_type}})s</h3>
+    <form action="" method="post">
+      <input type="hidden" name="transaction_copy_num" value="{{$transaction->id}}" />
+    </form>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">

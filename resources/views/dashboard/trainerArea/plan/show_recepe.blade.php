@@ -1,6 +1,3 @@
-@extends('dashboard.layouts.master')
-@section('content')
-
 <div class="page-header">
   <div class="row align-items-center">
     <div class="col-auto">
@@ -62,9 +59,3 @@
               </div>
   </div>
 </div>
-
-@endsection
-@section('footerjscontent')
-<script type="text/javascript">
-</script>
-@endsection

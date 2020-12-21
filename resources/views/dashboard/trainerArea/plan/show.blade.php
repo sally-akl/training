@@ -1,5 +1,3 @@
-@extends('dashboard.layouts.master')
-@section('content')
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">{{$programme->title}}</h3>
@@ -39,10 +37,10 @@
           @endif
           @if($programme->type == "food supplements")
           <tr>
-            <th>sServing size</th><td>{{$programme->serving_size}}</td>
+            <th>Serving size</th><td>{{$programme->serving_size}}</td>
           </tr>
           @endif
-          @if($programme->media_type == "vedio")
+          @if($programme->media_type == "vedio" && $programme->type == "exercises")
           <tr>
             <th>Video</th><td>{!! $programme->vedio !!}</td>
           </tr>
@@ -52,7 +50,7 @@
     </div>
   </div>
 </div>
-@if($programme->media_type == "image")
+@if($programme->media_type == "image" && $programme->type == "exercises")
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Programme images</h3>
@@ -129,27 +127,3 @@
   </div>
 </div>
 @endif
-
-
-
-@endsection
-@section('footerjscontent')
-<script type="text/javascript">
-$(".delete_btn").on("click",function(){
-  $('#delete_modal').modal('show');
-  $("input[name='delete_val']").val($(this).attr("bt-data"));
-  return false;
-});
-$(".delete_it_sure").on("click",function(){
-  var id = $("input[name='delete_val']").val();
-  var url_delete = '{{url("/dashboard/programmeimage")}}'+"/"+id;
-  $.ajax({url: url_delete ,type: "DELETE", success: function(result){
-          var result = JSON.parse(result);
-          if(result.sucess)
-          {
-            window.location.href = '{{url("/dashboard/programme")}}/{{$programme->id}}';
-          }
-  }});
-});
-</script>
-@endsection

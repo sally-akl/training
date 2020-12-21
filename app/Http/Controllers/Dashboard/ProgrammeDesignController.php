@@ -30,7 +30,7 @@ class ProgrammeDesignController extends Controller
     {
       return view('dashboard.trainerArea.prograame_design_days',compact('week','transaction_num','package','user_id'));
     }
-    public function index($day ,$week, $transaction_num ,  $package , $user_id = 0)
+    public function index($day ,$week, $transaction_num ,  $package , $user_id = 0,Request $request)
     {
       $id = Auth::id();
       $user = Auth::user();
@@ -51,14 +51,14 @@ class ProgrammeDesignController extends Controller
       }
       else{
 
-        $plan_data = Plan::join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+        $plan_data = Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
                                 ->whereraw("(programm_designs.type = 'exercises' or programm_designs.type ='food supplements')")
                                 ->whereraw("(package_user_plan.package_id = $package or package_user_plan.user_id=$user_id)")
                                 ->where("package_user_plan.day_num",$day)
                                 ->where("package_user_plan.transaction_id",$transaction_num)
                                 ->paginate($this->pagination_num);
 
-        $plan_receps = Plan::join("receips","receips.id","package_user_plan.recepe_id")
+        $plan_receps = Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("receips","receips.id","package_user_plan.recepe_id")
                             ->whereraw("(package_user_plan.package_id = $package or package_user_plan.user_id=$user_id)")
                             ->where("package_user_plan.day_num",$day)
                             ->where("package_user_plan.transaction_id",$transaction_num)
@@ -78,7 +78,18 @@ class ProgrammeDesignController extends Controller
           $plan["supliment"][] = $p;
       }
       $plan_section_receps = $plan_receps;
-      return view('dashboard.trainerArea.plan.index',compact('plan','day','package','user_id','plan_section_receps','transaction_num','week'));
+      $programme_search="";
+      if(!empty($request->p_name))
+        $programme_search = $request->p_name;
+      $suplement_search="";
+      if(!empty($request->food_supliment_name))
+        $suplement_search = $request->food_supliment_name;
+      $recepie_search="";
+      if(!empty($request->recepie_name))
+        $recepie_search = $request->recepie_name;
+
+
+      return view('dashboard.trainerArea.plan.index',compact('plan','day','package','user_id','plan_section_receps','transaction_num','week','programme_search','suplement_search','recepie_search'));
     }
 
     public function addprogramme($type , $id)
@@ -157,22 +168,13 @@ class ProgrammeDesignController extends Controller
        return view('dashboard.trainerArea.plan.show_recepe',compact('recepe','recepe_integrate'));
 
     }
-    public function destroy($day , $package , $programme_id ,  $user_id = 0)
+    public function destroy($id)
     {
-      $query = Plan::where("day_num",$day)->where("package_id",$package);
-      if($user_id != 0)
-         $query = $query->where("user_id",$user_id);
-      $query = $query->where("programme_design_id",$programme_id)->delete();
+      $plan = Plan::find($id);
+      $plan->delete();
       return json_encode(array("sucess"=>true));
     }
-    public function destroy_receps($day , $package , $recep_id , $section ,  $user_id = 0)
-    {
-      $query = Plan::where("day_num",$day)->where("package_id",$package);
-      if($user_id != 0)
-         $query = $query->where("user_id",$user_id);
-      $query = $query->where("recepe_id",$recep_id)->where("section_id",$section)->delete();
-      return json_encode(array("sucess"=>true));
-    }
+
 
 
 
