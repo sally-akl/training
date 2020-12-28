@@ -10,6 +10,7 @@
     </div>
     <div class="table-responsive">
       @include("dashboard.utility.sucess_message")
+      @include("dashboard.utility.error_messages")
       <form method="POST" action="{{ url('dashboard/trainers') }}/profile/edit"  enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
@@ -22,12 +23,19 @@
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
+                <label class="form-label">Name (AR)</label>
+                <input type="text" class="form-control" name="name_ar" value="{{$user->name_ar}}">
+              </div>
+            </div>
+
+          </div>
+          <div class="row password_div">
+            <div class="col-lg-6">
+              <div class="mb-3">
                 <label class="form-label">@lang('site.email')</label>
                 <input type="email" class="form-control" name="email" value="{{$user->email}}">
               </div>
             </div>
-          </div>
-          <div class="row password_div">
             <div class="col-lg-6">
               <div class="mb-3">
                 <label class="form-label">@lang('site.password')</label>
@@ -39,9 +47,17 @@
             <div class="col-lg-6">
               <div class="mb-3">
                 <label class="form-label">@lang('site.title')</label>
-                <input type="text" class="form-control" name="city_id" value="{{$user->email}}">
+                <input type="text" class="form-control" name="city_id" value="{{$user->city_id}}">
               </div>
             </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">City (AR)</label>
+                <input type="text" class="form-control" name="city_ar" value="{{$user->city_ar}}">
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
                 <label class="form-label">@lang('site.category_name')</label>
@@ -53,8 +69,6 @@
                 </select>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
                 <label class="form-label">@lang('site.profile_img')</label>
@@ -73,6 +87,12 @@
             <div class="mb-3">
               <label class="form-label">@lang('site.desc')</label>
               <textarea class="form-control user_body" rows="3" name="user_body">{{$user->desc}}</textarea>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="mb-3">
+              <label class="form-label">Description (AR)</label>
+              <textarea class="form-control user_body" rows="3" name="description_ar">{{$user->description_ar}}</textarea>
             </div>
           </div>
         </div>

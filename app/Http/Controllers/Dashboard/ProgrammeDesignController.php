@@ -88,8 +88,11 @@ class ProgrammeDesignController extends Controller
       if(!empty($request->recepie_name))
         $recepie_search = $request->recepie_name;
 
+      $t="excercises";
+      if(isset($request->type))
+         $t = $request->type;
 
-      return view('dashboard.trainerArea.plan.index',compact('plan','day','package','user_id','plan_section_receps','transaction_num','week','programme_search','suplement_search','recepie_search'));
+      return view('dashboard.trainerArea.plan.index',compact('plan','day','package','user_id','plan_section_receps','transaction_num','week','programme_search','suplement_search','recepie_search','t'));
     }
 
     public function addprogramme($type , $id)
@@ -132,6 +135,16 @@ class ProgrammeDesignController extends Controller
           $plan->transaction_id = $transaction_num;
           if($user != 0)
             $plan->user_id = $user;
+          if($type == "excercises")
+          {
+            $set_number_is = "selected_text_".$val;
+            $plan->set_num = $request->$set_number_is;
+          }
+          if($type == "supliment")
+          {
+            $serving_number_is = "selected_text_serving_".$val;
+            $plan->suplement_serving_size = $request->$serving_number_is;
+          }
           $plan->save();
         }
       }
@@ -153,7 +166,7 @@ class ProgrammeDesignController extends Controller
       }
 
       Session::forget($type."_values");
-      return redirect('dashboard/trainers/programmes/design/'.$day.'/'.$week.'/'.$transaction_num.'/'.$package.'/'.$user)->with("message","Sucessfully Added");
+      return redirect('dashboard/trainers/programmes/design/'.$day.'/'.$week.'/'.$transaction_num.'/'.$package.'/'.$user."?type=".$type)->with("message","Sucessfully Added");
     }
     public function show($id)
     {

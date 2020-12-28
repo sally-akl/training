@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.master')
 @section('content')
-<div class="modal modal-blur fade" id="show_modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="copy_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -64,13 +64,13 @@
     <div class="card-tabs">
                     <!-- Cards navigation -->
                     <ul class="nav nav-tabs">
-                      <li class="nav-item"><a href="#tab-top-1" class="nav-link active" data-toggle="tab">Excercises</a></li>
-                      <li class="nav-item"><a href="#tab-top-2" class="nav-link" data-toggle="tab">Recepies</a></li>
-                      <li class="nav-item"><a href="#tab-top-3" class="nav-link" data-toggle="tab">Food supplements</a></li>
+                      <li class="nav-item"><a href="#tab-top-1" class="nav-link  {{$t == 'excercises'?'active':''}}" data-toggle="tab">Excercises</a></li>
+                      <li class="nav-item"><a href="#tab-top-2" class="nav-link {{$t == 'recepies'?'active':''}}" data-toggle="tab">Recepies</a></li>
+                      <li class="nav-item"><a href="#tab-top-3" class="nav-link {{$t == 'supliment'?'active':''}}" data-toggle="tab">Food supplements</a></li>
                     </ul>
                     <div class="tab-content">
                       <!-- Content of card #1 -->
-                      <div id="tab-top-1" class="card tab-pane active show">
+                      <div id="tab-top-1" class="card tab-pane  {{$t == 'excercises'?'active show':''}} ">
                         <div class="card-body">
                           <div class="card-title">Excercises</div>
                           <div class="table-responsive">
@@ -93,7 +93,7 @@
                                     <td>{{$programme->programme->title}}
                                       <div><span>Description :- </span><span>{{ substr($programme->programme->desc,0,100)}}</span></div>
                                         <div><span>@lang('site.upload_programme') :- </span><span  class="badge bg-blue">{{$programme->programme->media_type}}</span></div>
-                                        <div><span>Number of sets :- </span><span  class="badge bg-azure">{{$programme->programme->number_of_sets}}</span></div>
+                                        <div><span>Number of sets :- </span><span  class="badge bg-azure">{{$programme->set_num}}</span></div>
                                     </td>
 
 
@@ -144,6 +144,7 @@
                                   <th>
                                      @lang('site.programme_title')
                                   </th>
+                                  <th>Number of sets</th>
 
                                   <th></th>
                                 </tr>
@@ -163,6 +164,7 @@
                                         <div><span>@lang('site.upload_programme') :- </span><span  class="badge bg-blue">{{$programme->media_type}}</span></div>
                                         <div><span>Number of sets :- </span><span  class="badge bg-azure">{{$programme->number_of_sets}}</span></div>
                                     </td>
+                                    <td><input type="text" name="selected_text_{{$programme->id}}" value="{{$programme->number_of_sets}}" class="form-control"/></td>
 
                                     <td>
                                       <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->id}}">
@@ -192,7 +194,7 @@
                         </div>
                       </div>
                       <!-- Content of card #2 -->
-                      <div id="tab-top-2" class="card tab-pane">
+                      <div id="tab-top-2" class="card tab-pane {{$t == 'recepies'?'active show':''}}">
                         <div class="card-body">
                           <div class="card-title">Recepies</div>
 
@@ -361,7 +363,7 @@
                         </div>
                       </div>
                       <!-- Content of card #3 -->
-                      <div id="tab-top-3" class="card tab-pane">
+                      <div id="tab-top-3" class="card tab-pane {{$t == 'supliment'?'active show':''}}">
                         <div class="card-body">
                           <div class="card-title">Food supplements</div>
                           <div class="table-responsive">
@@ -385,7 +387,7 @@
                                   <tr>
 
                                     <td>{{$programme->programme->title}}
-                                       <div><span>Serving size :- </span><span  class="badge bg-azure">{{$programme->programme->serving_size}}</span></div>
+                                       <div><span>Serving size :- </span><span  class="badge bg-azure">{{$programme->suplement_serving_size}}</span></div>
                                     </td>
                                     <td>{{substr($programme->programme->desc,0,100)}}</td>
                                     <td>
@@ -436,6 +438,7 @@
                                     <th>
 
                                     </th>
+                                    <th>Serving size</th>
 
                                     <th></th>
                                   </tr>
@@ -456,6 +459,8 @@
                                          <div><span>Serving size :- </span><span  class="badge bg-azure">{{$programme->serving_size}}</span></div>
                                       </td>
                                       <td>{{substr($programme->desc,0,100)}}</td>
+                                      <td><input type="text" name="selected_text_serving_{{$programme->id}}" value="{{$programme->serving_size}}" class="form-control"/></td>
+
                                       <td>
                                         <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->id}}">
                                           Details
@@ -554,16 +559,27 @@
 
 
     var url_delete = '{{url("/dashboard/trainers/programmes/delete")}}'+"/"+id;
-    if(type_val == "recep")
+
+    var tt = "";
+    console.log(type_val);
+    if(type_val == "excer")
     {
+      tt = "excercises";
+    }
+    else if(type_val == "recep")
+    {
+      tt = "recepies";
       url_delete = '{{url("/dashboard/trainers/receips/delete")}}'+"/"+id;
+    }
+    else{
+      tt = "supliment";
     }
 
     $.ajax({url: url_delete , success: function(result){
             var result = JSON.parse(result);
             if(result.sucess)
             {
-              window.location.href = '{{url("/dashboard/trainers/programmes/design")}}/{{$day}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}';
+              window.location.href = '{{url("/dashboard/trainers/programmes/design")}}/{{$day}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}?type='+tt;
             }
     }});
   });
@@ -584,7 +600,7 @@
     }});
   });
   $(".copy_btn").on("click",function(){
-    $('#show_modal').modal('show');
+    $('#copy_modal').modal('show');
   });
   $(".form_submit_model").submit(function(e){
 

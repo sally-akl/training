@@ -59,15 +59,17 @@ class TrainerAreaController extends Controller
     }
     private function validation(Request $request )
     {
-      $validator = Validator::make($request->all(),[
+      $validation_arr = [
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.Auth::id()],
-        'password' => ['required', 'string', 'min:8'],
         'user_body'=>['required'],
         'city_id'=>'required',
         'category_id'=>'required',
         'profile_img'=> ['image','mimes:jpeg,png,jpg','max:5000'],
-      ]);
+      ];
+      if(!empty($request->password))
+        $validation_arr["password"] = ['string', 'min:8'];
+      $validator = Validator::make($request->all(),$validation_arr);
       return $validator;
     }
     public function update(Request $request)
@@ -94,6 +96,9 @@ class TrainerAreaController extends Controller
         $photo_name = "/img/profile/".$photo_name;
       }
       $user->image = $photo_name;
+      $user->name_ar =  $request->name_ar;
+      $user->description_ar =  $request->description_ar;
+      $user->city_ar =  $request->city_ar;
       $user->save();
       return redirect('dashboard/trainers/profile')->with("message","Sucessfully Updated");
     }

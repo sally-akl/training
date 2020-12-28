@@ -71,6 +71,9 @@ class TrainerController extends Controller
       $user->desc =  $request->user_body;
       $user->city_id =  $request->city_id;
       $user->category_id =  $request->category_id;
+      $user->name_ar =  $request->name_ar;
+      $user->description_ar =  $request->description_ar;
+      $user->city_ar =  $request->city_ar;
       $user->save();
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
     }
@@ -127,6 +130,11 @@ class TrainerController extends Controller
       $user->desc =  $request->user_body;
       $user->city_id =  $request->city_id;
       $user->category_id =  $request->category_id;
+      $user->name_ar =  $request->name_ar;
+      $user->description_ar =  $request->description_ar;
+      $user->city_ar =  $request->city_ar;
+      if(!empty($request->password))
+        $user->password = Hash::make($request->password) ;
       $user->save();
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.update_sucessfully')));
     }

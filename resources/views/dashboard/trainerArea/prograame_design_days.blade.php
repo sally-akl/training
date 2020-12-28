@@ -59,8 +59,8 @@
 
     </div>
       @php
-        $end  = $week * 7 ;
-        $begin = ($end-7)+1;
+        $end  = 7 ;
+        $begin = 1;
       @endphp
 
       @php $i = 1;   @endphp

@@ -103,8 +103,8 @@
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.email')</label>
-                <input type="email" class="form-control" name="email">
+                <label class="form-label">Name (AR)</label>
+                <input type="text" class="form-control" name="name_ar">
               </div>
             </div>
           </div>
@@ -125,8 +125,8 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.title')</label>
-                <input type="text" class="form-control" name="city_id">
+                <label class="form-label">@lang('site.email')</label>
+                <input type="email" class="form-control" name="email">
               </div>
             </div>
             <div class="col-lg-6">
@@ -140,6 +140,21 @@
                 </select>
               </div>
             </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">@lang('site.title')</label>
+                <input type="text" class="form-control" name="city_id">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">City (AR)</label>
+                <input type="text" class="form-control" name="city_ar">
+              </div>
+            </div>
+
           </div>
           <div class="row">
             <div class="col-lg-6">
@@ -159,6 +174,12 @@
             <div class="mb-3">
               <label class="form-label">@lang('site.desc')</label>
               <textarea class="form-control user_body" rows="3" name="user_body"></textarea>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="mb-3">
+              <label class="form-label">Description (AR)</label>
+              <textarea class="form-control" rows="3" name="description_ar"></textarea>
             </div>
           </div>
           <input type="hidden" name="method_type" value="add" />
@@ -263,6 +284,9 @@
             var img_val = '{{url("/")}}'+response.image;
             $(".img_profile").attr("src",img_val);
             $("input[name='city_id']").val(response.city_id);
+            $("input[name='name_ar']").val(response.name_ar);
+            $("input[name='city_ar']").val(response.city_ar);
+            $("textarea[name='description_ar']").val(response.description_ar);
             $("select[name='category_id']").val(response.category_id);
             $("input[name='method_type']").val("edit");
             $('#add_edit_modal').modal('show');
@@ -300,6 +324,9 @@
             user_body : $("textarea[name='user_body']").val(),
             city_id :  $("input[name='city_id']").val() ,
             category_id : $("select[name='category_id']").val() ,
+            name_ar :   $("input[name='name_ar']").val(),
+            city_ar :  $("input[name='city_ar']").val(),
+            description_ar : $("textarea[name='description_ar']").val()
           };
           $.ajax({
               type: $method_is,
