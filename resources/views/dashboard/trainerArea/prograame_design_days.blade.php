@@ -61,11 +61,20 @@
       @php
         $end  = 7 ;
         $begin = 1;
+
+        $end_day = $week * 7;
+        $begin_day = ($end_day-7)+1;
+        $days_real = [];
+        for($j=$begin_day;$j<=$end_day;$j++)
+        {
+           $days_real[]=$j;
+        }
       @endphp
 
       @php $i = 1;   @endphp
       @for($day = $begin;$day<=$end;$day++)
 
+        @php  $to_day = $days_real[$day-1];  @endphp
         @if($i == 1)
           <div class="row days">
         @endif
@@ -75,7 +84,7 @@
           <div class="row days">
         @endif
         <div class="col-lg-1">
-          <a href='{{url("dashboard/trainers/programmes/design")}}/{{$day}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}'> Day {{$day}} </a>
+          <a href='{{url("dashboard/trainers/programmes/design")}}/{{$to_day}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}'> Day {{$day}} </a>
         </div>
        @php $i++;   @endphp
       @endfor
