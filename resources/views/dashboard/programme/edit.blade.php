@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-6 upload_programme" {{$programme->type == "exercises"?'':'style=display:none'}} >
+            <div class="col-lg-6 upload_programme" {{$programme->type == "exercises" || $programme->type == "food supplements"?'':'style=display:none'}} >
               <div class="mb-3">
                 <label class="form-label">@lang('site.upload_programme')</label>
                 <select name="upload_type" class="form-control">
@@ -146,11 +146,12 @@
                     </div>
                     @endforeach
                   </div>
-                  <div class="row">
+                <!--  <div class="row">
                       <div class="col-lg-12">
                         <button type="button" class="btn btn-primary msgd_add_character">+</button>
                       </div>
                   </div>
+                -->
 
                 </div>
               </div>
@@ -220,6 +221,9 @@
     else if( val =="food supplements")
     {
       $(".serving_size").css("display","block");
+      $(".upload_programme").css("display","block");
+      $("select[name='upload_type']").val("image");
+      $(".upload_img").css("display","block");
     }
   });
   function loadPreview(input){

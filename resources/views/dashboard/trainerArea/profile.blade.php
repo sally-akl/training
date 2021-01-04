@@ -46,13 +46,13 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.title')</label>
+                <label class="form-label">Location</label>
                 <input type="text" class="form-control" name="city_id" value="{{$user->city_id}}">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">City (AR)</label>
+                <label class="form-label">Location (AR)</label>
                 <input type="text" class="form-control" name="city_ar" value="{{$user->city_ar}}">
               </div>
             </div>

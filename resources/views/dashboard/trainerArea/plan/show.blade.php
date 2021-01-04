@@ -50,7 +50,7 @@
     </div>
   </div>
 </div>
-@if($programme->media_type == "image" && $programme->type == "exercises")
+@if($programme->media_type == "image")
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Programme images</h3>
