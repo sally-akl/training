@@ -28,16 +28,46 @@
           <div class="row">
 
             <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">Copy to transaction</label>
-                <select name="to_transaction" class="form-control">
-                  @php  $trans_to = \App\Transactions::where("id","!=",$transaction_num)->get();  @endphp
-                  @foreach($trans_to as $t_to)
-                    <option value="{{$t_to->id}}">{{$t_to->transaction_num}}</option>
-                  @endforeach
-                </select>
-              </div>
+                <div class="mb-3">
+                  <label class="form-label">Copy Type</label>
+                  <select name="to_transaction_type" class="form-control">
+                      <option value="">Select</option>
+                      <option value="same_programme">Same Programme</option>
+                      <option value="other_programme">Other Programme</option>
+                  </select>
+                </div>
+
             </div>
+          </div>
+          <div class="row c_tran" style="display:none">
+              <div class="col-lg-6">
+                <div class="mb-3" >
+                    <label class="form-label">Copy to transaction</label>
+                    <select name="to_transaction" class="form-control" >
+                      @php  $trans_to = \App\Transactions::where("id","!=",$transaction_num)->get();  @endphp
+                      @foreach($trans_to as $t_to)
+                        <option value="{{$t_to->id}}">{{$t_to->transaction_num}}</option>
+                      @endforeach
+                    </select>
+                </div>
+              </div>
+          </div>
+          <div class="row w_tran" style="display:none">
+              <div class="col-lg-6">
+                <div class="mb-3 " >
+                  <label class="form-label">Week</label>
+                  <select name="select_week" class="form-control" >
+                     @php
+                        $days = \App\Transactions::find($transaction_num)->package->package_duration
+                      @endphp
+                      @for($day = 1;$day<=$days;$day++)
+                          @if($day != $week)
+                             <option value="{{$day}}">Week {{$day}}</option>
+                          @endif
+                      @endfor
+                  </select>
+                </div>
+              </div>
           </div>
           <input type="hidden" name="transaction_copy_num" value="{{$transaction_num}}" />
           <input type="hidden" name="copy_type" value="week" />
@@ -98,6 +128,18 @@
 $(".copy_btn").on("click",function(){
   $('#show_modal').modal('show');
 });
+$("select[name='to_transaction_type']").on("change",function(){
+    var val = $(this).val();
+    $(".c_tran").css("display","none");
+    $(".w_tran").css("display","none");
+    if(val == "same_programme")
+    {
+       $(".w_tran").css("display","flex");
+    }
+    else{
+        $(".c_tran").css("display","flex");
+    }
+});
 $(".form_submit_model").submit(function(e){
 
     e.preventDefault();
@@ -115,7 +157,7 @@ $(".form_submit_model").submit(function(e){
                 success: function (response) {
                   if(response.sucess)
                   {
-                    $(".alert-success-modal").html("تم نسخ الاسبوع بنجاح");
+                    $(".alert-success-modal").html("Sucessfully copy");
                     $(".alert-success-modal").css("display","block");
                   }
                 },

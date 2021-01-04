@@ -204,6 +204,8 @@ class ProgrammeDesignController extends Controller
                                     'programme_design_id'=>$plan->programme_design_id,
                                     'recepe_id'=>$plan->recepe_id,
                                     'transaction_id'=>$copy_to,
+                                    'set_num'=>$plan->set_num,
+                                    'suplement_serving_size'=>$plan->suplement_serving_size,
              ]);
         $p->save();
       }
@@ -211,26 +213,87 @@ class ProgrammeDesignController extends Controller
     }
     public function copyweek(Request $request)
     {
-      $copy_to = $request->to_transaction;
+      $to_transaction_type = $request->to_transaction_type;
       $transaction_copy_num = $request->transaction_copy_num;
-      $copy_type = $request->copy_type;
       $transaction = \App\Transactions::find($transaction_copy_num);
-      $transaction_to = \App\Transactions::find($copy_to);
-      $week = $request->week_num;
-      $end  = $week * 7 ;
-      $begin = ($end-7)+1;
-      $plans = $transaction->plan()->whereraw("day_num between ".$begin." and ".$end)->get();
-      foreach($plans as $plan)
+      if($to_transaction_type == "same_programme")
       {
-        $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
-                                    'package_id' => $transaction_to->package_id  ,
-                                    'user_id'=> $transaction_to->user_id ,
-                                    'programme_design_id'=>$plan->programme_design_id,
-                                    'recepe_id'=>$plan->recepe_id,
-                                    'transaction_id'=>$copy_to,
-             ]);
-        $p->save();
+        $selected_week = $request->select_week;
+        $endw = $selected_week * 7 ;
+        $beginw = ($endw-7)+1;
+
+        $to_days = [];
+        for($day = $beginw;$day<=$endw;$day++)
+        {
+          $to_days[] = $day;
+        }
+
+
+        $week = $request->week_num;
+        $end  = $week * 7 ;
+        $begin = ($end-7)+1;
+        $from_days =[];
+        for($day = $begin;$day<=$end;$day++)
+        {
+          $from_days[] = $day;
+        }
+        if($transaction != null)
+        {
+
+          $plans = $transaction->plan()->whereraw("day_num between ".$begin." and ".$end)->get();
+          foreach($plans as $plan)
+          {
+
+            $set_day = $to_days[array_search($plan->day_num , $from_days)];
+            $p = \App\Plan::firstOrNew(['day_num' => $set_day ,
+                                        'package_id' => $transaction->package_id  ,
+                                        'user_id'=> $transaction->user_id ,
+                                        'programme_design_id'=>$plan->programme_design_id,
+                                        'recepe_id'=>$plan->recepe_id,
+                                        'transaction_id'=>$transaction->id,
+                                        'set_num'=>$plan->set_num,
+                                        'suplement_serving_size'=>$plan->suplement_serving_size,
+                 ]);
+            $p->save();
+          }
+        }
+
       }
+      else{
+        $copy_to = $request->to_transaction;
+        $copy_type = $request->copy_type;
+        $transaction_to = \App\Transactions::find($copy_to);
+        $week = $request->week_num;
+        $end  = $week * 7 ;
+        $begin = ($end-7)+1;
+
+        if($transaction != null)
+        {
+          $plans = $transaction->plan()->whereraw("day_num between ".$begin." and ".$end)->get();
+          foreach($plans as $plan)
+          {
+            $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
+                                        'package_id' => $transaction_to->package_id  ,
+                                        'user_id'=> $transaction_to->user_id ,
+                                        'programme_design_id'=>$plan->programme_design_id,
+                                        'recepe_id'=>$plan->recepe_id,
+                                        'transaction_id'=>$copy_to,
+                                        'set_num'=>$plan->set_num,
+                                        'suplement_serving_size'=>$plan->suplement_serving_size,
+                 ]);
+            $p->save();
+          }
+        }
+
+
+
+      }
+
+
+
+
+
+
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
     }
     public function copyday(Request $request)
