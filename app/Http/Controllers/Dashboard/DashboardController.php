@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -24,7 +25,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
+      if(Auth::user()->role->name=="admin")
         return view('dashboard.home');
+      else if(Auth::user()->role->name=="Trainer")
+        return view('dashboard.traner_dashboard');
     }
     public function chat(Request $request)
     {
