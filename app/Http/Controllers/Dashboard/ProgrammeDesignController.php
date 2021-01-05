@@ -298,25 +298,60 @@ class ProgrammeDesignController extends Controller
     }
     public function copyday(Request $request)
     {
-      $copy_to = $request->to_transaction;
+      $to_transaction_type = $request->to_transaction_type;
       $transaction_copy_num = $request->transaction_copy_num;
-      $copy_type = $request->copy_type;
       $transaction = \App\Transactions::find($transaction_copy_num);
-      $transaction_to = \App\Transactions::find($copy_to);
-      $day_num = $request->day_num;
-
-      $plans = $transaction->plan()->whereraw("day_num =".$day_num)->get();
-      foreach($plans as $plan)
+      if($to_transaction_type == "same_programme")
       {
-        $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
-                                    'package_id' => $transaction_to->package_id  ,
-                                    'user_id'=> $transaction_to->user_id ,
-                                    'programme_design_id'=>$plan->programme_design_id,
-                                    'recepe_id'=>$plan->recepe_id,
-                                    'transaction_id'=>$copy_to,
-             ]);
-        $p->save();
+         $to_day =  $request->select_day;
+         $day_num = $request->day_num;
+         if($transaction != null)
+         {
+           $plans = $transaction->plan()->whereraw("day_num =".$day_num)->get();
+           foreach($plans as $plan)
+           {
+             $p = \App\Plan::firstOrNew(['day_num' => $to_day ,
+                                         'package_id' => $transaction->package_id  ,
+                                         'user_id'=> $transaction->user_id ,
+                                         'programme_design_id'=>$plan->programme_design_id,
+                                         'recepe_id'=>$plan->recepe_id,
+                                         'transaction_id'=>$transaction->id,
+                                         'set_num'=>$plan->set_num,
+                                         'suplement_serving_size'=>$plan->suplement_serving_size,
+                  ]);
+             $p->save();
+           }
+         }
       }
+      else{
+        $copy_to = $request->to_transaction;
+        $copy_type = $request->copy_type;
+        $transaction_to = \App\Transactions::find($copy_to);
+        $day_num = $request->day_num;
+        if($transaction != null)
+        {
+          $plans = $transaction->plan()->whereraw("day_num =".$day_num)->get();
+          foreach($plans as $plan)
+          {
+            $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
+                                        'package_id' => $transaction_to->package_id  ,
+                                        'user_id'=> $transaction_to->user_id ,
+                                        'programme_design_id'=>$plan->programme_design_id,
+                                        'recepe_id'=>$plan->recepe_id,
+                                        'transaction_id'=>$copy_to,
+                                        'set_num'=>$plan->set_num,
+                                        'suplement_serving_size'=>$plan->suplement_serving_size,
+                 ]);
+            $p->save();
+          }
+        }
+
+      }
+
+
+
+
+
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
     }
 

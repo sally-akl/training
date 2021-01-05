@@ -15,7 +15,22 @@
         <div class="alert alert-success alert-success-modal" style="display:none">
         </div>
         <form action="{{ url('dashboard/trainers/programmes/copyday') }}" method="post" class="form_submit_model">
+
           <div class="row">
+
+            <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Copy Type</label>
+                  <select name="to_transaction_type" class="form-control">
+                      <option value="">Select</option>
+                      <option value="same_programme">Same Programme</option>
+                      <option value="other_programme">Other Programme</option>
+                  </select>
+                </div>
+
+            </div>
+          </div>
+          <div class="row c_tran" style="display:none">
 
             <div class="col-lg-6">
               <div class="mb-3">
@@ -29,6 +44,25 @@
               </div>
             </div>
           </div>
+
+          <div class="row w_tran" style="display:none">
+              <div class="col-lg-6">
+                <div class="mb-3 " >
+                  <label class="form-label">Day</label>
+                  <select name="select_day" class="form-control" >
+                     @php
+                        $days = \App\Transactions::find($transaction_num)->package->package_duration *  7;
+                      @endphp
+                      @for($dayy = 1;$dayy<=$days;$dayy++)
+                          @if($dayy != $day)
+                             <option value="{{$dayy}}">Day {{$dayy}}</option>
+                          @endif
+                      @endfor
+                  </select>
+                </div>
+              </div>
+          </div>
+
           <input type="hidden" name="transaction_copy_num" value="{{$transaction_num}}" />
           <input type="hidden" name="copy_type" value="day" />
           <input type="hidden" name="day_num" value="{{$day}}" />
@@ -541,6 +575,18 @@
 @endsection
 @section('footerjscontent')
 <script type="text/javascript">
+$("select[name='to_transaction_type']").on("change",function(){
+    var val = $(this).val();
+    $(".c_tran").css("display","none");
+    $(".w_tran").css("display","none");
+    if(val == "same_programme")
+    {
+       $(".w_tran").css("display","flex");
+    }
+    else{
+        $(".c_tran").css("display","flex");
+    }
+});
   $("input[name='selected_excercise']").on("change",function(){
     if($(this).is(":checked"))
     {
@@ -643,7 +689,7 @@
                   success: function (response) {
                     if(response.sucess)
                     {
-                      $(".alert-success-modal").html("تم نسخ اليوم بنجاح");
+                      $(".alert-success-modal").html("Sucessfully copy");
                       $(".alert-success-modal").css("display","block");
                     }
                   },
