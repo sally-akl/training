@@ -3,6 +3,7 @@
 
 @php
   $traner_sales =  \App\Transactions::selectraw("sum(amount) as traner_sum , name,email,image")->join("users","users.id","transactions.trainer_id")->where("is_payable",1)->orderby("traner_sum","desc")->groupby("name","email","image")->get();
+  $users_payed =  \App\Transactions::selectraw("sum(amount) as traner_sum , name,email,image")->join("users","users.id","transactions.user_id")->where("is_payable",1)->orderby("traner_sum","desc")->groupby("name","email","image")->get();
 @endphp
 <!-- Page title -->
 <div class="page-header">
@@ -182,19 +183,21 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-body p-4 py-5 text-center">
-            <span class="avatar avatar-xl mb-4 bg-green-lt">W</span>
-            <h3 class="mb-0">UI Redesign</h3>
-            <p class="text-muted">Due to: 11 Nov 2019</p>
-            <p class="mb-3">
-              <span class="badge bg-green-lt">Final review</span>
-            </p>
-            <div>
-              <div class="avatar-list avatar-list-stacked">
-                <span class="avatar">HS</span>
-                <span class="avatar" style="background-image: url(./static/avatars/006m.jpg)"></span>
-                <span class="avatar" style="background-image: url(./static/avatars/004f.jpg)"></span>
-              </div>
-            </div>
+
+            @if(count($users_payed) > 0)
+              <span class="avatar avatar-xl mb-4 bg-green-lt">    @php   $words = explode(" ", $users_payed[0]->name);
+                        $output= "";
+                        foreach ($words as $w) {
+                           $output .= $w[0];
+                         }
+                         echo $output;
+                   @endphp</span>
+              <h3 class="mb-0">{{$users_payed[0]->name}}</h3>
+              <p class="text-muted">{{$users_payed[0]->email}}</p>
+              <p class="mb-3">
+                <span class="badge bg-green-lt">Active user</span>
+              </p>
+            @endif
           </div>
           <div class="progress card-progress">
             <div class="progress-bar bg-green" style="width: 38%" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
