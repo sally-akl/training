@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -48,5 +49,14 @@ class LoginController extends Controller
     {
         $this->doLogout($request);
         return redirect('/login');
+    }
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        if($user->role->name == "admin")
+        {
+            Session::put('permissions', $user->getPermissions());
+
+        }
+        return redirect('/dashboard');
     }
 }

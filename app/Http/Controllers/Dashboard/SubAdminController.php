@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\UserRoles;
 use Session;
 use Validator;
 
@@ -59,6 +60,18 @@ class SubAdminController extends Controller
       $user->password = Hash::make($request->password) ;
       $user->role_id = $this->role_num;
       $user->save();
+      if(count($request->permssions))
+      {
+        $perms = $request->permssions;
+        foreach($perms as $perm)
+        {
+          $user_role = new UserRoles();
+          $user_role->user_id = $user->id;
+          $user_role->permssion_name = $perm;
+          $user_role->save();
+
+        }
+      }
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
     }
 
@@ -105,6 +118,19 @@ class SubAdminController extends Controller
       $user->email = $request->email;
       $user->role_id = $this->role_num;
       $user->save();
+      UserRoles::where("user_id",$user->id)->delete();
+      if(count($request->permssions))
+      {
+        $perms = $request->permssions;
+        foreach($perms as $perm)
+        {
+          $user_role = new UserRoles();
+          $user_role->user_id = $user->id;
+          $user_role->permssion_name = $perm;
+          $user_role->save();
+
+        }
+      }
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.update_sucessfully')));
     }
 

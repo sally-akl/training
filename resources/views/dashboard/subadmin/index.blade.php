@@ -112,6 +112,74 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Categories</label>
+                <input type="checkbox" name="permssions[]" value="manage_cat">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Sub-admin</label>
+                <input type="checkbox" name="permssions[]" value="manage_subadmn">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Booking</label>
+                <input type="checkbox" name="permssions[]" value="manage_booking">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Users</label>
+                <input type="checkbox" name="permssions[]" value="manage_user">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Trainers</label>
+                <input type="checkbox" name="permssions[]" value="manage_trainers">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage packages</label>
+                <input type="checkbox" name="permssions[]" value="manage_packages">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>View Sales</label>
+                <input type="checkbox" name="permssions[]" value="view_sales">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Support</label>
+                <input type="checkbox" name="permssions[]" value="manage_support">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manange Notfications</label>
+                <input type="checkbox" name="permssions[]" value="manange_notfications">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Program design</label>
+                <input type="checkbox" name="permssions[]" value="manage_program_design">
+              </div>
+            </div>
+          </div>
           <input type="hidden" name="method_type" value="add" />
         </div>
         <div class="modal-footer">
@@ -168,6 +236,22 @@
             $("input[name='email']").val(response.email);
             $("input[name='method_type']").val("edit");
             $('#add_edit_modal').modal('show');
+            for(var j=0;j<response.userroles.length;j++)
+            {
+              var val = response.userroles[j];
+              $("input[name='permssions[]']").each(function(){
+
+                  console.log(val.permssion_name);
+                  if(val.permssion_name == $(this).val())
+                  {
+                    $(this).attr('checked', 'checked')
+                  }
+
+              });
+
+            }
+
+
           },
       });
 
@@ -194,9 +278,14 @@
       if(formData.get("method_type") == "edit")
       {
           $method_is = "PUT";
+          var permssions = new Array();
+          $("input[name='permssions[]']:checked:enabled").each(function () {
+             permssions.push($(this).val());
+          });
           var data = {
             name : $("input[name='name']").val(),
             email : $("input[name='email']").val(),
+            permssions : permssions
           };
           $.ajax({
               type: $method_is,

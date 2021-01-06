@@ -128,6 +128,7 @@
   var _select_food = function()
   {
     $(".select_food").off();
+    $(".select_food").select2();
     $(".select_food").on("change",function(){
 
        var val = $(this).val();

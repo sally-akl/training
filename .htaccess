@@ -21,7 +21,7 @@
 
     # Handle Front Controller...
 
-    RewriteCond %{REQUEST_URI} !(\.css|\.js|\.png|\.jpg|\.xml|\.gif|\.pdf|\.svg|robots\.txt|\.html|\.woff)$ [NC]
+    RewriteCond %{REQUEST_URI} !(\.css|\.js|\.png|\.jpg|\.jpeg|\.xml|\.gif|\.pdf|\.svg|robots\.txt|\.html|\.woff)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

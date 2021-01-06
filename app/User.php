@@ -37,6 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['userroles'];
+
   public function role()
   {
       return $this->belongsTo('App\Role');
@@ -52,5 +54,14 @@ class User extends Authenticatable
   public function packages()
   {
     return $this->hasMany('App\Package','user_id');
+  }
+  public function userroles()
+  {
+    return $this->hasMany('App\UserRoles','user_id');
+  }
+  public function getPermissions()
+  {
+       $permissions = $this->userroles()->pluck('permssion_name')->toArray();
+       return $permissions;
   }
 }
