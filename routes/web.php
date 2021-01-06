@@ -13,6 +13,7 @@
 
 Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('/',['uses'=>'Dashboard\DashboardController@index']);
+  Route::get('/nopermission',['uses'=>'Dashboard\DashboardController@nopermission']);
   Route::resource('country','Dashboard\CountryController');
   Route::resource('user','Dashboard\UserController');
   Route::resource('trainer','Dashboard\TrainerController');
@@ -20,7 +21,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('package','Dashboard\PackageController');
   Route::resource('booking','Dashboard\BookingController');
   Route::get('bookings/{id}','Dashboard\BookingController@getTrainerBookings');
-  Route::get('sales','Dashboard\BookingController@sales');
+  Route::get('sales','Dashboard\ReportController@sales');
   Route::resource('category','Dashboard\CategoryController');
   Route::resource('subadmin','Dashboard\SubAdminController');
   Route::resource('notifications','Dashboard\NotificationsController');

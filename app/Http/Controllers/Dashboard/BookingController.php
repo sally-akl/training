@@ -9,7 +9,7 @@ use App\Programme;
 use Session;
 use Validator;
 
-class BookingController extends Controller
+class BookingController extends MainAdminController
 {
 
     /**
@@ -18,9 +18,11 @@ class BookingController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $pagination_num = 10;
+    protected $check_permission = "manage_booking";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
 
     public function index(Request $request)

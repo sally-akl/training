@@ -10,7 +10,7 @@ use App\User;
 use Session;
 use Validator;
 
-class UserController extends Controller
+class UserController extends MainAdminController
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +19,11 @@ class UserController extends Controller
      */
     protected $pagination_num = 10;
     protected $role_num = 3;
+    protected $check_permission = "manage_user";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
     public function index()
     {

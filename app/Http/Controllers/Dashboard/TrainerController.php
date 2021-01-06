@@ -10,7 +10,7 @@ use App\User;
 use Session;
 use Validator;
 
-class TrainerController extends Controller
+class TrainerController extends MainAdminController
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +19,11 @@ class TrainerController extends Controller
      */
     protected $pagination_num = 10;
     protected $role_num = 2;
+      protected $check_permission = "manage_trainers";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
     public function index()
     {

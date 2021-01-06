@@ -9,7 +9,7 @@ use App\User;
 use Session;
 use Validator;
 
-class NotificationsController extends Controller
+class NotificationsController extends MainAdminController
 {
 
     /**
@@ -18,9 +18,11 @@ class NotificationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $pagination_num = 10;
+    protected $check_permission = "manange_notfications";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
 
     public function index()

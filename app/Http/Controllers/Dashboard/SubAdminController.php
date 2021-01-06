@@ -11,7 +11,7 @@ use App\UserRoles;
 use Session;
 use Validator;
 
-class SubAdminController extends Controller
+class SubAdminController extends MainAdminController
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +20,11 @@ class SubAdminController extends Controller
      */
     protected $pagination_num = 10;
     protected $role_num = 1;
+    protected $check_permission = "manage_subadmn";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
     public function index()
     {

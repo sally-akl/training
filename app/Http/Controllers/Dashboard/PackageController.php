@@ -9,7 +9,7 @@ use App\Package;
 use Session;
 use Validator;
 
-class PackageController extends Controller
+class PackageController extends MainAdminController
 {
 
     /**
@@ -18,9 +18,11 @@ class PackageController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $pagination_num = 10;
+    protected $check_permission = "manage_packages";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
 
     public function index()

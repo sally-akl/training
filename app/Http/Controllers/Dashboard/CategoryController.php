@@ -8,7 +8,7 @@ use App\Category;
 use Session;
 use Validator;
 
-class CategoryController extends Controller
+class CategoryController extends MainAdminController
 {
 
     /**
@@ -17,9 +17,11 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $pagination_num = 10;
+    protected $check_permission = "manage_cat";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
 
     public function index()

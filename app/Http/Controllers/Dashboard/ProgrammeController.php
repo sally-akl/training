@@ -12,7 +12,7 @@ use App\ProgrammeIntegrent;
 use Session;
 use Validator;
 
-class ProgrammeController extends Controller
+class ProgrammeController extends MainAdminController
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +21,11 @@ class ProgrammeController extends Controller
      */
     protected $pagination_num = 10;
     protected $role_num = 2;
+    protected $check_permission = "manage_program_design";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
     public function index(Request $request)
     {

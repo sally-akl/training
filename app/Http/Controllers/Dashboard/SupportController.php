@@ -10,7 +10,7 @@ use App\Messages;
 use App\User;
 use Session;
 use Validator;
-class SupportController extends Controller
+class SupportController extends MainAdminController
 {
 
     /**
@@ -19,9 +19,11 @@ class SupportController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $pagination_num = 10;
+    protected $check_permission = "manage_support";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
 
     public function index()

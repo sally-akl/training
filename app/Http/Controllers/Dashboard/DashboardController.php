@@ -44,5 +44,9 @@ class DashboardController extends Controller
       $chat->save();
       return "ok";
     }
+    public function nopermission()
+    {
+      return view('dashboard.nopermission');
+    }
 
 }
