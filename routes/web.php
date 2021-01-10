@@ -18,6 +18,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('user','Dashboard\UserController');
   Route::resource('trainer','Dashboard\TrainerController');
   Route::post('uploadImage/{id}','Dashboard\TrainerController@uploadImage');
+  Route::post('/categores/uploadImage/{id}','Dashboard\CategoryController@uploadImage');
   Route::resource('package','Dashboard\PackageController');
   Route::resource('booking','Dashboard\BookingController');
   Route::get('bookings/{id}','Dashboard\BookingController@getTrainerBookings');

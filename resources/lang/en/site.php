@@ -71,7 +71,7 @@ return [
     'programme_desc'=>'Programme description',
     'upload_programme'=>'Uploaded media type',
     'image'=>'Image',
-    'vedio'=>'Vedio',
+    'vedio'=>'Video',
     'programme_type'=>'Programme Type',
     'exercises'=>'exercises',
     'dietary_meals'=>'dietary meals',

@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a href="." class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
-      Ultimate Athlete
+      AGWA 
     </a>
     <div class="navbar-nav flex-row order-md-last">
       <div class="nav-item dropdown d-none d-md-flex mr-3">

@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-6 upload_programme" {{$programme->type == "exercises" || $programme->type == "food supplements"?'':'style=display:none'}} >
+            <div class="col-lg-6 upload_programme"  >
               <div class="mb-3">
                 <label class="form-label">@lang('site.upload_programme')</label>
                 <select name="upload_type" class="form-control">
@@ -217,6 +217,9 @@
     else if( val =="dietary meals")
     {
         $(".masged").css("display","block");
+        $(".upload_programme").css("display","block");
+        $("select[name='upload_type']").val("image");
+        $(".upload_img").css("display","block");
     }
     else if( val =="food supplements")
     {

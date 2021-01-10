@@ -49,11 +49,18 @@ class CategoryController extends MainAdminController
     {
       $validator = Validator::make($request->all(), [
              'title' => 'required',
+             'image'=> ['required','image','mimes:jpeg,png,jpg','max:5000'],
       ]);
       if ($validator->fails())
         return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
+
+      $photo = $request->image;
+      $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
+      $photo->move(public_path('/img/profile/'), $photo_name);
+
       $category = new Category();
       $category->title = $request->title;
+      $category->image = "/img/profile/".$photo_name;
       $category->save();
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
     }
@@ -97,6 +104,28 @@ class CategoryController extends MainAdminController
         return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
       $category = Category::findOrFail($id);
       $category->title = $request->title;
+      $category->save();
+      return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.update_sucessfully')));
+    }
+
+
+    public function uploadImage(Request $request, $id)
+    {
+      $category = Category::findOrFail($id);
+      $validator = Validator::make($request->all(), [
+        'image'=> ['image','mimes:jpeg,png,jpg','max:5000'],
+      ]);
+      if ($validator->fails())
+        return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
+      $photo_name = $category->image;
+      if($request->image != null)
+      {
+        $photo = $request->image;
+        $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
+        $photo->move(public_path('/img/profile/'), $photo_name);
+        $photo_name = "/img/profile/".$photo_name;
+      }
+      $category->image = $photo_name;
       $category->save();
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.update_sucessfully')));
     }

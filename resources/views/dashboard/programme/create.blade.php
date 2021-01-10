@@ -183,6 +183,9 @@
     else if( val =="dietary meals")
     {
         $(".masged").css("display","block");
+        $(".upload_programme").css("display","block");
+        $("select[name='upload_type']").val("image");
+        $(".upload_img").css("display","block");
     }
     else if( val =="food supplements")
     {

@@ -34,6 +34,9 @@
         <thead>
           <tr>
             <th>
+              Image
+            </th>
+            <th>
                @lang('site.category_name')
             </th>
             <th></th>
@@ -42,6 +45,9 @@
         <tbody>
           	@foreach ($categories as $key => $category)
           <tr>
+            <td>
+               <span class="avatar avatar-xl" style="background-image: url({{url($category->image)}})"></span>
+              </td>
             <td>{{$category->title}}</td>
             <td class="text-right">
               <a class='btn btn-info btn-xs edit_btn' bt-data="{{$category->id}}">
@@ -80,12 +86,31 @@
       </div>
       <form method="POST" action="{{ url('dashboard/category') }}" class="form_submit_model">
         <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">@lang('site.category_name')</label>
-            <input type="text" class="form-control" name="title">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">@lang('site.category_name')</label>
+                <input type="text" class="form-control" name="title">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Image</label>
+                <input type="file" class="form-control" name="image"  id="profile_img">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                  <img src="" class="img_profile" style="display:none" width="100" height="100"/>
+              </div>
+            </div>
           </div>
 
           <input type="hidden" name="method_type" value="add" />
+          <input type="hidden" name="item_id" value="0" />
         </div>
         <div class="modal-footer">
           <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
@@ -101,27 +126,68 @@
 @endsection
 @section('footerjscontent')
 <script type="text/javascript">
-  var _sucess = function(response)
+  var files;
+  var formData;
+  var _sucess_msg = function(response)
+  {
+    $(".alert-success-modal").html(response.sucess_text);
+    $(".alert-success-modal").css("display","block");
+    $('#add_edit_modal').modal('hide');
+    $("input[name='method_type']").val("add");
+    $(".img_profile").css("display","none");
+    window.location.href = '{{url("/dashboard/category")}}';
+  }
+  var _error_msgs = function(response)
+  {
+    var $error_text = "";
+    var errors = response.errors;
+
+    $.each(errors, function (key, value) {
+      $error_text +=value+"<br>";
+    });
+
+    $(".alert-danger-modal").html($error_text);
+    $(".alert-danger-modal").css("display","block");
+  }
+  var _sucess = function(response,is_uploaded)
   {
     if(response.sucess)
     {
-      $(".alert-success-modal").html(response.sucess_text);
-      $(".alert-success-modal").css("display","block");
-      $('#add_edit_modal').modal('hide');
-      $("input[name='method_type']").val("add");
-      window.location.href = '{{url("/dashboard/category")}}';
+      if(is_uploaded == 1)
+      {
+          var formData = new FormData();
+          var id = $("input[name='item_id']").val();
+          formData.append('image',files[0]);
+          $.ajax({
+              url: '{{url("/dashboard/categores/uploadImage")}}'+"/"+id,
+              type: 'post',
+              data: formData,
+              contentType: false,
+              processData: false,
+                dataType: 'json',
+              success: function(response){
+
+                if(response.sucess)
+                {
+                   _sucess_msg(response);
+                }
+                else
+                {
+                  _error_msgs(response);
+                }
+
+              },
+          });
+      }
+      else {
+        _sucess_msg(response);
+      }
+
+
     }
     else
     {
-      var $error_text = "";
-      var errors = response.errors;
-
-      $.each(errors, function (key, value) {
-        $error_text +=value+"<br>";
-      });
-
-      $(".alert-danger-modal").html($error_text);
-      $(".alert-danger-modal").css("display","block");
+      _error_msgs(response);
 
     }
 
@@ -130,6 +196,7 @@
   {
       var id = $(this).attr("bt-data");
       var url_edit = '{{url("/dashboard/category")}}'+"/"+id;
+      $("input[name='item_id']").val(id);
       $(".form_submit_model").attr("action",url_edit);
       $.ajax({
           url: '{{url("/dashboard/category")}}'+"/"+id+"/edit",
@@ -138,6 +205,9 @@
           success: function (response) {
             $("input[name='title']").val(response.title);
             $("input[name='method_type']").val("edit");
+            var img_val = '{{url("/")}}'+response.image;
+            $(".img_profile").attr("src",img_val);
+            $(".img_profile").css("display","block");
             $('#add_edit_modal').modal('show');
           },
       });
@@ -147,6 +217,7 @@
   $(".add_btn").on("click",function(){
       $('#add_edit_modal').modal('show');
       $("input[name='method_type']").val("add");
+        $(".img_profile").css("display","none");
       $(".form_submit_model").attr("action",'{{url("/dashboard/category")}}');
       return false;
   });
@@ -155,9 +226,11 @@
       e.preventDefault();
       var submit_form_url = $(this).attr('action');
       var $method_is = "POST";
-      var formData = new FormData($(this)[0]);
+      formData = new FormData($(this)[0]);
       $(".alert-success-modal").css("display","none");
       $(".alert-danger-modal").css("display","none");
+      files = $('#profile_img')[0].files;
+
 
       if(formData.get("method_type") == "edit")
       {
@@ -172,7 +245,12 @@
               dataType: 'json',
               data: JSON.stringify(data),
               success: function (response) {
-                _sucess(response);
+                if(files.length > 0 ){
+                    _sucess(response,1);
+                }
+                else {
+                  _sucess(response,0);
+                }
               },
             error : function( data )
             {
@@ -181,6 +259,9 @@
           });
       }
       else {
+        if(files.length > 0 ){
+           formData.append('image',files[0]);
+         }
         $.ajax({
                   url: submit_form_url,
                   type: $method_is,
@@ -188,7 +269,7 @@
                   async: false,
                   dataType: 'json',
                   success: function (response) {
-                    _sucess(response);
+                    _sucess(response,0);
                   },
                 error : function( data )
                 {

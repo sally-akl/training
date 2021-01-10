@@ -73,6 +73,9 @@
         <thead>
           <tr>
             <th>
+               Image / Video 
+            </th>
+            <th>
                @lang('site.programme_title')
             </th>
             <th>
@@ -87,6 +90,18 @@
         <tbody>
         	@foreach ($programmes as $key => $programme)
           <tr>
+            <td>
+
+              @if($programme->media_type == "image")
+                @if(count($programme->images)>0)
+                  <img src="{{url('/')}}{{$programme->images[0]->image}}" width="100" height="100" />
+                @endif
+              @elseif($programme->media_type == "vedio")
+                 {!! $programme->vedio !!}
+              @endif
+
+
+            </td>
             <td>{{$programme->title}}</td>
             <td>{{$programme->type}}</td>
             <td>{{$programme->media_type}}</td>
