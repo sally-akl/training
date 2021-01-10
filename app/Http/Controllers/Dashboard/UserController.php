@@ -25,9 +25,22 @@ class UserController extends MainAdminController
         $this->middleware('auth');
         parent::__construct();
     }
-    public function index()
+    public function index(Request $request)
     {
-       $customers = User::where("role_id",$this->role_num)->orderBy("id","desc")->paginate($this->pagination_num);
+      if($request->search)
+      {
+         $query = User::where("role_id",$this->role_num);
+         if(!empty($request->name))
+           $query = $query->where('name','like','%'.$request->name.'%');
+         if(!empty($request->email))
+           $query = $query->where('email',$request->email);
+
+
+        $customers = $query->orderBy("id","desc")->paginate($this->pagination_num);
+      }
+      else
+        $customers = User::where("role_id",$this->role_num)->orderBy("id","desc")->paginate($this->pagination_num);
+
        return view('dashboard.user.index',compact('customers'));
     }
 

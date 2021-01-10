@@ -21,6 +21,9 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">@lang('site.Trainers')</h3>
+    <div class="search">
+         <button type="button" class="btn search_btn"><i class="fa fa-search" aria-hidden="true"></i> {{ __('site.search') }} </button>
+    </div>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">
@@ -190,6 +193,39 @@
             @lang('site.cancel')
           </a>
           <button type="submit" class="btn btn-primary">+ {{ __('site.save') }} </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal modal-blur fade" id="serach_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">@lang('site.search')</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <form method="GET" action="{{ url('dashboard/trainer') }}" >
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">@lang('site.name')</label>
+            <input type="text" class="form-control" name="name">
+          </div>
+
+            <div class="mb-3">
+              <label class="form-label">@lang('site.email')</label>
+              <input type="email" class="form-control" name="email">
+            </div>
+
+        </div>
+        <input type="hidden" name="search" value="search" />
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
+            @lang('site.cancel')
+          </a>
+          <button type="submit" class="btn btn-primary">{{ __('site.search') }} </button>
         </div>
       </form>
     </div>
@@ -389,6 +425,10 @@
               window.location.href = '{{url("/dashboard/trainer")}}';
             }
     }});
+  });
+  $(".search_btn").on("click",function(){
+      $('#serach_modal').modal('show');
+      return false;
   });
 </script>
 @endsection
