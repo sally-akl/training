@@ -179,6 +179,12 @@
                 <input type="checkbox" name="permssions[]" value="manage_program_design">
               </div>
             </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Dashboard</label>
+                <input type="checkbox" name="permssions[]" value="manage_dashboard">
+              </div>
+            </div>
           </div>
           <input type="hidden" name="method_type" value="add" />
         </div>

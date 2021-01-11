@@ -6,16 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class DashboardController extends MainAdminController
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+    protected $check_permission = "manage_dashboard";
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
     }
 
     /**
@@ -44,9 +46,6 @@ class DashboardController extends Controller
       $chat->save();
       return "ok";
     }
-    public function nopermission()
-    {
-      return view('dashboard.nopermission');
-    }
+
 
 }

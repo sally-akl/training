@@ -13,7 +13,7 @@
 
 Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('/',['uses'=>'Dashboard\DashboardController@index']);
-  Route::get('/nopermission',['uses'=>'Dashboard\DashboardController@nopermission']);
+  Route::get('/nopermission',['uses'=>'Dashboard\NoPermssonController@nopermission']);
   Route::resource('country','Dashboard\CountryController');
   Route::resource('user','Dashboard\UserController');
   Route::resource('trainer','Dashboard\TrainerController');
