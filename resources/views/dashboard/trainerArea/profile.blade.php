@@ -206,6 +206,10 @@
             <input type="text" class="form-control" name="package_name">
           </div>
           <div class="mb-3">
+            <label class="form-label">@lang('site.pack_name') Ar</label>
+            <input type="text" class="form-control" name="package_name_ar">
+          </div>
+          <div class="mb-3">
             <label class="form-label">@lang('site.pack_duration')</label>
             <input type="number" class="form-control" name="package_duration">
           </div>
@@ -234,6 +238,10 @@
           <div class="mb-3">
             <label class="form-label">Package description </label>
             <textarea class="form-control desc" rows="3" name="pack_desc"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Package description (AR) </label>
+            <textarea class="form-control desc" rows="3" name="pack_desc_ar"></textarea>
           </div>
           <div class="mb-3">
             <label class="form-label">Package questionnaire</label>
@@ -315,6 +323,9 @@ $(".edit_btn").on("click",function()
           $("select[name='package_status']").val(response.package_status);
           $("textarea[name='pack_desc']").val(response.package_desc);
           $("textarea[name='pack_question']").val(response.package_questionaire);
+
+          $("input[name='package_name_ar']").val(response.package_name_ar);
+          $("textarea[name='pack_desc_ar']").val(response.package_desc_ar);
           if(response.package_type =="free")
           {
             $(".prce_part").css("display","none");
@@ -350,6 +361,8 @@ $(".form_submit_model").submit(function(e){
            package_status : $("select[name='package_status']").val(),
            pack_desc :   $("textarea[name='pack_desc']").val(),
            pack_question : $("textarea[name='pack_question']").val(),
+           package_name_ar :  $("input[name='package_name_ar']").val(),
+           pack_desc_ar : $("textarea[name='pack_desc_ar']").val()
         };
         $.ajax({
             type: $method_is,

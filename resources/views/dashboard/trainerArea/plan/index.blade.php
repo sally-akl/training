@@ -51,13 +51,32 @@
                   <label class="form-label">Day</label>
                   <select name="select_day" class="form-control" >
                      @php
-                        $days = \App\Transactions::find($transaction_num)->package->package_duration *  7;
+                        //$days = \App\Transactions::find($transaction_num)->package->package_duration *  7;
+                        $weekss = \App\Transactions::find($transaction_num)->package->package_duration ;
                       @endphp
-                      @for($dayy = 1;$dayy<=$days;$dayy++)
-                          @if($dayy != $day)
-                             <option value="{{$dayy}}">Day {{$dayy}}</option>
-                          @endif
+                      @for($w = 1;$w<=$weekss;$w++)
+                        @php
+                          $end  = 7 ;
+                          $begin = 1;
+
+                          $end_day = $w * 7;
+                          $begin_day = ($end_day-7)+1;
+                          $days_real = [];
+                          for($j=$begin_day;$j<=$end_day;$j++)
+                          {
+                             $days_real[]=$j;
+                          }
+                        @endphp
+                      <optgroup label="Week {{$w}}">
+                        @for($d = $begin;$d<=$end;$d++)
+                          @php  $to_day = $days_real[$d-1];  @endphp
+                            @if($to_day != $day)
+                               <option value="{{$to_day}}">Day {{$d}}</option>
+                            @endif
+                        @endfor
+                    </optgroup>
                       @endfor
+
                   </select>
                 </div>
               </div>

@@ -56,6 +56,8 @@ class PackageController extends MainAdminController
              'package_status'=>'required',
              'pack_desc'=>'required',
              'pack_question'=>'required',
+             'package_name_ar' => 'required|max:250',
+             'pack_desc_ar'=>'required',
       ];
       if($request->package_type !="free")
       $vald['package_price'] ='regex:/^[0-9]+(\.[0-9][0-9]?)?$/';
@@ -72,6 +74,9 @@ class PackageController extends MainAdminController
       $package->package_questionaire = $request->pack_question;
       $package->package_type = $request->package_type;
       $package->package_status = $request->package_status;
+      $package->package_name_ar = $request->package_name_ar;
+      $package->package_desc_ar = $request->pack_desc_ar;
+
       $package->user_id = Auth::id();
       $package->save();
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
@@ -129,6 +134,8 @@ class PackageController extends MainAdminController
             'package_status'=>'required',
             'pack_desc'=>'required',
             'pack_question'=>'required',
+            'package_name_ar' => 'required|max:250',
+            'pack_desc_ar'=>'required',
           ];
           if($request->package_type !="free")
           $vald['package_price'] ='regex:/^[0-9]+(\.[0-9][0-9]?)?$/';
@@ -144,6 +151,8 @@ class PackageController extends MainAdminController
           $package->package_questionaire = $request->pack_question;
           $package->package_type = $request->package_type;
           $package->package_status = $request->package_status;
+          $package->package_name_ar = $request->package_name_ar;
+          $package->package_desc_ar = $request->pack_desc_ar;
           $package->save();
         }
         return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.update_sucessfully')));
