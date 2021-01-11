@@ -48,16 +48,19 @@ class PackageController extends MainAdminController
      */
     public function store(Request $request)
     {
-      $validator = Validator::make($request->all(), [
+      $vald =[
              'package_name' => 'required|max:250',
              'package_duration' => 'required',
              'package_duration_type' => 'required',
-             'package_price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
              'package_type'=>'required',
              'package_status'=>'required',
              'pack_desc'=>'required',
              'pack_question'=>'required',
-      ]);
+      ];
+      if($request->package_type !="free")
+      $vald['package_price'] ='regex:/^[0-9]+(\.[0-9][0-9]?)?$/';
+
+      $validator = Validator::make($request->all(), $vald);
       if ($validator->fails())
         return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
       $package = new Package();
@@ -117,16 +120,20 @@ class PackageController extends MainAdminController
           return redirect('/dashboard/package')->with("message",trans('site.update_sucessfully'));
         }
         else{
-          $validator = Validator::make($request->all(), [
-                 'package_name' => 'required|max:250',
-                 'package_duration' => 'required',
-                 'package_duration_type' => 'required',
-                 'package_price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
-                 'package_type'=>'required',
-                 'package_status'=>'required',
-                 'pack_desc'=>'required',
-                 'pack_question'=>'required',
-          ]);
+
+          $vald =[
+            'package_name' => 'required|max:250',
+            'package_duration' => 'required',
+            'package_duration_type' => 'required',
+            'package_type'=>'required',
+            'package_status'=>'required',
+            'pack_desc'=>'required',
+            'pack_question'=>'required',
+          ];
+          if($request->package_type !="free")
+          $vald['package_price'] ='regex:/^[0-9]+(\.[0-9][0-9]?)?$/';
+
+          $validator = Validator::make($request->all(),$vald);
           if ($validator->fails())
             return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
           $package->package_name = $request->package_name;

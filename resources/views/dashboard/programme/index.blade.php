@@ -73,7 +73,7 @@
         <thead>
           <tr>
             <th>
-               Image / Video 
+               Image / Video
             </th>
             <th>
                @lang('site.programme_title')
@@ -104,7 +104,15 @@
             </td>
             <td>{{$programme->title}}</td>
             <td>{{$programme->type}}</td>
-            <td>{{$programme->media_type}}</td>
+            <td>
+
+              @if($programme->media_type == "image")
+                @lang('site.image')
+              @elseif($programme->media_type == "vedio")
+                 @lang('site.vedio')
+              @endif
+
+            </td>
             <td class="text-right">
               <a href='{{url("/dashboard/programme")}}/{{$programme->id}}/edit' class='btn btn-info btn-xs' >
     						<i class="far fa-edit"></i>

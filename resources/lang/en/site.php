@@ -77,7 +77,7 @@ return [
     'dietary_meals'=>'dietary meals',
     'food_supplements'=>'food supplements',
     'file'=>'Upload file',
-    'link'=>'Embded vedio',
+    'link'=>'Embded Video',
     'booking#'=>'Booking #',
     'package_details'=>'Package details',
     'trainer_details'=>'Trainer details',

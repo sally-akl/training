@@ -202,7 +202,7 @@
 
           <div class="position-relative">
             <div class="chat-messages p-4">
-             @php  $chats = \App\Chat::whereraw("(from_user ='".$transaction->trainer->id."'  and  to_user='".$transaction->user->id."') or (from_user ='".$transaction->user->id."'  and to_user='".$transaction->trainer->id."')")->where("booking_id",$transaction->id)->orderby("created_at","asc")->get();  @endphp
+             @php  $chats = \App\Chat::whereraw("(from_user ='".$transaction->trainer->id."'  and  to_user='".$transaction->user->id."') or (from_user ='".$transaction->user->id."'  and to_user='".$transaction->trainer->id."')")->where("booking_id",$transaction->id)->orderby("created_at","asc")->take(3)->get();  @endphp
               @foreach($chats as $chat)
                 @if($chat->from_user == $transaction->trainer->id)
                 <div class="chat-message-left pb-4">
@@ -254,11 +254,35 @@
 
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">@lang('site.programme_calendar')</h3>
+                  <h3 class="card-title">Programme design</h3>
                 </div>
                 <div class="card-body border-bottom py-3">
 
-                    <div id='calendar'></div>
+                  @php
+                    if($transaction->package->package_duration_type == "day")
+                      $days = $transaction->package->package_duration;
+                    elseif($transaction->package->package_duration_type == "week")
+                      $days = $transaction->package->package_duration ;
+                    elseif($transaction->package->package_duration_type == "month")
+                      $days = $transaction->package->package_duration * 30;
+                  @endphp
+
+                  @php $i = 1;   @endphp
+                  @for($day = 1;$day<=$days;$day++)
+
+                    @if($i == 1)
+                      <div class="row days">
+                    @endif
+                    @if($i%9 == 0 && $i !=1)
+                      @php $i = 1;   @endphp
+                      </div>
+                      <div class="row days">
+                    @endif
+                    <div class="col-lg-1">
+                      <a href='{{url("dashboard/trainers/programmes/days")}}/{{$day}}/{{$transaction->id}}/{{$transaction->package->id}}/{{$transaction->user->id}}'> Week {{$day}} </a>
+                    </div>
+                   @php $i++;   @endphp
+                  @endfor
 
                 </div>
               </div>

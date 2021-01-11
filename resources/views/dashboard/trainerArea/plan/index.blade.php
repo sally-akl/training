@@ -88,7 +88,9 @@
       </div>
     </div>
     <div class="col-lg-6" style="text-align: right;">
+      @if(Auth::user()->role->name=="Trainer")
       <button type="button" class="btn btn-primary copy_btn">Copy Programme design  Day {{$day}}</button>
+      @endif
     </div>
 
   </div>

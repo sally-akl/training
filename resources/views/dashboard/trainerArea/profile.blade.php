@@ -149,7 +149,11 @@
           <tr>
             <td>{{$package->package_name}}</td>
             <td>{{$package->package_duration}}  {{$package->package_duration_type}}</td>
+            @if(!empty($package->package_price) && $package->package_type!="free")
             <td>{{$package->package_price}}$</td>
+            @else
+            <td></td>
+            @endif
             <td>{{$package->package_type}}</td>
             <td>{{$package->user->name}}</td>
             <td>{{$package->package_status}}</td>
@@ -207,10 +211,6 @@
           </div>
           <input type="hidden" name="package_duration_type" value="week"/>
           <div class="mb-3">
-            <label class="form-label">Price</label>
-            <input type="text" class="form-control" name="package_price">
-          </div>
-          <div class="mb-3">
             <label class="form-label">Package Type</label>
             <select name="package_type" class="form-control">
               <option value="">@lang('site.select')</option>
@@ -218,6 +218,11 @@
               <option value="paid">Paid</option>
             </select>
           </div>
+          <div class="mb-3 prce_part">
+            <label class="form-label">Price</label>
+            <input type="text" class="form-control" name="package_price">
+          </div>
+
           <div class="mb-3">
             <label class="form-label">Package Status</label>
             <select name="package_status" class="form-control">
@@ -310,6 +315,13 @@ $(".edit_btn").on("click",function()
           $("select[name='package_status']").val(response.package_status);
           $("textarea[name='pack_desc']").val(response.package_desc);
           $("textarea[name='pack_question']").val(response.package_questionaire);
+          if(response.package_type =="free")
+          {
+            $(".prce_part").css("display","none");
+          }
+          else{
+            $(".prce_part").css("display","block");
+          }
           $("input[name='method_type']").val("edit");
           $('#add_edit_modal').modal('show');
         },
@@ -377,5 +389,15 @@ $(".form_submit_model").submit(function(e){
 
       return false;
 });
+$("select[name='package_type']").on("change",function(){
+    var val = $(this).val();
+    if(val =="free")
+    {
+      $(".prce_part").css("display","none");
+    }
+    else{
+      $(".prce_part").css("display","block");
+    }
+})
 </script>
 @endsection

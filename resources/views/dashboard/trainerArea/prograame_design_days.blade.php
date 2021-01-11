@@ -82,7 +82,9 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Programme design Week{{$week}} / Days</h3>
+    @if(Auth::user()->role->name=="Trainer")
     <button type="button" class="btn btn-primary copy_btn">Copy Programme design  Week{{$week}}</button>
+    @endif
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">
