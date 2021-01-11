@@ -298,10 +298,10 @@
                                                         $Fat = 0;
                                                         foreach($receps->recepe->integrate as $k=>$sp)
                                                         {
-                                                          $Calories +=$sp->integrate->calories ;
-                                                          $Carbs += $sp->integrate->carbs;
-                                                          $Protein += $sp->integrate->protein;
-                                                          $Fat += $sp->integrate->fat;
+                                                          $Calories += $sp->serving * $sp->integrate->calories ;
+                                                          $Carbs += $sp->serving * $sp->integrate->carbs;
+                                                          $Protein += $sp->serving * $sp->integrate->protein;
+                                                          $Fat += $sp->serving * $sp->integrate->fat;
 
                                                         }
 
@@ -385,10 +385,10 @@
                                                           $Fat = 0;
                                                           foreach($receps->integrate as $k=>$sp)
                                                           {
-                                                            $Calories +=$sp->integrate->calories ;
-                                                            $Carbs += $sp->integrate->carbs;
-                                                            $Protein += $sp->integrate->protein;
-                                                            $Fat += $sp->integrate->fat;
+                                                            $Calories +=$sp->serving * $sp->integrate->calories ;
+                                                            $Carbs += $sp->serving * $sp->integrate->carbs;
+                                                            $Protein += $sp->serving * $sp->integrate->protein;
+                                                            $Fat += $sp->serving * $sp->integrate->fat;
 
                                                           }
 

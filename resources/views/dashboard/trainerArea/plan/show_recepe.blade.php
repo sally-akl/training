@@ -51,7 +51,7 @@
                         <small class="d-block text-muted text-truncate mt-n1">{{$sp->programme->desc}}</small>
                         <div><span>Serving : </span> <span> <span class="badge bg-blue">{{$sp->serving}}</span></span></div>
                         <div><span>Serving Size : </span> <span> <span class="badge bg-blue">{{$sp->integrate->serving_size}}</span></span></div>
-                        <div><span class="badge bg-azure">Calories	 : {{$sp->integrate->calories	}}</span>   <span class="badge bg-purple">Carbs	 : {{$sp->integrate->carbs	}}</span>  <span class="badge bg-green">Protein	 : {{$sp->integrate->protein	}}</span>  <span class="badge bg-orange">Fat	 : {{$sp->integrate->fat	}}</span></div>
+                        <div><span class="badge bg-azure">Calories	 : {{ $sp->serving * $sp->integrate->calories	}}</span>   <span class="badge bg-purple">Carbs	 : {{ $sp->serving * $sp->integrate->carbs	}}</span>  <span class="badge bg-green">Protein	 : {{ $sp->serving * $sp->integrate->protein	}}</span>  <span class="badge bg-orange">Fat	 : {{$sp->serving * $sp->integrate->fat	}}</span></div>
                       </div>
                     </div>
                   @endforeach
