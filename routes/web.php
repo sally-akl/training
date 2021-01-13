@@ -64,9 +64,9 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('usersarea/subscrips','Dashboard\UserAreaController@subscrips');
   Route::get('usersarea/subscrips/details/{id}','Dashboard\UserAreaController@subscrip_details');
   Route::post('chat/save','Dashboard\DashboardController@chat');
-
-
-
-
 });
+
+Route::get('/',['uses'=>'HomeController@index']);
+
+
 Auth::routes();

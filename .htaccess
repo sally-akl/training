@@ -31,5 +31,5 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_URI} !^/public/
-    RewriteRule ^(css|js|images|uploads|vendor|img|fonts|media|libs|profile|programme|icons-reference|fontawesome5|line-awesome)/(.*)$ public/$1/$2 [L,NC]
+    RewriteRule ^(css|js|assets|images|uploads|vendor|img|fonts|media|libs|profile|programme|icons-reference|fontawesome5|line-awesome)/(.*)$ public/$1/$2 [L,NC]
 </IfModule>
