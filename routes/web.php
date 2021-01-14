@@ -68,6 +68,8 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
 
 Route::get('/',['uses'=>'HomeController@index']);
 Route::get('/trainer/{id}/{details}',['uses'=>'HomeController@trainer_details']);
-
+Route::get('/auth-customer',['uses'=>'HomeController@login']);
+Route::post('/signin',['uses'=>'HomeController@sign_in']);
+Route::get('/my-subscription',['uses'=>'HomeController@usersubscribe']);
 
 Auth::routes();

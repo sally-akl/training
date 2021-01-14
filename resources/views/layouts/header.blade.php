@@ -22,7 +22,7 @@
                         </li>
                         @if(Auth::user())
                         <li class="nav-item">
-                            <a class="nav-link" href="my-subscription"> My Subscription </a>
+                            <a class="nav-link" href="{{url('/')}}/my-subscription"> My Subscription </a>
                         </li>
                         @endif
                     </ul>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         @guest
-                          <a href="#" class="main-btn mr-3">Sign in</a>
+                          <a href="{{url('/')}}/auth-customer" class="main-btn mr-3">Sign in</a>
                           <a href="#" class="sec-btn">Sign up</a>
                         @endguest
 
