@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    public function trainer_details($id , $details)
+    {
+      $user = \App\User::findOrFail($id);
+      return view('trainer_details',compact("user"));
+    }
 }

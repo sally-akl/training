@@ -35,7 +35,7 @@
                       <div class="col-lg-3 col-md-4">
                           <div class="cat-card {{isset(request()->category) && request()->category == $category->id?'active':''}} wow fadeIn" data-wow-delay="0.25s">
 
-                              <a href="#">
+                              <a href="{{url("/")}}?category={{$category->id}}">
                                   <img src="{{url($category->image)}}" alt="">
                                   <span>{{$category->title}}</span>
                                   <div class="cat-overlay"></div>
@@ -68,7 +68,10 @@
                             </div>
                             <h5 class="card-title">{{$user->name}}</h5>
                             <p class="card-text">{{$user->desc}}</p>
-                            <a href="#">Start from 99 $</a>
+                            @php  $user_pac = $user->packages()->where("package_type","paid")->orderBy("package_price","asc")->first();  @endphp
+                            @if($user_pac !== null)
+                            <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">Start from {{$user_pac->package_price}} $</a>
+                            @endif
                         </div>
                     </div>
                 </div>

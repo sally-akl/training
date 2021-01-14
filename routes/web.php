@@ -67,6 +67,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
 });
 
 Route::get('/',['uses'=>'HomeController@index']);
+Route::get('/trainer/{id}/{details}',['uses'=>'HomeController@trainer_details']);
 
 
 Auth::routes();
