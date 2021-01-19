@@ -29,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
           list($controller, $action) = explode('@', $controller);
           $view->with(compact('controller', 'action'));
       });
+      
     }
 }

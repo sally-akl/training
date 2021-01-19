@@ -17,6 +17,9 @@
                @lang('site.client_name')
             </th>
             <th>
+               Subject
+            </th>
+            <th>
                @lang('site.msg')
             </th>
             <th>
@@ -39,6 +42,7 @@
                  {{$crequest->user->name}}
                @endif
             </td>
+            <td>{{$crequest->subject}}</td>
             <td>{{$crequest->msg}}</td>
             <td>{{date("Y-m-d",strtotime($crequest->send_date))}}</td>
             <td>

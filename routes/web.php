@@ -66,10 +66,20 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('chat/save','Dashboard\DashboardController@chat');
 });
 
-Route::get('/',['uses'=>'HomeController@index']);
-Route::get('/trainer/{id}/{details}',['uses'=>'HomeController@trainer_details']);
-Route::get('/auth-customer',['uses'=>'HomeController@login']);
-Route::post('/signin',['uses'=>'HomeController@sign_in']);
-Route::get('/my-subscription',['uses'=>'HomeController@usersubscribe']);
+Route::middleware(['XSS','web'])->group(function () {
 
+  Route::get('/',['uses'=>'HomeController@index']);
+  Route::get('/trainer/{id}/{details}',['uses'=>'HomeController@trainer_details']);
+  Route::get('/auth-customer',['uses'=>'HomeController@login']);
+  Route::post('/signin',['uses'=>'HomeController@sign_in']);
+  Route::get('/my-subscription',['uses'=>'HomeController@usersubscribe']);
+  Route::post('/signout',['uses'=>'HomeController@sign_out']);
+  Route::get('/auth-customer-signup',['uses'=>'HomeController@signup']);
+  Route::post('/signup',['uses'=>'HomeController@submit_signup']);
+  Route::get('/edit-profile',['uses'=>'HomeController@profile']);
+  Route::post('/edit',['uses'=>'HomeController@edit_profile']);
+  Route::get('/tickets',['uses'=>'HomeController@tickets']);
+  Route::get('/ticket/{id}/{subject}',['uses'=>'HomeController@ticket_details']);
+
+});
 Auth::routes();
