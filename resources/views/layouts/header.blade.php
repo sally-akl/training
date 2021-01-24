@@ -31,7 +31,7 @@
                 <div class="right-header align-self-center">
                     <div class="d-flex">
                         <div class="search-box mr-3" id="searchbox">
-                            <input type="text" placeholder="Type to search..">
+                            <input type="text" placeholder="Type to search.." class="search_all_text">
                             <div class="search-icon">
                                 <i class="fas fa-search"></i>
                             </div>

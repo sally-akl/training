@@ -56,6 +56,9 @@
                 $query = \App\User::where("role_id",2);
                 if(isset(request()->category))
                   $query = $query->where('category_id',request()->category);
+                if(isset(request()->search))
+                  $query = $query->where('name', 'LIKE', '%'.request()->search.'%');
+
                 $customers = $query->orderBy("id","desc")->take(6)->get();
                 @endphp
                 @foreach ($customers as $key => $user)
