@@ -85,3 +85,21 @@
     </div>
 </main>
 @endsection
+@section('footerjscontent')
+
+<!-- intro slider -->
+<script type="text/javascript">
+    $('.main-slider .owl-carousel').owlCarousel({
+      loop: true,
+      items:1,
+      autoplay: true,
+      autoplayHoverPause: true,
+      nav: true,
+    })
+  </script>
+
+<!-- Wow Animation -->
+<script type="text/javascript">
+    new WOW().init();
+</script>
+@endsection

@@ -51,10 +51,21 @@
                 @endforeach
             </div>
             @if($ticket->status == "pending" || $ticket->status == "in progress")
-            <div class="answer-send d-flex">
-                <input type="text" class="write_msg" placeholder="Type your message..." />
-                <button class="snd-btn"><i class="fas fa-paper-plane"></i></button>
+            <div style="margin-bottom:5px;">
+              @include("dashboard.utility.error_messages")
             </div>
+            <div class="answer-send d-flex">
+
+               <form method="post" action="{{ url('/') }}/savemessage" style="width: 100%;display: flex!important;">
+                   @csrf
+                <input type="text" name="message" class="write_msg" placeholder="Type your message..." />
+                <input type="hidden" name="id" value="{{$ticket->id}}" />
+                <input type="hidden" name="subject" value="{{$ticket->subject}}" />
+                <button class="snd-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
+               </form>
+
+            </div>
+
             @endif
         </div>
     </div>

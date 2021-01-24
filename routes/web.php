@@ -80,6 +80,15 @@ Route::middleware(['XSS','web'])->group(function () {
   Route::post('/edit',['uses'=>'HomeController@edit_profile']);
   Route::get('/tickets',['uses'=>'HomeController@tickets']);
   Route::get('/ticket/{id}/{subject}',['uses'=>'HomeController@ticket_details']);
+  Route::post('/savemessage',['uses'=>'HomeController@save_ticket_message']);
+  Route::post('/addticket',['uses'=>'HomeController@addticket']);
+  Route::get('/my-subscription/details/{id}',['uses'=>'HomeController@usersubscribe_details']);
+  Route::get('/get/weekday/{id}',['uses'=>'HomeController@weekdays']);
+  Route::get('/get/excercies/{id}/{trans}',['uses'=>'HomeController@get_excercise_byday']);
+  Route::get('/get/suppliment/{id}/{trans}',['uses'=>'HomeController@get_suppliment_byday']);
+  Route::get('/get/food/{id}/{trans}',['uses'=>'HomeController@get_food_byday']);
+
+
 
 });
 Auth::routes();

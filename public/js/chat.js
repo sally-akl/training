@@ -3,6 +3,7 @@ const socket = io('http://localhost:3000/');
 var sender = $("input[name='sender']").val();
 var receiver =  $("input[name='receiver']").val();
 var viewer_type = $("input[name='viewer_type']").val();
+var viewer_type_in= $("input[name='viewer_type_in']").val();
 socket.emit("beginChat",{sender:sender});
 
 $(".chat_text_box").on('change keyup paste mouseup', function() {
@@ -44,23 +45,31 @@ $(".send_btn").on("click",function(){
             processData: false
     });
     var html = "";
-
-    html = '<div class="chat-message-left pb-4">';
-    html +='<div>';
-      if(viewer_type == "trainer")
-        html +='<img src="'+sender_img+'" class="rounded-circle mr-1" alt="'+sender_name+'" width="40" height="40">';
-      else
-        html +='<span class="avatar avatar-xl" style="width: 3rem;height: 3rem;font-size: 1rem;">'+sender_img+'</span>';
-    html +='<div class="text-muted small text-nowrap mt-2">'+date_str+'</div>';
-    html +='</div>';
-    html +='<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">';
-    html +='<div class="font-weight-bold mb-1">'+sender_name+'</div>';
-    html += message;
-    html +='</div>';
-    html +='</div>';
+    if(viewer_type_in == "dashboard")
+    {
+      html = '<div class="chat-message-left pb-4">';
+      html +='<div>';
+      html +='<img src="'+sender_img+'" class="rounded-circle mr-1" alt="'+sender_name+'" width="40" height="40">';
+      html +='<div class="text-muted small text-nowrap mt-2">'+date_str+'</div>';
+      html +='</div>';
+      html +='<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">';
+      html +='<div class="font-weight-bold mb-1">'+sender_name+'</div>';
+      html += message;
+      html +='</div>';
+      html +='</div>';
+    }
+    else
+    {
+      html = '<div class="user-msg">';
+      html += '<div class="msg-content">';
+      html += '<p>'+message+'</p>';
+      html += '<span>'+date_str+'<small><i class="fas fa-check-double"></i></small></span>';
+      html +='</div>';
+      html +='</div>';
+    }
 
     $(".chat-messages").append(html);
-    socket.emit("message" , {sender:sender , receiver:receiver,msg:message,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type});
+    socket.emit("message" , {sender:sender , receiver:receiver,msg:message,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type,viewer_type_in:viewer_type_in});
 });
 socket.on("Typing" , function(data){
   if(data.receiver == sender)
@@ -74,22 +83,49 @@ socket.on("message" , function(data){
   if(data.receiver == sender)
   {
     console.log(data.viewer_type);
+    console.log(data.viewer_type_in);
     var html = "";
-    html = '<div class="chat-message-right pb-4">';
-    html +='<div>';
-      if(data.viewer_type == "trainer")
-        html +='<img src="'+data.img+'" class="rounded-circle mr-1" alt="'+data.sender_name+'" width="40" height="40">';
-      else
-        html +='<span class="avatar avatar-xl" style="width: 3rem;height: 3rem;font-size: 1rem;">'+data.img+'</span>';
-    html +='<div class="text-muted small text-nowrap mt-2">'+data.date+'</div>';
-    html +='</div>';
-    html +='<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">';
-    html +='<div class="font-weight-bold mb-1">'+data.sender_name+'</div>';
-    html += data.msg;
-    html +='</div>';
-    html +='</div>';
-    $(".chat-messages").append(html);
+    if(data.viewer_type_in != "dashboard")
+    {
+      html = '<div class="chat-message-right pb-4">';
+      html +='<div>';
+        if(data.viewer_type == "trainer")
+          html +='<img src="'+data.img+'" class="rounded-circle mr-1" alt="'+data.sender_name+'" width="40" height="40">';
+        else
+          html +='<span class="avatar avatar-xl" style="width: 3rem;height: 3rem;font-size: 1rem;">'+data.img+'</span>';
+      html +='<div class="text-muted small text-nowrap mt-2">'+data.date+'</div>';
+      html +='</div>';
+      html +='<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">';
+      html +='<div class="font-weight-bold mb-1">'+data.sender_name+'</div>';
+      html += data.msg;
+      html +='</div>';
+      html +='</div>';
+    }
+    else
+    {
+       if(data.viewer_type == "trainer")
+       {
+         html = '<div class="coach-msg d-flex">';
+         html += '<img src="'+data.img+'" class="coach-msg-img align-self-center" alt="">';
+         html = '<div class="msg-content align-self-center">';
+         html = '<p>'+data.msg+'</p>';
+         html = '<span>'+data.date+'</span>';
+         html +='</div>';
+         html +='</div>';
+       }
+       else{
 
+         html = '<div class="user-msg">';
+         html += '<div class="msg-content">';
+         html += '<p>'+data.msg+'</p>';
+         html += '<span>'+data.date+'<small><i class="fas fa-check-double"></i></small></span>';
+         html +='</div>';
+         html +='</div>';
+
+       }
+
+    }
+    $(".chat-messages").append(html);
   }
 
 });

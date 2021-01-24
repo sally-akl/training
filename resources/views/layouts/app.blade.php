@@ -16,6 +16,13 @@
     @yield('content')
     @include('layouts.footer')
     @include('layouts.js')
+    <script type="text/javascript">
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+    </script>
     @yield('footerjscontent')
 
 </body>

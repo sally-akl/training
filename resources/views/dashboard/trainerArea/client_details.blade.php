@@ -179,6 +179,7 @@
             <input type="hidden" name="booking" value="{{$transaction->id}}" />
             <input type="hidden" name="submit_form_url" value="{{ url('dashboard/chat/save') }}" />
             <input type="hidden" name="viewer_type" value="trainer" />
+            <input type="hidden" name="viewer_type_in" value="dashboard" />
             <input type="hidden" name="sender_img" value="{{url('/')}}{{$transaction->trainer->image}}" />
             <input type="hidden" name="sender_name" value="{{$transaction->trainer->name}}" />
             <input type="text" class="form-control chat_text_box" placeholder="Type your message">

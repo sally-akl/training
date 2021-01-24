@@ -17,19 +17,3 @@
 
 <!-- Owl Carousel -->
 <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-
-<!-- intro slider -->
-<script type="text/javascript">
-    $('.main-slider .owl-carousel').owlCarousel({
-      loop: true,
-      items:1,
-      autoplay: true,
-      autoplayHoverPause: true,
-      nav: true,
-    })
-  </script>
-
-<!-- Wow Animation -->
-<script type="text/javascript">
-    new WOW().init();
-</script>

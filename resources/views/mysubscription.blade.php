@@ -9,7 +9,7 @@
         <div class="main-card with-brd">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <span class="pack-name align-self-center">{{$transaction->package->package_name}}</span>
+                    <span class="pack-name align-self-center"><a href="{{url('/')}}/my-subscription/details/{{$transaction->id}}" style="color:#fff">{{$transaction->package->package_name}}</a></span>
                     <div class="sub-info align-self-center">
                         <div class="d-flex">
                             <div class="sub-info-block">

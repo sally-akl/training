@@ -70,6 +70,11 @@ class HomeController extends Controller
 
       return redirect('auth-customer');
     }
+    public function usersubscribe_details($id)
+    {
+      $transaction = \App\Transactions::find($id);
+      return view('mysubscription_details',compact("transaction"));
+    }
     public function tickets()
     {
       if(Auth::user())
@@ -89,6 +94,52 @@ class HomeController extends Controller
       {
         $ticket = \App\ClientRequests::find($id);
         return view('ticket_details',compact("ticket"));
+      }
+      return redirect('auth-customer');
+    }
+    public function addticket(Request $request)
+    {
+      if(Auth::user())
+      {
+        $messages = [
+          'add_subject.required' => 'Subject is required',
+          'add_msg.required' => 'Message is required',
+
+        ];
+        $validator = Validator::make($request->all(), [
+                 'add_subject' => 'required',
+                 'add_msg'=>'required'
+        ],$messages);
+        if($validator->fails())
+          return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
+        $client_request = new \App\ClientRequests();
+        $client_request->subject = $request->add_subject;
+        $client_request->msg = $request->add_msg;
+        $client_request->send_date = date("Y-m-d");
+        $client_request->user_id  = Auth::user()->id;
+        $client_request->status  = "in progress";
+        $client_request->save();
+        return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
+      }
+      return redirect('auth-customer');
+    }
+    public function save_ticket_message(Request $request)
+    {
+      if(Auth::user())
+      {
+        $validator = Validator::make($request->all(), [
+               'message' => 'required',
+        ]);
+        if ($validator->fails())
+          return redirect()->back()->withErrors($validator->errors())->withInput();
+
+        $message = new \App\Messages();
+        $message->msg = $request->message;
+        $message->send_date = date("Y-m-d");
+        $message->from_user = Auth::user()->id;
+        $message->request_id = $request->id;
+        $message->save();
+        return redirect('ticket/'.$request->id."/".$request->subject);
       }
       return redirect('auth-customer');
     }
@@ -161,4 +212,58 @@ class HomeController extends Controller
        }
        return  redirect('/auth-customer');
     }
+    public function weekdays($week)
+    {
+      $end  = 7 ;
+      $begin = 1;
+      $end_day = $week * 7;
+      $begin_day = ($end_day-7)+1;
+      $days_real = [];
+      for($j=$begin_day;$j<=$end_day;$j++)
+      {
+        $days_real[]=$j;
+      }
+      $html="";
+      for($day = $begin;$day<=$end;$day++)
+      {
+        $to_day = $days_real[$day-1];
+        $dd = "Day ".$day;
+        $html .="<option value='".$to_day."'>".$dd."</option>";
+      }
+      return $html;
+    }
+    public function get_excercise_byday($day,$id)
+    {
+      $transaction = \App\Transactions::find($id);
+      $plan_data = \App\Plan::join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+                              ->whereraw("(programm_designs.type = 'exercises')")
+                              ->where("package_user_plan.package_id",$transaction->package->id)
+                              ->where("package_user_plan.day_num",$day)
+                              ->where("package_user_plan.transaction_id",$transaction->id)
+                              ->get();
+      return view('excercices_partial',compact('plan_data'));
+    }
+    public function get_suppliment_byday($day,$id)
+    {
+      $transaction = \App\Transactions::find($id);
+      $plan_data = \App\Plan::join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+                              ->whereraw("(programm_designs.type = 'food supplements')")
+                              ->where("package_user_plan.package_id",$transaction->package->id)
+                              ->where("package_user_plan.day_num",$day)
+                              ->where("package_user_plan.transaction_id",$transaction->id)
+                              ->get();
+      return view('suppliment_partial',compact('plan_data'));
+    }
+    public function get_food_byday($day,$id)
+    {
+      $transaction = \App\Transactions::find($id);
+      $plan_receps = \App\Plan::join("receips","receips.id","package_user_plan.recepe_id")
+                         ->where("package_user_plan.package_id",$transaction->package->id)
+                         ->where("package_user_plan.day_num",$day)
+                         ->where("package_user_plan.transaction_id",$transaction->id)
+                         ->get();
+      return view('food_partial',compact('plan_receps'));
+
+    }
+
 }
