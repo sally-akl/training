@@ -265,5 +265,10 @@ class HomeController extends Controller
       return view('food_partial',compact('plan_receps'));
 
     }
+    public function checkout($name , $id)
+    {
+      $package = \App\Package::find($id);
+      return view('checkout',compact('package'));
+    }
 
 }

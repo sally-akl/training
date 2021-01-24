@@ -87,6 +87,7 @@ Route::middleware(['XSS','web'])->group(function () {
   Route::get('/get/excercies/{id}/{trans}',['uses'=>'HomeController@get_excercise_byday']);
   Route::get('/get/suppliment/{id}/{trans}',['uses'=>'HomeController@get_suppliment_byday']);
   Route::get('/get/food/{id}/{trans}',['uses'=>'HomeController@get_food_byday']);
+  Route::get('/checkout/{name}/{id}',['uses'=>'HomeController@checkout']);
 
 
 

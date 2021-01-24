@@ -40,7 +40,7 @@
                               <a href="#" class="card-btn">Nutrition Program</a>
                               <a href="#" class="card-btn">Food Supplement</a>
                           </div>
-                          <a href="#" class="sec-card-btn">Subscribe now</a>
+                          <a href="{{url('/')}}/checkout/{{$package->package_name}}/{{$package->id}}" class="sec-card-btn">Subscribe now</a>
                       </div>
                   </div>
               </div>
