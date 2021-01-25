@@ -88,6 +88,11 @@ Route::middleware(['XSS','web'])->group(function () {
   Route::get('/get/suppliment/{id}/{trans}',['uses'=>'HomeController@get_suppliment_byday']);
   Route::get('/get/food/{id}/{trans}',['uses'=>'HomeController@get_food_byday']);
   Route::get('/checkout/{name}/{id}',['uses'=>'HomeController@checkout']);
+  Route::get('/payment/{type}/{id}',['uses'=>'HomeController@payment']);
+  Route::post('paypal', array('as' => 'paypal','uses' => 'PaypalController@postPaymentWithpaypal'));
+  Route::get('paypal', array('as' => 'paypal.status','uses' => 'PaypalController@getPaymentStatus'));
+  Route::get('/strip/pay/{type}/{id}',['uses'=>'StripeController@payform']);
+  Route::post('stripe', array('as' => 'pay.stripe','uses' => 'StripeController@postPaymentStripe'));
 
 
 

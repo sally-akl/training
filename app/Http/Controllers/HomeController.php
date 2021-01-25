@@ -270,5 +270,82 @@ class HomeController extends Controller
       $package = \App\Package::find($id);
       return view('checkout',compact('package'));
     }
+    public function payment($type,$id)
+    {
+      if(Auth::user())
+      {
+        $package = \App\Package::find($id);
+        $exist_trans = \App\Transactions::where("user_id",Auth::user()->id)
+                                   ->where("trainer_id",$package->user->id)
+                                   ->where("package_id",$id)
+                                   ->where("transfer_payment_type",$type)
+                                   ->first();
+
+        if($type == "free")
+        {
+          if($package !== null)
+          {
+            if(isset($exist_trans->transfer_date))
+            {
+              $expire_date = date('Y-m-d', strtotime(date('Y-m-d',strtotime($exist_trans->transfer_date)). ' + '.$package->package_duration.' weeks'));
+              if(date('Y-m-d',strtotime($exist_trans->transfer_date)) <= $expire_date)
+              {
+                return redirect()->back()->withErrors(array("errors"=>array("exist"=>"You already Subscribe to this package")));
+              }
+              else{
+                $transaction = new \App\Transactions();
+                $transaction->transaction_num = $this->getCode(10);
+                $transaction->user_id = Auth::user()->id;
+                $transaction->trainer_id  =$package->user->id;
+                $transaction->package_id   =$id;
+                $transaction->transfer_date = date("Y-m-d");
+                $transaction->is_payable = 1;
+                $transaction->transfer_payment_type = $type;
+                $transaction->paymentToken = "none";
+                $transaction->paymentId = "none";
+                $transaction->amount = 0;
+                $transaction->save();
+              }
+            }
+            else{
+              $transaction = new \App\Transactions();
+              $transaction->transaction_num = $this->getCode(10);
+              $transaction->user_id = Auth::user()->id;
+              $transaction->trainer_id  =$package->user->id;
+              $transaction->package_id   =$id;
+              $transaction->transfer_date = date("Y-m-d");
+              $transaction->is_payable = 1;
+              $transaction->transfer_payment_type = $type;
+              $transaction->paymentToken = "none";
+              $transaction->paymentId = "none";
+              $transaction->amount = 0;
+              $transaction->save();
+            }
+          }
+          else{
+              return redirect()->back()->withErrors(array("errors"=>array("exist"=>"Wrong package")));
+          }
+        }
+        else{
+          if($type == "visa" || $type == "mastercard")
+          {
+              return redirect('strip/pay/'.$type."/".$id);
+          }
+        }
+        return redirect('my-subscription');
+      }
+      return redirect('auth-customer');
+    }
+
+    private  function getCode($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 
 }

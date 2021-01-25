@@ -60,18 +60,27 @@
             </div>
         </div>
         <div class="pay-info">
+          @include("dashboard.utility.error_messages")
+          @if($package->package_type !="free")
             <h3>Payment methods</h3>
             <div class="pay-info-content">
                 <ul class="list-unstyled">
-                    <li><a class="d-flex justify-content-between" href="#">
-                        <img class="align-self-center" src="{{url('/')}}/assets/img/dash/Pay-1.svg" alt="">
-                        <i class="fas fa-caret-right align-self-center"></i>
-                    </a></li>
-                    <li><a class="d-flex justify-content-between" href="#">
+                    <li>
+                      <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!! URL::route('paypal') !!}" >
+                        {{ csrf_field() }}
+                        <input type="hidden" name="pac" value="{{$package->id}}" />
+                        <input type="hidden" name="pay_type" value="paypal" />
+                          <a class="d-flex justify-content-between paypal_press" href="#">
+                            <img class="align-self-center" src="{{url('/')}}/assets/img/dash/Pay-1.svg" alt="">
+                            <i class="fas fa-caret-right align-self-center"></i>
+                          </a>
+                      </form>
+                  </li>
+                    <li><a class="d-flex justify-content-between" href="{{url('/')}}/payment/visa/{{$package->id}}">
                         <img class="align-self-center" src="{{url('/')}}/assets/img/dash/Pay-2.svg" alt="">
                         <i class="fas fa-caret-right align-self-center"></i>
                     </a></li>
-                    <li><a class="d-flex justify-content-between" href="#">
+                    <li><a class="d-flex justify-content-between" href="{{url('/')}}/payment/mastercard/{{$package->id}}">
                         <img class="align-self-center" src="{{url('/')}}/assets/img/dash/Pay-3.svg" alt="">
                         <i class="fas fa-caret-right align-self-center"></i>
                     </a></li>
@@ -85,7 +94,26 @@
 
                 </ul>
             </div>
+            @else
+            <div class="pay-info-content">
+              <ul class="list-unstyled">
+                <li><a class="d-flex justify-content-between" href="{{url('/')}}/payment/free/{{$package->id}}">
+                    <span class="align-self-center">
+                        Continous
+                    </span>
+                    <i class="fas fa-caret-right align-self-center"></i>
+                </a></li>
+              </ul>
+            </div>
+            @endif
         </div>
     </div>
 </main>
+@endsection
+@section('footerjscontent')
+<script type="text/javascript">
+  $(".paypal_press").on("click",function(){
+    $("#payment-form").submit();
+  });
+</script>
 @endsection
