@@ -31,26 +31,31 @@ class StripeController extends Controller
       $amount = $request->amount;
       $visa_master = $request->pay_type;
 
-      \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-      \Stripe\Charge::create ([
-             "amount" => $amount * 100,
-             "currency" => 'USD',
-             "source" => $request->stripeToken,
-             "description" => "package name : ".$request->pakage_name
-      ]);
-      $transaction = new \App\Transactions();
-      $transaction->transaction_num = $this->getCode(10);
-      $transaction->user_id = Auth::user()->id;
-      $transaction->trainer_id  =\App\Package::find($package_id)->user->id;
-      $transaction->package_id   =\App\Package::find($package_id)->id;
-      $transaction->transfer_date = date("Y-m-d");
-      $transaction->is_payable = 1;
-      $transaction->transfer_payment_type = $visa_master;
-      $transaction->paymentToken = "none";
-      $transaction->paymentId = "none";
-      $transaction->amount =  \App\Package::find($package_id)->package_price;
-      $transaction->save();
-      return redirect('my-subscription');
+      try {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Charge::create ([
+               "amount" => $amount * 100,
+               "currency" => 'USD',
+               "source" => $request->stripeToken,
+               "description" => "package name : ".$request->pakage_name
+        ]);
+        $transaction = new \App\Transactions();
+        $transaction->transaction_num = $this->getCode(10);
+        $transaction->user_id = Auth::user()->id;
+        $transaction->trainer_id  =\App\Package::find($package_id)->user->id;
+        $transaction->package_id   =\App\Package::find($package_id)->id;
+        $transaction->transfer_date = date("Y-m-d");
+        $transaction->is_payable = 1;
+        $transaction->transfer_payment_type = $visa_master;
+        $transaction->paymentToken = "none";
+        $transaction->paymentId = "none";
+        $transaction->amount =  \App\Package::find($package_id)->package_price;
+        $transaction->save();
+        return redirect('my-subscription');
+
+      } catch (\Exception $ex) {
+        return redirect("/checkout/".$pakage_name."/".$package_id)->withErrors(array("errors"=>array("exist"=>$ex->getMessage())));
+      }
   }
 
   private  function getCode($length = 10)

@@ -77,16 +77,16 @@
                       </form>
                   </li>
                     <li><a class="d-flex justify-content-between" href="{{url('/')}}/payment/visa/{{$package->id}}">
-                        <img class="align-self-center" src="{{url('/')}}/assets/img/dash/Pay-2.svg" alt="">
+                        <img class="align-self-center" src="{{url('/')}}/assets/img/dash/pay-2.svg" alt="">
                         <i class="fas fa-caret-right align-self-center"></i>
                     </a></li>
                     <li><a class="d-flex justify-content-between" href="{{url('/')}}/payment/mastercard/{{$package->id}}">
-                        <img class="align-self-center" src="{{url('/')}}/assets/img/dash/Pay-3.svg" alt="">
+                        <img class="align-self-center" src="{{url('/')}}/assets/img/dash/pay-3.svg" alt="">
                         <i class="fas fa-caret-right align-self-center"></i>
                     </a></li>
                     <li><a class="d-flex justify-content-between" href="#">
                         <span class="align-self-center">
-                            <img src="{{url('/')}}/assets/img/dash/Pay-4.svg" alt="">
+                            <img src="{{url('/')}}/assets/img/dash/pay-4.svg" alt="">
                             Pay
                         </span>
                         <i class="fas fa-caret-right align-self-center"></i>
