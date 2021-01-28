@@ -202,7 +202,7 @@
 
           <div class="position-relative">
             <div class="chat-messages p-4">
-             @php  $chats = \App\Chat::whereraw("(from_user ='".$transaction->trainer->id."'  and  to_user='".$transaction->user->id."') or (from_user ='".$transaction->user->id."'  and to_user='".$transaction->trainer->id."')")->where("booking_id",$transaction->id)->orderby("created_at","asc")->take(3)->get();  @endphp
+             @php  $chats = \App\Chat::whereraw("((from_user ='".$transaction->trainer->id."'  and  to_user='".$transaction->user->id."') or (from_user ='".$transaction->user->id."'  and to_user='".$transaction->trainer->id."'))")->where("booking_id",$transaction->id)->orderby("created_at","asc")->get();  @endphp
               @foreach($chats as $chat)
                 @if($chat->from_user == $transaction->trainer->id)
                 <div class="chat-message-left pb-4">

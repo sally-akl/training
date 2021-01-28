@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
   $('.search_all_text').bind("enterKey",function(e){
-     window.location.href = '{{url("/")}}?category={{request()->category}}&search='+$(this).val();
+     window.location.href = '{{url("/")}}?category={{request()->category}}&show={{request()->show}}&search='+$(this).val();
   });
   $('.search_all_text').keyup(function(e){
       if(e.keyCode == 13)

@@ -68,11 +68,11 @@
           </div>
           <div class="mb-3">
             <label class="form-label">@lang('site.from')</label>
-            <input type="date" class="form-control" name="from">
+            <input type="text" class="form-control" name="from">
           </div>
           <div class="mb-3">
             <label class="form-label">@lang('site.to')</label>
-            <input type="date" class="form-control" name="to">
+            <input type="text" class="form-control" name="to">
           </div>
         </div>
         <input type="hidden" name="search" value="search" />
@@ -90,6 +90,14 @@
 @section('footerjscontent')
 <script type="text/javascript">
   $(".search_btn").on("click",function(){
+        var options={
+          format: 'yyyy-mm-dd',
+          //container: container,
+          todayHighlight: true,
+          autoclose: true,
+        };
+      $('input[name="from"]').datepicker(options);
+      $('input[name="to"]').datepicker(options);
       $('#serach_modal').modal('show');
       return false;
   });

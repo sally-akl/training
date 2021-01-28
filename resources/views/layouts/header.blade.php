@@ -51,36 +51,21 @@
                               </a>
 
                               <div class="dropdown-menu notif-drop dropdown-menu-right" aria-labelledby="dropNotification">
+                                  @php  $notifications = \App\Notifications::where("user_id",Auth::user()->id)->where("is_send",1)->get();   @endphp
+                                  @foreach($notifications as $notification)
                                   <div class="d-flex">
-                                      <img src="assets/img/coach-4.png" alt="">
+                                      <img src="{{url('/')}}/img/admin.jpg" alt="">
                                       <div class="not-det">
-                                          <a href="#">Notification Title</a>
+                                          <a href="#">Notify from admin</a>
                                           <p class="text-truncate">
-                                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                                              {{$notification->msg}}
                                           </p>
-                                          <span>09:35 AM</span>
+                                          <span>{{$notification->created_at}}</span>
                                       </div>
                                   </div>
-                                  <div class="d-flex">
-                                      <img src="assets/img/coach-5.png" alt="">
-                                      <div class="not-det">
-                                          <a href="#">Notification Title</a>
-                                          <p class="text-truncate">
-                                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                                          </p>
-                                          <span>09:35 AM</span>
-                                      </div>
-                                  </div>
-                                  <div class="d-flex">
-                                      <img src="assets/img/coach-6.png" alt="">
-                                      <div class="not-det">
-                                          <a href="#">Notification Title</a>
-                                          <p class="text-truncate">
-                                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                                          </p>
-                                          <span>09:35 AM</span>
-                                      </div>
-                                  </div>
+                                  @endforeach
+
+
                               </div>
                           </div>
 

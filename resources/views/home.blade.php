@@ -35,7 +35,7 @@
                       <div class="col-lg-3 col-md-4">
                           <div class="cat-card {{isset(request()->category) && request()->category == $category->id?'active':''}} wow fadeIn" data-wow-delay="0.25s">
 
-                              <a href="{{url("/")}}?category={{$category->id}}">
+                              <a href="{{url("/")}}?category={{$category->id}}&search={{request()->search}}&show={{request()->show}}">
                                   <img src="{{url($category->image)}}" alt="">
                                   <span>{{$category->title}}</span>
                                   <div class="cat-overlay"></div>
@@ -54,20 +54,24 @@
                 @php
 
                 $query = \App\User::where("role_id",2);
-                if(isset(request()->category))
+                if(isset(request()->category) && !empty(request()->category))
                   $query = $query->where('category_id',request()->category);
-                if(isset(request()->search))
+                if(isset(request()->search) && !empty(request()->search))
                   $query = $query->where('name', 'LIKE', '%'.request()->search.'%');
 
-                $customers = $query->orderBy("id","desc")->take(6)->get();
+                if(isset(request()->show) && !empty(request()->show))
+                  $customers = $query->orderBy("id","desc")->get();
+                else
+                  $customers = $query->orderBy("id","desc")->take(6)->get();
                 @endphp
                 @foreach ($customers as $key => $user)
                 <div class="col-md-6 mb-4">
+                  <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">
                     <div class="card h-100 coach-card wow fadeInUp">
                         <img src="{{url("/")}}/assets/img/coach-bg.png" class="card-img-top" alt="...">
                         <div class="card-body text-center">
                             <div class="coach-pic">
-                                <img src="{{url($user->image)}}" alt="">
+                              <img src="{{url($user->image)}}" alt="">
                             </div>
                             <h5 class="card-title">{{$user->name}}</h5>
                             <p class="card-text">{{$user->desc}}</p>
@@ -77,12 +81,13 @@
                             @endif
                         </div>
                     </div>
+                  </a>
                 </div>
                 @endforeach
 
             </div>
             <div class="all-lnk">
-                <a href="#">Show All</a>
+                <a href="{{url("/")}}?category={{request()->category}}&search={{request()->search}}&show=all">Show All</a>
             </div>
         </div>
     </div>

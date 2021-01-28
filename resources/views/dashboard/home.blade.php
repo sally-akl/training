@@ -137,7 +137,7 @@
               $tr_month_days = [];
               foreach($traner_month_days as $month_day)
               {
-                $tr_month_days[] = $month_day->transfer_date->format('Y-m-d');
+                $tr_month_days[] = $month_day->transfer_date;
               }
 
         @endphp

@@ -210,7 +210,7 @@
             <input type="text" class="form-control" name="package_name_ar">
           </div>
           <div class="mb-3">
-            <label class="form-label">@lang('site.pack_duration')</label>
+            <label class="form-label">@lang('site.pack_duration') (number of weeks)</label>
             <input type="number" class="form-control" name="package_duration">
           </div>
           <input type="hidden" name="package_duration_type" value="week"/>
