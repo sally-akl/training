@@ -44,7 +44,11 @@
           @endif
           @if($programme->media_type == "vedio")
           <tr>
-            <th>Video</th><td>{!! $programme->vedio !!}</td>
+            <th>Video</th><td>
+                <iframe class="vedio_content_frame" width="377" height="243"   src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+
+            </td>
           </tr>
           @endif
         </tbody>

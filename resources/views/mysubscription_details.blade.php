@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<style>
+
+</style>
 <!-- ==== Main content ==== -->
 <main class="main-content coach-sub-page">
     <div class="container">
@@ -67,7 +70,11 @@
                                 @if($chat->from_user == $transaction->user->id)
                                 <div class="user-msg">
                                     <div class="msg-content">
-                                        <p>{{$chat->msg}}</p>
+                                        @if($chat->msg_type == "text")
+                                          <p>{{$chat->msg}}</p>
+                                        @else
+                                          <img src="{{url('/')}}{{$chat->msg}}" alt="">
+                                        @endif
                                         <span>{{ date("Y-m-d H:m" , strtotime($chat->created_at)) }} <small><i class="fas fa-check-double"></i></small></span>
                                     </div>
                                 </div>
@@ -76,7 +83,11 @@
                                 <div class="coach-msg d-flex">
                                     <img src="{{url('/')}}{{$chat->user->image}}" class="coach-msg-img align-self-center" alt="">
                                     <div class="msg-content align-self-center">
+                                       @if($chat->msg_type == "text")
                                         <p>{{$chat->msg}}</p>
+                                       @else
+                                        <img src="{{url('/')}}{{$chat->msg}}" alt="">
+                                       @endif
                                         <span>{{ date("Y-m-d H:m" , strtotime($chat->created_at)) }} </span>
                                     </div>
                                 </div>
@@ -92,13 +103,19 @@
                             <input type="hidden" name="receiver" value="{{$transaction->trainer->id}}" />
                             <input type="hidden" name="booking" value="{{$transaction->id}}" />
                             <input type="hidden" name="submit_form_url" value="{{ url('dashboard/chat/save') }}" />
+                            <input type="hidden" name="submit_form_img_url" value="{{ url('chat/image/save') }}" />
+                            <input type="hidden" name="main_img_url" value="{{ url('/') }}" />
                             <input type="hidden" name="viewer_type" value="user" />
                             <input type="hidden" name="viewer_type_in" value="site" />
                             <input type="hidden" name="sender_img" value="{{$output}}" />
                             <input type="hidden" name="sender_name" value="{{$transaction->user->name}}" />
                             <input type="text" class="write_msg chat_text_box" placeholder="Type your message..." />
                             <!-- <button class="sb-btn"><i class="fas fa-paperclip"></i></button>-->
-                            <button class="sb-btn"><i class="far fa-file-image"></i></button>
+
+                            <div class="custom-file">
+                                <input type="file" name="attachment_img" class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" >
+                                <label class="custom-file-label" for="inputGroupFile01"><i class="far fa-file-image"></i></label>
+                            </div>
                             <button class="snd-btn send_btn"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -164,7 +181,8 @@
                                       @endif
 
                                       @if($programme->programme->media_type != "image")
-                                        <img src="{{url('/')}}/img/download.png" alt="">
+                                      <iframe width="170" height="200" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
                                       @endif
 
                                         <div class="exer-desc"  data-toggle="modal" data-target="#exerModal_{{$programme->programme->id}}">
@@ -192,7 +210,8 @@
                                                              @endforeach
                                                              @endif
                                                              @if($programme->programme->media_type !='image')
-                                                              <div>{!! $programme->programme->vedio !!}</div>
+                                                              <div>  <iframe width="800" height="310"  src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</div>
                                                             @endif
                                                         </div>
                                                     </div>

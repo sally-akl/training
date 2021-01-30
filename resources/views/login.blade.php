@@ -27,10 +27,12 @@
                         </form>
                         <span class="or">or</span>
                         <div class="log-or-btns">
-                            <button type="submit" class="google-btn">
-                                <i class="fab fa-google"></i>
-                                <span>Login with Google</span>
-                            </button>
+                            <form action="{{url('/')}}/auth/google" method="get">
+                              <button type="submit" class="google-btn">
+                                  <i class="fab fa-google"></i>
+                                  <span>Login with Google</span>
+                              </button>
+                            </form>
                             <button type="submit" class="apple-btn">
                                 <i class="fab fa-apple"></i>
                                 <span>Login with Apple</span>

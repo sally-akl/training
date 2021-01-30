@@ -97,7 +97,9 @@
                   <img src="{{url('/')}}{{$programme->images[0]->image}}" width="100" height="100" />
                 @endif
               @elseif($programme->media_type == "vedio")
-                 {!! $programme->vedio !!}
+
+                <iframe width="150" height="150" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
               @endif
 
 
@@ -154,6 +156,7 @@
       </div>
       <div class="modal-body">
         <div class="vedio_content">
+          <iframe class="vedio_content_frame" width="377" height="243"   src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
         </div>
 
       </div>
@@ -408,7 +411,7 @@
   });
   $(".vedio_view").on("click",function(){
     var val = $(this).attr("data-vedio");
-    $(".vedio_content").html(val);
+    $(".vedio_content_frame").attr("src",val);
     $('#vedio_modal').modal('show');
   });
   $(".add_new_image").on("click",function(){

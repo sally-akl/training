@@ -147,9 +147,15 @@
                                   @foreach ($plan["excercises"] as $key => $programme)
                                   <tr>
                                     <td>
-                                       @if(count($programme->programme->images)>0)
-                                         <img src="{{url('/')}}{{$programme->programme->images[0]->image}}" width="100" height="100" />
-                                       @endif
+                                        @if($programme->programme->media_type == "image")
+                                          @if(count($programme->programme->images)>0)
+                                            <img src="{{url('/')}}{{$programme->programme->images[0]->image}}" width="100" height="100" />
+                                          @endif
+                                        @else
+                                        <iframe width="150" height="150" src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+                                        @endif
+
                                    </td>
                                     <td>{{$programme->programme->title}}
                                       <div><span>Description :- </span><span>{{ substr($programme->programme->desc,0,100)}}</span></div>
@@ -222,9 +228,14 @@
                                   <tr>
                                     <td><input type="checkbox" name="selected_excercise" value="{{$programme->id}}"  /></td>
                                     <td>
+                                      @if($programme->media_type == "image")
                                        @if(count($programme->images)>0)
                                          <img src="{{url('/')}}{{$programme->images[0]->image}}" width="100" height="100" />
                                        @endif
+                                      @else
+                                      <iframe width="150" height="150" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+                                      @endif
                                    </td>
                                     <td>{{$programme->title}}
                                       <div><span>Description :- </span><span>{{ substr($programme->desc,0,100)}}</span></div>
@@ -454,9 +465,14 @@
                                   @foreach ($plan["supliment"] as $key => $programme)
                                   <tr>
                                     <td>
-                                       @if(count($programme->programme->images)>0)
-                                         <img src="{{url('/')}}{{$programme->programme->images[0]->image}}" width="100" height="100" />
-                                       @endif
+                                      @if($programme->programme->media_type == "image")
+                                        @if(count($programme->programme->images)>0)
+                                          <img src="{{url('/')}}{{$programme->programme->images[0]->image}}" width="100" height="100" />
+                                        @endif
+                                      @else
+                                      <iframe width="150" height="150" src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+                                      @endif
                                    </td>
 
                                     <td>{{$programme->programme->title}}
@@ -530,9 +546,14 @@
                                     <tr>
                                       <td><input type="checkbox" name="selected_supplement" value="{{$programme->id}}"  /></td>
                                       <td>
-                                         @if(count($programme->images)>0)
-                                           <img src="{{url('/')}}{{$programme->images[0]->image}}" width="100" height="100" />
-                                         @endif
+                                          @if($programme->media_type == "image")
+                                             @if(count($programme->images)>0)
+                                               <img src="{{url('/')}}{{$programme->images[0]->image}}" width="100" height="100" />
+                                             @endif
+                                          @else
+                                          <iframe width="150" height="150" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+                                          @endif
                                      </td>
                                       <td>{{$programme->title}}
                                          <div><span>Serving size :- </span><span  class="badge bg-azure">{{$programme->serving_size}}</span></div>

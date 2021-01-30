@@ -134,7 +134,12 @@ class ProgrammeController extends MainAdminController
 
       $programme = new Programme();
       if($request->upload_type != "image")
-       $programme->vedio = $request->vedio;
+      {
+        $vedio_parts = explode("?v=", $request->vedio);
+        if(count($vedio_parts) == 2)
+          $programme->vedio = "https://www.youtube.com/embed/".$vedio_parts[1];
+      }
+
 
 
 
@@ -230,7 +235,15 @@ class ProgrammeController extends MainAdminController
 
 
       if($request->upload_type != "image")
-       $programme->vedio = $request->vedio;
+      {
+          $vedio_parts = explode("?v=", $request->vedio);
+          if(count($vedio_parts) == 2)
+            $programme->vedio = "https://www.youtube.com/embed/".$vedio_parts[1];
+          else{
+            $programme->vedio = $request->vedio;
+          }
+      }
+
 
 
 

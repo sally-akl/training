@@ -336,6 +336,26 @@ class HomeController extends Controller
       }
       return redirect('auth-customer');
     }
+    public function save_image_chat(Request $request)
+    {
+      $sender = $request->sender;
+      $receiver = $request->receiver;
+      $booking = $request->booking;
+      $message = $request->msg;
+
+      $photo = $request->image;
+      $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
+      $photo->move(public_path('/img/profile/'), $photo_name);
+
+      $chat = new \App\Chat();
+      $chat->msg = "/img/profile/".$photo_name;
+      $chat->from_user  = $sender;
+      $chat->to_user = $receiver;
+      $chat->booking_id  = $booking;
+      $chat->msg_type = "image";
+      $chat->save();
+      return "/img/profile/".$photo_name;
+    }
 
     private  function getCode($length = 10)
     {

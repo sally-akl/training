@@ -161,7 +161,11 @@
                   </div>
                   <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                     <div class="font-weight-bold mb-1">{{$chat->user->name}}</div>
-                    {{$chat->msg}}
+                    @if($chat->msg_type == "text")
+                      {{$chat->msg}}
+                    @else
+                     <img src="{{url('/')}}{{$chat->msg}}" alt="">
+                    @endif
                   </div>
                 </div>
 
@@ -178,12 +182,18 @@
             <input type="hidden" name="receiver" value="{{$transaction->user->id}}" />
             <input type="hidden" name="booking" value="{{$transaction->id}}" />
             <input type="hidden" name="submit_form_url" value="{{ url('dashboard/chat/save') }}" />
+            <input type="hidden" name="submit_form_img_url" value="{{ url('chat/image/save') }}" />
+            <input type="hidden" name="main_img_url" value="{{ url('/') }}" />
             <input type="hidden" name="viewer_type" value="trainer" />
             <input type="hidden" name="viewer_type_in" value="dashboard" />
             <input type="hidden" name="sender_img" value="{{url('/')}}{{$transaction->trainer->image}}" />
             <input type="hidden" name="sender_name" value="{{$transaction->trainer->name}}" />
             <input type="text" class="form-control chat_text_box" placeholder="Type your message">
-            <button class="btn btn-info"><i class="fa fa-paperclip attachment" aria-hidden="true"></i></button>
+            <div class="custom-file">
+                <input type="file" name="attachment_img" class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" >
+                <label class="custom-file-label" for="inputGroupFile01"><i class="far fa-file-image"></i></label>
+            </div>
+          <!--  <button class="btn btn-info"><i class="fa fa-paperclip attachment" aria-hidden="true"></i></button>  -->
             <button class="btn btn-primary send_btn">Send</button>
           </div>
 

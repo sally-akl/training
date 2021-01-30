@@ -93,7 +93,11 @@ Route::middleware(['XSS','web'])->group(function () {
   Route::get('paypal', array('as' => 'paypal.status','uses' => 'PayPalController@getPaymentStatus'));
   Route::get('/strip/pay/{type}/{id}',['uses'=>'StripeController@payform']);
   Route::post('stripe', array('as' => 'pay.stripe','uses' => 'StripeController@postPaymentStripe'));
-
+  Route::get('auth/google', 'Auth\LoginController@redirectToGoogle');
+  Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
+  Route::get('auth/apple', 'Auth\LoginController@redirectToApple');
+  Route::get('auth/apple/callback', 'Auth\LoginController@handleAppleCallback');
+  Route::post('/chat/image/save',['uses'=>'HomeController@save_image_chat']);
 
 
 });
