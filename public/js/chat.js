@@ -166,6 +166,7 @@ socket.on("message" , function(data){
     }
 
     var html = "";
+    var notf = "";
     if(data.viewer_type_in != "dashboard")
     {
       html = '<div class="chat-message-right pb-4">';
@@ -185,6 +186,14 @@ socket.on("message" , function(data){
 
       html +='</div>';
       html +='</div>';
+
+
+      notf = "<div>";
+      if(data.send_type_att != "image")
+        notf += sent_msg_is;
+      if(data.send_type_att == "image")
+         notf += '<img src="'+sent_msg_is+'" alt="">';
+      notf +="</div>";
     }
     else
     {
@@ -200,6 +209,20 @@ socket.on("message" , function(data){
          html += '<span>'+data.date+'</span>';
          html +='</div>';
          html +='</div>';
+
+         notf = '<div class="d-flex">';
+         notf += '<img src="'+data.img+'" alt="">';
+         notf += '<div class="not-det">';
+         notf += '<a href="#">Notify from '+data.sender_name+'</a>';
+
+         if(data.send_type_att != "image")
+           notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
+         if(data.send_type_att == "image")
+            notf += '<img src="'+sent_msg_is+'" alt="">';
+         notf += '<span>'+data.date+'</span>';
+         notf +='</div>';
+         notf +='</div>';
+
        }
        else{
 
@@ -213,10 +236,23 @@ socket.on("message" , function(data){
          html +='</div>';
          html +='</div>';
 
+         notf = '<div class="d-flex">';
+         notf += '<div class="not-det">';
+         notf += '<a href="#">Notify from '+data.sender_name+'</a>';
+
+         if(data.send_type_att != "image")
+           notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
+         if(data.send_type_att == "image")
+            notf += '<img src="'+sent_msg_is+'" alt="">';
+         notf += '<span>'+data.date+'</span>';
+         notf +='</div>';
+         notf +='</div>';
+
        }
 
     }
     $(".chat-messages").append(html);
+    $(".notify_"+data.receiver).append(notf);
   }
 
 });

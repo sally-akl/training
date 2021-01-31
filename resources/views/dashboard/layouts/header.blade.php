@@ -8,7 +8,7 @@
     </a>
     <div class="navbar-nav flex-row order-md-last">
 
-      @if(Auth::user()->role->name=="Trainer")
+      @if(isset(Auth::user()->id) && Auth::user()->role->name=="Trainer")
         <div class="nav-item dropdown d-none d-md-flex mr-3">
           <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" /><path d="M9 17v1a3 3 0 0 0 6 0v-1" /></svg>
@@ -16,8 +16,11 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-card">
             <div class="card">
-              <div class="card-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad amet consectetur exercitationem fugiat in ipsa ipsum, natus odio quidem quod repudiandae sapiente. Amet debitis et magni maxime necessitatibus ullam.
+              <div class="card-body notify_{{Auth::user()->id}}">
+                @php  $notifications = \App\Notifications::orderBy("id","desc")->whereraw('send_from is not null')->where("user_id",Auth::user()->id)->get();  @endphp
+                @foreach($notifications as $notify)
+                 <div>{{$notify->msg}}</div>
+                @endforeach
               </div>
             </div>
           </div>
@@ -25,8 +28,8 @@
       @endif
       <div class="nav-item dropdown">
         <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
-          @if(Auth::user()->role->name=="Trainer")
-          <span class="avatar" style=""></span>
+          @if(isset(Auth::user()->id) &&  Auth::user()->role->name=="Trainer")
+          <span class="avatar" style="background-image: url({{url(\App\User::find(Auth::user()->id)->image)}})"></span>
           @endif
           @if(isset(Auth::user()->id))
           <div class="d-none d-xl-block pl-2">

@@ -27,7 +27,7 @@ class NotificationsController extends MainAdminController
 
     public function index()
     {
-       $notifications = Notifications::orderBy("id","desc")->paginate($this->pagination_num);
+       $notifications = Notifications::orderBy("id","desc")->whereraw('send_from is null')->paginate($this->pagination_num);
        return view('dashboard.notify.index',compact('notifications'));
     }
 

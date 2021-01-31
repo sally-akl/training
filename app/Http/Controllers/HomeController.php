@@ -354,6 +354,15 @@ class HomeController extends Controller
       $chat->booking_id  = $booking;
       $chat->msg_type = "image";
       $chat->save();
+
+      $notification = new \App\Notifications();
+      $notification->msg = $chat->msg;
+      $notification->user_id =$receiver;
+      $notification->send_from =$sender;
+      $notification->send_date = date("Y-m-d");
+      $notification->is_send = 1;
+      $notification->save();
+
       return "/img/profile/".$photo_name;
     }
 

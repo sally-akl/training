@@ -44,6 +44,15 @@ class DashboardController extends MainAdminController
       $chat->to_user = $receiver;
       $chat->booking_id  = $booking;
       $chat->save();
+
+      $notification = new \App\Notifications();
+      $notification->msg = $request->msg;
+      $notification->user_id =$receiver;
+      $notification->send_from =$sender;
+      $notification->send_date = date("Y-m-d");
+      $notification->is_send = 1;
+      $notification->save();
+
       return "ok";
     }
 

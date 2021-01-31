@@ -50,13 +50,22 @@
                                   <span class="badge">4</span>
                               </a>
 
-                              <div class="dropdown-menu notif-drop dropdown-menu-right" aria-labelledby="dropNotification">
+                              <div class="dropdown-menu notif-drop dropdown-menu-right notify_{{Auth::user()->id}}" aria-labelledby="dropNotification">
                                   @php  $notifications = \App\Notifications::where("user_id",Auth::user()->id)->where("is_send",1)->get();   @endphp
                                   @foreach($notifications as $notification)
                                   <div class="d-flex">
+
+                                      @if($notification->send_from != null)
+                                      <img src="{{url('/')}}{{\App\User::find($notification->send_from)->image}}" alt="">
+                                      @else
                                       <img src="{{url('/')}}/img/admin.jpg" alt="">
+                                      @endif
                                       <div class="not-det">
+                                          @if($notification->send_from != null)
+                                            <a href="#">Notify from {{\App\User::find($notification->send_from)->name}}</a>
+                                          @else
                                           <a href="#">Notify from admin</a>
+                                          @endif
                                           <p class="text-truncate">
                                               {{$notification->msg}}
                                           </p>

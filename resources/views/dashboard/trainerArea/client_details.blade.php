@@ -142,7 +142,11 @@
                   </div>
                   <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                     <div class="font-weight-bold mb-1">{{$chat->user->name}}</div>
-                    {{$chat->msg}}
+                    @if($chat->msg_type == "text")
+                      {{$chat->msg}}
+                    @else
+                     <img src="{{url('/')}}{{$chat->msg}}" alt="">
+                    @endif
                   </div>
                 </div>
                 @else
