@@ -75,7 +75,7 @@ class LoginController extends Controller
           $user = Socialite::driver('google')->user();
           $finduser = User::where('google_id', $user->id)->first();
 
-          if($finduser){
+          if(isset($finduser->id)){
 
             Auth::login($finduser);
             return redirect('/');
@@ -84,14 +84,17 @@ class LoginController extends Controller
             $newUser = User::create([
               'name' => $user->name,
               'email' => $user->email,
-              'google_id'=> $user->id
+              'role_id'=>3
             ]);
+            $newUser->google_id = $user->id;
+            $newUser->save();
             Auth::login($newUser);
             return redirect()->back();
           }
 
       } catch (Exception $e) {
-           return redirect('/auth-customer');
+          echo $e->getMessage();
+           //return redirect('/auth-customer');
       }
    }
    public function redirectToApple()
@@ -103,15 +106,17 @@ class LoginController extends Controller
       try{
          $user = Socialite::driver('apple')->user();
          $finduser = User::where('apple_id', $user->id)->first();
-         if($finduser){
+         if(isset($finduser->id)){
            Auth::login($finduser);
            return redirect('/');
          }else{
            $newUser = User::create([
              'name' => $user->name,
              'email' => $user->email,
-             'apple_id'=> $user->id
+             'role_id'=>3
            ]);
+           $newUser->google_id = $user->id;
+           $newUser->save();
            Auth::login($newUser);
            return redirect()->back();
          }

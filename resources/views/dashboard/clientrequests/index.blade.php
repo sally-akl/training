@@ -96,7 +96,7 @@
     }});
   });
   $("select[name='status']").on("change",function(){
-    $(".accept_form").submit();
+    $(this).parent("form").submit();
   });
 </script>
 @endsection

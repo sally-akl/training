@@ -33,10 +33,7 @@
                                   <span>Login with Google</span>
                               </button>
                             </form>
-                            <button type="submit" class="apple-btn">
-                                <i class="fab fa-apple"></i>
-                                <span>Login with Apple</span>
-                            </button>
+                            <div class="signin-button" id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>
                         </div>
                     </div>
                 </div>
@@ -51,6 +48,13 @@
 </main>
 @endsection
 @section('footerjscontent')
+<style>
+.signin-button > div > div > svg {
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+}
+</style>
 <script type="text/javascript">
 
 _prepareform = function(form , sucess_modal , fail_modal)
@@ -101,6 +105,17 @@ $(".form_submit_login").submit(function(e){
     e.preventDefault();
     _prepareform($(this) ,".alert-success-modal" ,  ".alert-danger-modal");
     return false;
+});
+
+</script>
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<script type="text/javascript">
+AppleID.auth.init({
+    clientId : '[CLIENT_ID]',
+    scope : '[SCOPES]',
+    redirectURI : '[REDIRECT_URI]',
+    state : '[STATE]',
+    usePopup : true //or false defaults to false
 });
 </script>
 @endsection

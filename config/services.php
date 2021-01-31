@@ -36,7 +36,7 @@ return [
     'google' => [
         'client_id' => '599643976957-lsu0iumn9h8tosfj1g0eob8tmuvfgjhm.apps.googleusercontent.com',
         'client_secret' => 'TlBh0Jpj_qwva8mbZPwus4aT',
-        'redirect' => 'localhost/training_rep/training/auth/google/callback',
+        'redirect' => 'https://beagwa.com/auth/google/callback',
     ],
     'apple' => [
         'client_id' => env('APPLE_CLIENT_ID'),
