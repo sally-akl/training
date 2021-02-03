@@ -18,7 +18,7 @@
     </a>
     <ul class="dropdown-menu dropdown-menu-columns  dropdown-menu-columns-2">
       <li >
-        <a class="dropdown-item" href='{{url("/dashboard/category")}}'>
+        <a class="dropdown-item" href='{{url("/dashboard/category")}}' style="color:#000 !important;">
           @lang('site.categories')
         </a>
       </li>
@@ -29,8 +29,13 @@
       </li>
     -->
       <li>
-        <a class="dropdown-item" href='{{url("/dashboard/subadmin")}}'>
+        <a class="dropdown-item" href='{{url("/dashboard/subadmin")}}' style="color:#000 !important;">
             @lang('site.sub_admins')
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href='{{url("/dashboard/slider")}}' style="color:#000 !important;">
+          Slider
         </a>
       </li>
     </ul>

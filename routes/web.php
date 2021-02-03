@@ -25,6 +25,8 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('sales','Dashboard\ReportController@sales');
   Route::resource('category','Dashboard\CategoryController');
   Route::resource('subadmin','Dashboard\SubAdminController');
+  Route::resource('slider','Dashboard\SliderController');
+  Route::post('sliders/uploadImage/{id}','Dashboard\SliderController@uploadImage');
   Route::resource('notifications','Dashboard\NotificationsController');
   Route::get('notify/send/{id}','Dashboard\NotificationsController@senfNotify');
   Route::resource('support','Dashboard\SupportController');
@@ -98,6 +100,9 @@ Route::middleware(['XSS','web'])->group(function () {
   Route::get('auth/apple', 'Auth\LoginController@redirectToApple');
   Route::get('auth/apple/callback', 'Auth\LoginController@handleAppleCallback');
   Route::post('/chat/image/save',['uses'=>'HomeController@save_image_chat']);
+  Route::post('/add/excercise/complete',['uses'=>'HomeController@complete_excercise']);
+
+
 
 
 });

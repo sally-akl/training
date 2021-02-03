@@ -72,8 +72,13 @@ class HomeController extends Controller
     }
     public function usersubscribe_details($id)
     {
-      $transaction = \App\Transactions::find($id);
-      return view('mysubscription_details',compact("transaction"));
+      if(Auth::user())
+      {
+        $transaction = \App\Transactions::find($id);
+        return view('mysubscription_details',compact("transaction"));
+      }
+      return redirect('auth-customer');
+
     }
     public function tickets()
     {
@@ -364,6 +369,23 @@ class HomeController extends Controller
       $notification->save();
 
       return "/img/profile/".$photo_name;
+    }
+    public function complete_excercise(Request $request)
+    {
+      if(Auth::user())
+      {
+        $exist = \App\CompleteExcercies::where("programme_id",$request->pr_id)->where("user_id",Auth::user()->id)->where("day_num",$request->day_num)->first();
+        if(!isset($exist->programme_id))
+        {
+          $complete = new \App\CompleteExcercies();
+          $complete->programme_id = $request->pr_id;
+          $complete->day_num = $request->day_num;
+          $complete->user_id = Auth::user()->id;
+          $complete->save();
+        }
+
+        return json_encode(array("sucess"=>true));
+      }
     }
 
     private  function getCode($length = 10)

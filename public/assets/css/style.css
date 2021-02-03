@@ -393,7 +393,7 @@ header .dropdown.prfl-drop small {
 
 header .dropdown .dropdown-menu {
   position: absolute;
-  max-width: 350px;
+  width: 350px;
   background-color: #1a1a1a;
   padding: 20px;
   border-radius: 5px;
@@ -444,7 +444,7 @@ header .dropdown .dropdown-menu.notif-drop .not-det span {
 header .dropdown .dropdown-menu.profile-drop {
   padding-top: 60px;
   transform: translate(7%, -25%) !important;
-  min-width: 195px;
+  width: 195px;
 }
 header .dropdown .dropdown-menu.profile-drop .drop-item {
   padding: 10px 5px;

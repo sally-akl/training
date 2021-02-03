@@ -101,3 +101,25 @@ th{
 .navbar .text-muted{
   color:#fff !important;
 }
+.btn{
+  background: #ea380f;
+  color: #fff;
+}
+.btn-danger{
+  color: #fff;
+  background-color: #ac1b1a !important;
+  border-color: #a11918 !important;
+}
+.btn-info{
+  background-color: #1594ef;
+  border-color: #108ee7;
+}
+.chat-message-left , .chat-message-right{
+  color:#000 !important;
+}
+.modal {
+  color: #000 !important;
+}
+select , input , textarea{
+  color: #000 !important;
+}

@@ -1,146 +1,177 @@
 <!-- ==== HEADER ==== -->
-<header>
+   <header>
 
-    <!-- Main Menu -->
-    <div class="main-header hs-menubar">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg">
+       <!-- Main Menu -->
+       <div class="main-header hs-menubar">
+           <div class="container-fluid">
+               <nav class="navbar navbar-expand-lg">
 
-                <!-- Brand -->
-                <a class="navbar-brand main-logo" href="{{url('/')}}">
-                    <img src="{{url('/')}}/assets/img/logo.png" class="navbar-brand-img" alt="logo">
-                </a>
+                   <!-- Brand -->
+                   <a class="navbar-brand main-logo" href="{{url('/')}}">
+                       <img src="{{url('/')}}/assets/img/logo.png" class="navbar-brand-img" alt="logo">
+                   </a>
 
-                <!-- Toggler -->
-                <div class="menu-trigger"> <i class="fas fa-bars"></i></div>
+                   <!-- Toggler -->
+                   <div class="menu-trigger"> <i class="fas fa-bars"></i></div>
 
-                <div class="collapse navbar-collapse main-menu" id="navbarCollapse">
-                    <!-- Navigation -->
-                    <ul class="left-menu navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{url('/')}}"> Home </a>
-                        </li>
-                        @if(Auth::user())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{url('/')}}/my-subscription"> My Subscription </a>
-                        </li>
-                        @endif
-                    </ul>
-                </div>
+                   <div class="collapse navbar-collapse main-menu" id="navbarCollapse">
+                       <!-- Navigation -->
+                       <ul class="left-menu navbar-nav mr-auto">
+                           <li class="nav-item active">
+                               <a class="nav-link" href="{{url('/')}}"> Home </a>
+                           </li>
+                             @if(Auth::user())
+                           <li class="nav-item">
+                               <a class="nav-link" href="{{url('/')}}/my-subscription"> My Subscription </a>
+                           </li>
+                           @endif
+                       </ul>
+                   </div>
+                     @guest
+                   <div class="right-header align-self-center">
+                       <div class="d-flex">
+                           <div class="search-box mr-3" id="searchbox">
+                               <input type="text" placeholder="Type to search.." class="search_all_text">
+                               <div class="search-icon">
+                                   <i class="fas fa-search"></i>
+                               </div>
+                               <div class="cancel-icon">
+                                   <i class="fas fa-times"></i>
+                               </div>
+                           </div>
+                           <a href="{{url('/')}}/auth-customer" class="main-btn mr-3">Sign in</a>
+                           <a href="{{url("/")}}/auth-customer-signup" class="sec-btn">Sign up</a>
+                       </div>
+                   </div>
+                     @else
 
-                <div class="right-header align-self-center">
-                    <div class="d-flex">
-                        <div class="search-box mr-3" id="searchbox">
-                            <input type="text" placeholder="Type to search.." class="search_all_text">
-                            <div class="search-icon">
-                                <i class="fas fa-search"></i>
-                            </div>
-                            <div class="cancel-icon">
-                                <i class="fas fa-times"></i>
-                            </div>
-                        </div>
-                        @guest
-                          <a href="{{url('/')}}/auth-customer" class="main-btn mr-3">Sign in</a>
-                          <a href="{{url("/")}}/auth-customer-signup" class="sec-btn">Sign up</a>
-                        @else
-                          <div class="dropdown nt-drp show">
-                              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropNotification"
-                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <i class="fas fa-bell"></i>
-                                  <span class="badge">4</span>
-                              </a>
+                   <div class="right-header align-self-center">
+                       <div class="d-flex">
+                           <div class="search-box mr-3" id="searchbox">
+                               <input type="text" placeholder="Type to search.." class="search_all_text">
+                               <div class="search-icon">
+                                   <i class="fas fa-search"></i>
+                               </div>
+                               <div class="cancel-icon">
+                                   <i class="fas fa-times"></i>
+                               </div>
+                           </div>
+                           <div class="dropdown nt-drp show">
+                               <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropNotification"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   <i class="fas fa-bell"></i>
+                                   <span class="badge">4</span>
+                               </a>
 
-                              <div class="dropdown-menu notif-drop dropdown-menu-right notify_{{Auth::user()->id}}" aria-labelledby="dropNotification">
-                                  @php  $notifications = \App\Notifications::where("user_id",Auth::user()->id)->where("is_send",1)->orderby("send_date","desc")->get();   @endphp
-                                  @foreach($notifications as $notification)
-                                  <div class="d-flex">
+                               <div class="dropdown-menu notif-drop dropdown-menu-right notify_{{Auth::user()->id}}" aria-labelledby="dropNotification">
+                                 @php  $notifications = \App\Notifications::where("user_id",Auth::user()->id)->where("is_send",1)->orderby("send_date","desc")->get();   @endphp
+                                 @foreach($notifications as $notification)
+                                 <div class="d-flex">
 
-                                      @if($notification->send_from != null)
-                                      <img src="{{url('/')}}{{\App\User::find($notification->send_from)->image}}" alt="" style="border-radius: 50%;">
-                                      @else
-                                      <img src="{{url('/')}}/img/admin.jpg" alt="" style="border-radius: 50%;">
-                                      @endif
-                                      <div class="not-det">
-                                          @if($notification->send_from != null)
-                                            <a href="#">Notify from {{\App\User::find($notification->send_from)->name}}</a>
-                                          @else
-                                          <a href="#">Notify from admin</a>
-                                          @endif
-                                          <p class="text-truncate">
-                                              @if(preg_match('/(\.jpg|\.png|\.bmp|\.gif|\.jpeg)$/', $notification->msg))
-                                                <img src="{{url('/')}}{{$notification->msg}}"/>
-                                              @else
-                                              {{$notification->msg}}
-                                              @endif
-                                          </p>
-                                          <span>{{$notification->created_at}}</span>
-                                      </div>
-                                  </div>
-                                  @endforeach
+                                     @if($notification->send_from != null)
+                                     <img src="{{url('/')}}{{\App\User::find($notification->send_from)->image}}" alt="" style="border-radius: 50%;">
+                                     @else
+                                     <img src="{{url('/')}}/img/admin.jpg" alt="" style="border-radius: 50%;">
+                                     @endif
+                                     <div class="not-det">
+                                         @if($notification->send_from != null)
+                                           <a href="#">Notify from {{\App\User::find($notification->send_from)->name}}</a>
+                                         @else
+                                         <a href="#">Notify from admin</a>
+                                         @endif
+                                         <p class="text-truncate">
+                                             @if(preg_match('/(\.jpg|\.png|\.bmp|\.gif|\.jpeg)$/', $notification->msg))
+                                               <img src="{{url('/')}}{{$notification->msg}}"/>
+                                             @else
+                                             {{$notification->msg}}
+                                             @endif
+                                         </p>
+                                         <span>{{$notification->created_at}}</span>
+                                     </div>
+                                 </div>
+                                 @endforeach
+                               </div>
+                           </div>
 
-
-                              </div>
-                          </div>
-
-                          <div class="dropdown show prfl-drop">
-                              <a class="btn btn-secondary dropdown-toggle d-flex" href="#" role="button" id="dropProfile"
-                                  data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
-
-                                  <?php
-                                    if(!empty(Auth::user()->image))
-                                    {
+                           <div class="dropdown show prfl-drop">
+                               <a class="btn btn-secondary dropdown-toggle d-flex" href="#" role="button" id="dropProfile"
+                                   data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                   <?php
+                                     if(!empty(Auth::user()->image))
+                                     {
 
 
-                                  ?>
-                                  <img class=" align-self-center" src="{{url("/")}}<?php echo  Auth::user()->image;  ?>" style="border-radius: 50%;" alt="profile image">
-                                  <?php
-                                    }
-                                  ?>
-                                  <div class="prf-name align-self-center">
-                                      <span style="text-align:left;"><?php echo  Auth::user()->name;  ?></span>
-                                      <small><?php echo  Auth::user()->email;  ?></small>
-                                  </div>
-                              </a>
+                                   ?>
+                                   <img class=" align-self-center" src="{{url("/")}}<?php echo  Auth::user()->image;  ?>" alt="profile image" style="border-radius: 50%;">
+                                   <?php
+                                     }
+                                   ?>
+                                   <div class="prf-name align-self-center">
+                                       <span style="text-align:left;"><?php echo  Auth::user()->name;  ?></span>
+                                       <small><?php echo  Auth::user()->email;  ?></small>
+                                   </div>
+                               </a>
 
-                              <div class="dropdown-menu profile-drop dropdown-menu-right" aria-labelledby="dropProfile">
-                                  <div class="drop-item">
-                                      <a href="{{url('/')}}/edit-profile">
-                                          <i class="far fa-edit"></i>
-                                          <span>Edit profile</span>
-                                      </a>
-                                  </div>
-                                  <div class="drop-item">
-                                      <a href="{{url('/')}}/tickets">
-                                          <i class="far fa-comment-alt"></i>
-                                          <span>Contact support</span>
-                                      </a>
-                                  </div>
-                                  <div class="drop-item log-out">
-                                      <a href="#" onclick="event.preventDefault();
-                                																	 document.getElementById('logout-form').submit();">
-                                          <i class="fas fa-sign-out-alt"></i>
-                                          <span>Logout</span>
+                               <div class="dropdown-menu profile-drop dropdown-menu-right" aria-labelledby="dropProfile">
+                                   <div class="drop-item">
+                                       <a href="{{url('/')}}/edit-profile">
+                                           <i class="far fa-edit"></i>
+                                           <span>Edit profile</span>
+                                       </a>
+                                   </div>
+                                   <div class="drop-item">
+                                       <a href="{{url('/')}}/tickets">
+                                           <i class="far fa-comment-alt"></i>
+                                           <span>Contact support</span>
+                                       </a>
+                                   </div>
+                                   <div class="drop-item log-out">
+                                       <a href="#" onclick="event.preventDefault();
+                                 																	 document.getElementById('logout-form').submit();">
+                                           <i class="fas fa-sign-out-alt"></i>
+                                           <span>Logout</span>
+                                       </a>
+                                       <form id="logout-form" action="{{url("/")}}/signout" method="POST" style="display: none;">
+                                                     @csrf
+                                                   </form>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   @endguest
+               </nav>
+           </div>
+       </div>
 
+       <!-- mobile menu -->
+       <nav class="mobile-menu hs-navigation">
+           <div class="mobile-search">
+               <input type="text" placeholder="Type to search..">
+               <div class="search-icon">
+                   <i class="fas fa-search"></i>
+               </div>
+           </div>
+           <ul class="nav-links">
+               <li class="active"><a href="{{url('/')}}"> Home </a></li>
+                @guest
+                <li><a href="{{url('/')}}/auth-customer">Sign in</a></li>
+                <li><a href="{{url("/")}}/auth-customer-signup">Sign up</a></li>
+
+
+              @else
+              <li><a href="{{url('/')}}/my-subscription"> My Subscription</a></li>
+              <li><a href="{{url('/')}}/edit-profile"> Edit Profile</a></li>
+              <li><a href="{{url('/')}}/tickets"> Contact Support </a></li>
+              <li><a href="#" onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();"> Logout</a>
                                           <form id="logout-form" action="{{url("/")}}/signout" method="POST" style="display: none;">
-                                  											@csrf
-                                  										</form>
-                                      </a>
-                                  </div>
-                              </div>
-                          </div>
-                        @endguest
+                                                        @csrf
+                                                      </form>
 
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+                                        </li>
 
-    <!-- mobile menu -->
-    <nav class="mobile-menu hs-navigation">
-        <ul class="nav-links">
-            <li class="active"><a href="#"> Home </a></li>
-            <li><a href="#"> My Subscription</a></li>
-        </ul>
-    </nav>
-</header>
+               @endguest
+           </ul>
+       </nav>
+   </header>

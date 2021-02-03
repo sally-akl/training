@@ -55,13 +55,18 @@ $(".attachment_img").on("change",function(e)
               {
                 html = '<div class="user-msg">';
                 html += '<div class="msg-content">';
-                html += '<img src="'+img+'" alt="">';
+                html += '<img src="'+img+'" alt="" class="chat_img_press">';
                 html += '<span>'+date_str+'<small><i class="fas fa-check-double"></i></small></span>';
                 html +='</div>';
                 html +='</div>';
               }
 
               $(".chat-messages").append(html);
+              $(".chat_img_press").off();
+              $(".chat_img_press").on("click",function(){
+                $(".chat_modal_img_body_render").attr("src",$(this).attr("src"));
+                $('#chat_modal_img').modal('show');
+              });
               socket.emit("message" , {sender:sender , receiver:receiver,msg:$("input[name='main_img_url']").val()+response,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type,viewer_type_in:viewer_type_in,send_type_att:"image"});
 
             },
@@ -205,20 +210,20 @@ socket.on("message" , function(data){
          if(data.send_type_att != "image")
            html += '<p>'+sent_msg_is+'</p>';
          if(data.send_type_att == "image")
-            html += '<img src="'+sent_msg_is+'" alt="">';
+            html += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
          html += '<span>'+data.date+'</span>';
          html +='</div>';
          html +='</div>';
 
          notf = '<div class="d-flex">';
-         notf += '<img src="'+data.img+'" alt="">';
+         notf += '<img src="'+data.img+'" alt="" class="chat_img_press">';
          notf += '<div class="not-det">';
          notf += '<a href="#">Notify from '+data.sender_name+'</a>';
 
          if(data.send_type_att != "image")
            notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
          if(data.send_type_att == "image")
-            notf += '<img src="'+sent_msg_is+'" alt="">';
+            notf += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
          notf += '<span>'+data.date+'</span>';
          notf +='</div>';
          notf +='</div>';
@@ -231,7 +236,7 @@ socket.on("message" , function(data){
          if(data.send_type_att != "image")
             html += '<p>'+sent_msg_is+'</p>';
          if(data.send_type_att == "image")
-            html += '<img src="'+sent_msg_is+'" alt="">';
+            html += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
          html += '<span>'+data.date+'<small><i class="fas fa-check-double"></i></small></span>';
          html +='</div>';
          html +='</div>';
@@ -243,7 +248,7 @@ socket.on("message" , function(data){
          if(data.send_type_att != "image")
            notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
          if(data.send_type_att == "image")
-            notf += '<img src="'+sent_msg_is+'" alt="">';
+            notf += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
          notf += '<span>'+data.date+'</span>';
          notf +='</div>';
          notf +='</div>';
@@ -252,6 +257,11 @@ socket.on("message" , function(data){
 
     }
     $(".chat-messages").append(html);
+    $(".chat_img_press").off();
+    $(".chat_img_press").on("click",function(){
+      $(".chat_modal_img_body_render").attr("src",$(this).attr("src"));
+      $('#chat_modal_img').modal('show');
+    });
     $(".notify_"+data.receiver).append(notf);
   }
 

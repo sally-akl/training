@@ -5,24 +5,14 @@
 <main class="main-content home-page">
     <div class="main-slider">
         <div class="owl-carousel owl-theme">
+            @foreach(\App\Slider::orderBy("id","desc")->get() as $slider)
             <div class="item">
                 <a href="#">
-                    <img src="{{url('/')}}/assets/img/slider.png" alt="">
+                    <img src="{{url('/')}}{{$slider->image}}" alt="">
                 </a>
                 <div class="slider-overlay"></div>
             </div>
-            <div class="item">
-                <a href="#">
-                    <img src="{{url('/')}}/assets/img/slider-1.jpg" alt="">
-                </a>
-                <div class="slider-overlay"></div>
-            </div>
-            <div class="item">
-                <a href="#">
-                    <img src="{{url('/')}}/assets/img/slider-2.jpg" alt="">
-                </a>
-                <div class="slider-overlay"></div>
-            </div>
+            @endforeach
         </div>
     </div>
 
