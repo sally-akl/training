@@ -53,7 +53,7 @@
                     <div class="chat-content">
                         <div class="chat-bar d-flex justify-content-between">
                             <span>{{$transaction->trainer->name}}</span>
-                            <small>Online</small>
+                            <small></small>
                         </div>
                         <div class="chat-msgs d-flex">
                             @php  $main_chat_cls = "chat_".$transaction->trainer->id."_".$transaction->user->id;  @endphp
@@ -75,7 +75,7 @@
                                         @else
                                           <img src="{{url('/')}}{{$chat->msg}}" alt="">
                                         @endif
-                                        <span>{{ date("Y-m-d H:m" , strtotime($chat->created_at)) }} <small><i class="fas fa-check-double"></i></small></span>
+                                        <span>{{ date("Y-m-d H:i" , strtotime($chat->created_at)) }} <small><i class="fas fa-check-double"></i></small></span>
                                     </div>
                                 </div>
 
@@ -88,7 +88,7 @@
                                        @else
                                         <img src="{{url('/')}}{{$chat->msg}}" alt="">
                                        @endif
-                                        <span>{{ date("Y-m-d H:m" , strtotime($chat->created_at)) }} </span>
+                                        <span>{{ date("Y-m-d H:i" , strtotime($chat->created_at)) }} </span>
                                     </div>
                                 </div>
 
@@ -109,17 +109,22 @@
                             <input type="hidden" name="viewer_type_in" value="site" />
                             <input type="hidden" name="sender_img" value="{{$output}}" />
                             <input type="hidden" name="sender_name" value="{{$transaction->user->name}}" />
+                            <input type="hidden" name="selected_date_is" value="{{date('Y-m-d H:i')}}" />
                             <input type="text" class="write_msg chat_text_box" placeholder="Type your message..." />
                             <!-- <button class="sb-btn"><i class="fas fa-paperclip"></i></button>-->
+                            <button class="sb-btn image_upload_click"><i class="far fa-file-image"></i></button>
 
-                            <div class="custom-file">
-                                <input type="file" name="attachment_img" class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" >
+                           <!--  <div class="custom-file">
+                                <input type="file" name="attachment_img"   class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" >
                                 <label class="custom-file-label" for="inputGroupFile01"><i class="far fa-file-image"></i></label>
                             </div>
+                          -->
                             <button class="snd-btn send_btn"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>
+                <input type="file" name="attachment_img"   class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" >
+
             </div>
             <div class="col-lg-6">
                 <div class="coach-tab">
@@ -181,7 +186,7 @@
                                       @endif
 
                                       @if($programme->programme->media_type != "image")
-                                      <iframe width="170" height="200" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                                      <iframe width="170" height="200" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="margin-right: 20px;"></iframe>
 
                                       @endif
 
@@ -538,6 +543,8 @@
         })
     }});
   });
-
+  $(".image_upload_click").on("click",function(){
+     $('.attachment_img').trigger('click');
+  });
 </script>
 @endsection

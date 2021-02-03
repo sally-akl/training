@@ -17,7 +17,7 @@ $(".attachment_img").on("change",function(e)
   var month = parseInt(date.getMonth())+1;
   var hour = parseInt(date.getHours())+1;
   var minutes = parseInt(date.getMinutes())+1;
-  var date_str = date.getFullYear()+"-"+month+"-"+date.getDate()+" "+hour+" : "+minutes;
+  var date_str = $("input[name='selected_date_is']").val();
   $(".chat_text_box").val("");
 
 
@@ -94,7 +94,7 @@ $(".send_btn").on("click",function(){
     var month = parseInt(date.getMonth())+1;
     var hour = parseInt(date.getHours())+1;
     var minutes = parseInt(date.getMinutes())+1;
-    var date_str = date.getFullYear()+"-"+month+"-"+date.getDate()+" "+hour+" : "+minutes;
+    var date_str = $("input[name='selected_date_is']").val();
     $(".chat_text_box").val("");
     formData = new FormData();
     formData.append('sender',sender);

@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a href="." class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
-      AGWA
+      <img src="{{url('/')}}/assets/img/logo.png"  style="width: 140px;height: 40px;"/>
     </a>
     <div class="navbar-nav flex-row order-md-last">
 
@@ -17,9 +17,13 @@
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-card">
             <div class="card">
               <div class="card-body notify_{{Auth::user()->id}}">
-                @php  $notifications = \App\Notifications::orderBy("id","desc")->whereraw('send_from is not null')->where("user_id",Auth::user()->id)->get();  @endphp
+                @php  $notifications = \App\Notifications::orderBy("id","desc")->whereraw('send_from is not null')->where("user_id",Auth::user()->id)->orderby("send_date","desc")->get();  @endphp
                 @foreach($notifications as $notify)
-                 <div>{{$notify->msg}}</div>
+                  @if(preg_match('/(\.jpg|\.png|\.bmp|\.gif|\.jpeg)$/', $notify->msg))
+                    <img src="{{url('/')}}{{$notify->msg}}"/>
+                  @else
+                   <div>{{$notify->msg}}</div>
+                  @endif
                 @endforeach
               </div>
             </div>
@@ -43,7 +47,7 @@
             @endif
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="#" onclick="event.preventDefault();
+          <a style="color:#000 !important;" class="dropdown-item" href="#" onclick="event.preventDefault();
     																	 document.getElementById('logout-form').submit();">
                             @lang('site.logout')
                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

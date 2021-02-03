@@ -5,7 +5,7 @@
 <main class="main-content coach-page">
     <div class="coach-profile">
         <div class="container">
-            <img src="{{url($user->image)}}" alt="">
+            <img src="{{url($user->image)}}" alt="" style="border-radius: 50%;">
             <span class="coach-name">{{$user->name}}</span>
             <p>{{$user->desc}}</p>
             <div class="coach-meta">

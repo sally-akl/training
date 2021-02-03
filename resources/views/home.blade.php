@@ -66,22 +66,28 @@
                 @endphp
                 @foreach ($customers as $key => $user)
                 <div class="col-md-6 mb-4">
-                  <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">
+
                     <div class="card h-100 coach-card wow fadeInUp">
                         <img src="{{url("/")}}/assets/img/coach-bg.png" class="card-img-top" alt="...">
                         <div class="card-body text-center">
                             <div class="coach-pic">
-                              <img src="{{url($user->image)}}" alt="">
+                              <img src="{{url($user->image)}}" alt="" style="border-radius:50%;width: 150px;height: 150px;">
                             </div>
                             <h5 class="card-title">{{$user->name}}</h5>
                             <p class="card-text">{{$user->desc}}</p>
                             @php  $user_pac = $user->packages()->where("package_type","paid")->orderBy("package_price","asc")->first();  @endphp
-                            @if($user_pac !== null)
-                            <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">Start from {{$user_pac->package_price}} $</a>
-                            @endif
+
+                            <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">Start from
+                               @if($user_pac !== null)
+                               {{$user_pac->package_price}}
+                               @else
+                                0
+                               @endif
+                                $</a>
+
                         </div>
                     </div>
-                  </a>
+
                 </div>
                 @endforeach
 

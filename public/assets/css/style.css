@@ -1277,6 +1277,8 @@ footer.login-footer .copyrights {
   color: #fff;
   margin-bottom: 5px;
   display: block;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .coach-sub-page .coach-tab .nutrition .nutr-block .meal-stats {
 }
@@ -2006,7 +2008,7 @@ footer.login-footer .copyrights {
   display: block !important;
   text-align: center;
 }
-.coach-sub-page .coach-tab .exercices .exer-block img, 
+.coach-sub-page .coach-tab .exercices .exer-block img,
 .coach-sub-page .coach-tab .spplements .supp-block img {
   width: 170px;
   height: 180px;

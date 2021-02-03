@@ -3,8 +3,8 @@
     <div class="container">
         <div class="main-footer">
             <div class="footer-logo">
-                <a href="index.html">
-                    <img src="assets/img/logo.png" alt="">
+                <a href="{{url('/')}}">
+                    <img src="{{url('/')}}/assets/img/logo.png" alt="">
                 </a>
             </div>
             <div class="d-flex justify-content-center">

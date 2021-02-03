@@ -51,14 +51,14 @@
                               </a>
 
                               <div class="dropdown-menu notif-drop dropdown-menu-right notify_{{Auth::user()->id}}" aria-labelledby="dropNotification">
-                                  @php  $notifications = \App\Notifications::where("user_id",Auth::user()->id)->where("is_send",1)->get();   @endphp
+                                  @php  $notifications = \App\Notifications::where("user_id",Auth::user()->id)->where("is_send",1)->orderby("send_date","desc")->get();   @endphp
                                   @foreach($notifications as $notification)
                                   <div class="d-flex">
 
                                       @if($notification->send_from != null)
-                                      <img src="{{url('/')}}{{\App\User::find($notification->send_from)->image}}" alt="">
+                                      <img src="{{url('/')}}{{\App\User::find($notification->send_from)->image}}" alt="" style="border-radius: 50%;">
                                       @else
-                                      <img src="{{url('/')}}/img/admin.jpg" alt="">
+                                      <img src="{{url('/')}}/img/admin.jpg" alt="" style="border-radius: 50%;">
                                       @endif
                                       <div class="not-det">
                                           @if($notification->send_from != null)
@@ -67,7 +67,11 @@
                                           <a href="#">Notify from admin</a>
                                           @endif
                                           <p class="text-truncate">
+                                              @if(preg_match('/(\.jpg|\.png|\.bmp|\.gif|\.jpeg)$/', $notification->msg))
+                                                <img src="{{url('/')}}{{$notification->msg}}"/>
+                                              @else
                                               {{$notification->msg}}
+                                              @endif
                                           </p>
                                           <span>{{$notification->created_at}}</span>
                                       </div>
@@ -82,11 +86,18 @@
                               <a class="btn btn-secondary dropdown-toggle d-flex" href="#" role="button" id="dropProfile"
                                   data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
 
+                                  <?php
+                                    if(!empty(Auth::user()->image))
+                                    {
 
-                                  <img class=" align-self-center" src="{{url("/")}}<?php echo  Auth::user()->image;  ?>" alt="profile image">
 
+                                  ?>
+                                  <img class=" align-self-center" src="{{url("/")}}<?php echo  Auth::user()->image;  ?>" style="border-radius: 50%;" alt="profile image">
+                                  <?php
+                                    }
+                                  ?>
                                   <div class="prf-name align-self-center">
-                                      <span><?php echo  Auth::user()->name;  ?></span>
+                                      <span style="text-align:left;"><?php echo  Auth::user()->name;  ?></span>
                                       <small><?php echo  Auth::user()->email;  ?></small>
                                   </div>
                               </a>

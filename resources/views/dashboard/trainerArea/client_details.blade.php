@@ -192,12 +192,14 @@
             <input type="hidden" name="viewer_type_in" value="dashboard" />
             <input type="hidden" name="sender_img" value="{{url('/')}}{{$transaction->trainer->image}}" />
             <input type="hidden" name="sender_name" value="{{$transaction->trainer->name}}" />
+            <input type="hidden" name="selected_date_is" value="{{date('Y-m-d H:i')}}" />
             <input type="text" class="form-control chat_text_box" placeholder="Type your message">
-            <div class="custom-file">
+            <!--<div class="custom-file">
                 <input type="file" name="attachment_img" class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" >
                 <label class="custom-file-label" for="inputGroupFile01"><i class="far fa-file-image"></i></label>
             </div>
-          <!--  <button class="btn btn-info"><i class="fa fa-paperclip attachment" aria-hidden="true"></i></button>  -->
+          -->
+            <button class="btn btn-info image_upload_click"><i class="far fa-file-image"></i></button>
             <button class="btn btn-primary send_btn">Send</button>
           </div>
 
@@ -210,6 +212,7 @@
     </div>
 
   </div>
+    <input type="file" name="attachment_img" class="custom-file-input attachment_img" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" style="display:none;">
 </div>
 <div class="modal modal-blur fade" id="show_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -330,6 +333,9 @@ $(".form_submit_model").submit(function(e){
 
 
       return false;
+});
+$(".image_upload_click").on("click",function(){
+   $('.attachment_img').trigger('click');
 });
 </script>
 @endsection
