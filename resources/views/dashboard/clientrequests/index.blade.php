@@ -59,7 +59,7 @@
             </td>
             <td class="text-right">
               <a class='btn  btn-xs' href="{{url('/dashboard/support')}}/{{$crequest->id}}">
-    						Details
+    						Enter
     					</a>
               <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-data="{{$crequest->id}}">
                 <i class="far fa-trash-alt"></i>

@@ -28,3 +28,7 @@
 
 <!-- Owl Carousel css Style -->
 <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}" />
+
+@if(session()->has('locale') && session()->get('locale') =='ar')
+<link rel="stylesheet" href="{{ asset('assets/css/style_ar.css') }}" />
+@endif

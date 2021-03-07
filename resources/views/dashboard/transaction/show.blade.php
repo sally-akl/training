@@ -254,7 +254,7 @@
 
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Programme design</h3>
+                  <h3 class="card-title">Plan design</h3>
                 </div>
                 <div class="card-body border-bottom py-3">
 

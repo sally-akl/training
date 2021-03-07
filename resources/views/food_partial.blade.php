@@ -18,7 +18,7 @@
   @endphp
     <div class="calories-block">
         <span>{{$Calories}}</span>
-        <small>Calories</small>
+        <small>@lang('front.Calories')</small>
     </div>
     <div class="meals-block"  data-toggle="modal" data-target="#mealModal_{{$receps->recepe->id}}">
         <span>{{$receps->recepe->name}}</span>
@@ -27,15 +27,15 @@
     <div class="meal-stats">
         <div class="d-flex">
             <div class="meal-stat-item">
-                <span>Protien</span>
+                <span>@lang('front.Protien')</span>
                 <small>{{$Protein}}g</small>
             </div>
             <div class="meal-stat-item">
-                <span>Carbs</span>
+                <span>@lang('front.Carbs')</span>
                 <small>{{$Carbs}}g</small>
             </div>
             <div class="meal-stat-item">
-                <span>Fat</span>
+                <span>@lang('front.Fat')</span>
                 <small>{{$Fat}}g</small>
             </div>
         </div>
@@ -53,10 +53,10 @@
                 <div class="meal-sum">
                     <div class="d-flex justify-content-between">
 
-                        <small class="calories">{{$Calories}} cal</small>
-                        <small class="calories">{{$Carbs}}g carbs </small>
-                        <small class="calories">{{$Protein}}g protien</small>
-                        <small class="calories"> {{$Fat}}g fat</small>
+                        <small class="calories">{{$Calories}} @lang('front.cal')</small>
+                        <small class="calories">{{$Carbs}}g @lang('front.Carbs') </small>
+                        <small class="calories">{{$Protein}}g @lang('front.Protien')</small>
+                        <small class="calories"> {{$Fat}}g @lang('front.Fat')</small>
                     </div>
                     <p>{{$receps->recepe->desciption}}</p>
                 </div>
@@ -67,14 +67,14 @@
                         <img src="{{url('/')}}{{$sp->programme->images[0]->image}}" alt="">
                       @endif
                         <div class="meal-item-content">
-                            <h4>{{$sp->programme->title}}</h4>
-                            <p>{{$sp->programme->desc}}</p>
+                            <h4>{{(session()->has('locale') && session()->get('locale') =='ar')?$sp->programme->title_ar:$sp->programme->title}}</h4>
+                            <p>{{(session()->has('locale') && session()->get('locale') =='ar')?$sp->programme->desc_ar:$sp->programme->desc}}</p>
                             <div class="d-flex justify-content-between">
 
-                                <small class="calories">{{ $sp->serving * $sp->integrate->calories	}} cal</small>
-                                <small class="calories">{{ $sp->serving * $sp->integrate->carbs	}}g carbs </small>
-                                <small class="calories">{{ $sp->serving * $sp->integrate->protein	}}g protien</small>
-                                <small class="calories"> {{$sp->serving * $sp->integrate->fat	}}g fat</small>
+                                <small class="calories">{{ $sp->serving * $sp->integrate->calories	}} @lang('front.cal')</small>
+                                <small class="calories">{{ $sp->serving * $sp->integrate->carbs	}}g @lang('front.Carbs') </small>
+                                <small class="calories">{{ $sp->serving * $sp->integrate->protein	}}g @lang('front.Protien')</small>
+                                <small class="calories"> {{$sp->serving * $sp->integrate->fat	}}g @lang('front.Fat')</small>
                             </div>
                         </div>
                     </div>

@@ -76,13 +76,13 @@
                Image / Video
             </th>
             <th>
-               @lang('site.programme_title')
+              Program  Title
             </th>
             <th>
-               @lang('site.programme_type')
+              Program  Type
             </th>
             <th>
-               @lang('site.upload_programme')
+              number of reps
             </th>
             <th></th>
           </tr>
@@ -107,13 +107,7 @@
             <td>{{$programme->title}}</td>
             <td>{{$programme->type}}</td>
             <td>
-
-              @if($programme->media_type == "image")
-                @lang('site.image')
-              @elseif($programme->media_type == "vedio")
-                 @lang('site.vedio')
-              @endif
-
+               {{$programme->num_of_reps}}
             </td>
             <td class="text-right">
               <a href='{{url("/dashboard/programme")}}/{{$programme->id}}/edit' class='btn btn-info btn-xs' >
@@ -123,7 +117,7 @@
     						<i class="far fa-trash-alt"></i>
     					</a>
               <a href="{{ url('dashboard/programme') }}/{{$programme->id}}" class="btn  btn-xs "  bt-data="{{$programme->id}}">
-    						Details
+    						Enter
     					</a>
               @if($programme->media_type == "image")
                <span></span>

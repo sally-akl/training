@@ -9,21 +9,21 @@
                 <div class="main-card with-brd">
                     <div class="card-header">
                         <div class="d-flex">
-                            <span class="pack-name">{{$package->package_name}}</span>
+                            <span class="pack-name">{{(session()->has('locale') && session()->get('locale') =='ar')?$package->package_name_ar:$package->package_name}}</span>
                             @if($package->package_type !="free")
-                             <span class="pack-price"><small>{{$package->package_price}}$ </small> Per  {{$package->package_duration}}{{$package->package_duration_type}}</span>
+                             <span class="pack-price"><small>{{$package->package_price}}$ </small> @lang('front.Per')   {{$package->package_duration}}{{$package->package_duration_type}}</span>
                              @else
-                              <span class="pack-price"><small>Free</small></span>
+                              <span class="pack-price"><small>{{(session()->has('locale') && session()->get('locale') =='ar')?'مجانا':'Free'}}</small></span>
                             @endif
                         </div>
                     </div>
                     <div class="card-content">
-                        <p>{{$package->package_desc}}</p>
+                        <p>{{(session()->has('locale') && session()->get('locale') =='ar')?$package->package_desc_ar:$package->package_desc}}</p>
                         <div class="card-btns d-flex justify-content-between">
                             <div>
-                                <a href="#" class="card-btn">Exercises Program</a>
-                                <a href="#" class="card-btn">Nutrition Program</a>
-                                <a href="#" class="card-btn">Nutrition Program</a>
+                                <a href="#" class="card-btn">@lang('front.ExercisesProgram')</a>
+                                <a href="#" class="card-btn">@lang('front.NutritionProgram')</a>
+                                <a href="#" class="card-btn">@lang('front.FoodSupplement')</a>
                             </div>
                         </div>
                     </div>
@@ -35,22 +35,22 @@
                     <div class="card-content">
                         <ul class="list-group p-0">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Subscription Total
+                                @lang('front.SubscriptionTotal')
                               <span>$ {{$package->package_price}}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Discount
+                                 @lang('front.Discount')
                               <span>$ 0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Estimated Tax
+                                 @lang('front.EstimatedTax')
                               <span>$ 0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <small class="mt-3"></small>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center pt-2">
-                                <b>Order Total</b>
+                                <b>@lang('front.OrderTotal') </b>
                               <span><b>$ {{$package->package_price}}</b></span>
                             </li>
                           </ul>
@@ -62,7 +62,7 @@
         <div class="pay-info">
           @include("dashboard.utility.error_messages")
           @if($package->package_type !="free")
-            <h3>Payment methods</h3>
+            <h3>@lang('front.Paymentmethods')</h3>
             <div class="pay-info-content">
                 <ul class="list-unstyled">
                     <li>

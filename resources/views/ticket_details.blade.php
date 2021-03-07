@@ -9,17 +9,17 @@
                 <div class="card-content">
                     <div class="d-sm-flex justify-content-between">
                         <div class="ticket-id">
-                            <span>TICET ID</span>
+                            <span>@lang('front.TICETID')</span>
                             <span>#{{$ticket->id}}</span>
                         </div>
                         <div class="ticket-meta d-flex">
                             <span>{{date("D,M d, Y, g:i a",strtotime($ticket->send_date))}}</span>
                             @if($ticket->status == "pending")
-                              <small>Pending</small>
+                              <small>@lang('front.Pending')</small>
                             @elseif($ticket->status == "in progress")
-                              <small>In progress</small>
+                              <small>@lang('front.Inprogress')</small>
                             @else
-                              <small>Resolved</small>
+                              <small>@lang('front.Resolved')</small>
                             @endif
                             <i class="fas fa-redo-alt"></i>
                         </div>
@@ -29,16 +29,16 @@
                 </div>
             </div>
             <div class="answer-blocks">
-                <h3>Answer</h3>
+                <h3>@lang('front.Answer')</h3>
                 @foreach($ticket->messages as $message)
                 <div class="main-card answer-block">
                     <div class="card-content">
                         <div class="d-sm-flex justify-content-between">
                             <div class="user">
                                 @if($message->user->id != Auth::user()->id)
-                                <span>Customer support</span>
+                                <span>@lang('front.Customersupport')</span>
                                 @else
-                                <span>You</span>
+                                <span>@lang('front.You')</span>
                                 @endif
                             </div>
                             <div class="ticket-meta">
@@ -58,7 +58,7 @@
 
                <form method="post" action="{{ url('/') }}/savemessage" style="width: 100%;display: flex!important;">
                    @csrf
-                <input type="text" name="message" class="write_msg" placeholder="Type your message..." />
+                <input type="text" name="message" class="write_msg" placeholder="{{__('front.typemessage')}}" />
                 <input type="hidden" name="id" value="{{$ticket->id}}" />
                 <input type="hidden" name="subject" value="{{$ticket->subject}}" />
                 <button class="snd-btn" type="submit"><i class="fas fa-paper-plane"></i></button>

@@ -17,8 +17,8 @@
 
 <!-- Owl Carousel -->
 <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-
 <script type="text/javascript">
+
   $('.search_all_text').bind("enterKey",function(e){
      window.location.href = '{{url("/")}}?category={{request()->category}}&show={{request()->show}}&search='+$(this).val();
   });

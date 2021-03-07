@@ -65,7 +65,7 @@
                 Trainer Bookings
               </a>
               <a class='btn  btn-xs card-btn' href="{{url('/dashboard/trainer')}}/{{$user->id}}">
-                Details
+                Enter
               </a>
             </td>
           </tr>

@@ -42,6 +42,17 @@
             </td>
           </tr>
           <tr>
+            <th>Phone</th>
+            <td>
+              @if($transaction->user != null)
+                  <span>
+                  {{$transaction->user->phone}}
+                  </span>
+
+              @endif
+            </td>
+          </tr>
+          <tr>
             <th>Subscribe package</th>
             <td>
               @if($transaction->package != null)
@@ -254,8 +265,69 @@
 </div>
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Programme design ({{$transaction->package->package_duration_type}})s</h3>
-    <button type="button" class="btn btn-primary copy_btn">Copy Programme design</button>
+    <h3 class="card-title">Client Questionaire</h3>
+
+  </div>
+  <div class="card-body border-bottom py-3">
+    <div class="d-flex">
+
+    </div>
+    <div class="table-responsive">
+      @php  $questional = \App\Questionaire::where("transaction_id",$transaction->id)->whereraw("answer is null or answer=''")->get();   @endphp
+      <table class="table card-table table-vcenter text-nowrap datatable">
+        <tbody>
+          @foreach ($questional as $key => $qu)
+          <tr>
+              <td>{{$qu->message}}</td>
+              <td><a class='btn  btn-xs card-btn qu_answer' href="#" data-qu="{{$qu->id}}">
+                Answer
+              </a></td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-blur fade" id="show_answer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Answer questionaire</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger alert-danger-answer-modal" style="display:none">
+        </div>
+        <div class="alert alert-success alert-success-answer-modal" style="display:none">
+        </div>
+        <form action="{{ url('dashboard/trainers/questionair/answer') }}" method="post" class="form_submit_answer_model">
+          <div class="row">
+
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label class="form-label">Answer</label>
+                <textarea rows="5" name="answer"  class="form-control"></textarea>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="qu" value="" />
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Plan design ({{$transaction->package->package_duration_type}})s</h3>
+    <button type="button" class="btn btn-primary copy_btn">Copy Plan design</button>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">
@@ -317,7 +389,7 @@ $(".form_submit_model").submit(function(e){
                 success: function (response) {
                   if(response.sucess)
                   {
-                    $(".alert-success-modal").html("Sucessfully copy programme");
+                    $(".alert-success-modal").html("Sucessfully copy Plan");
                     $(".alert-success-modal").css("display","block");
                   }
                 },
@@ -337,5 +409,61 @@ $(".form_submit_model").submit(function(e){
 $(".image_upload_click").on("click",function(){
    $('.attachment_img').trigger('click');
 });
+
+$(".qu_answer").on("click",function(){
+  var qu = $(this).attr("data-qu");
+  $("input[name='qu']").val(qu);
+  $('#show_answer_modal').modal('show');
+});
+
+$(".form_submit_answer_model").submit(function(e){
+
+    e.preventDefault();
+    var submit_form_url = $(this).attr('action');
+    var $method_is = "POST";
+    formData = new FormData($(this)[0]);
+    $(".alert-success-answer-modal").css("display","none");
+    $(".alert-danger-answer-modal").css("display","none");
+    $.ajax({
+                url: submit_form_url,
+                type: $method_is,
+                data: formData,
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+                  if(response.sucess)
+                  {
+                    $(".alert-success-answer-modal").html("Sucessfully answer");
+                    $(".alert-success-answer-modal").css("display","block");
+                      $('#show_answer_modal').modal('hide');
+                  }
+                  else
+                  {
+                    var $error_text = "";
+                    var errors = response.errors;
+
+                    $.each(errors, function (key, value) {
+                      $error_text +=value+"<br>";
+                    });
+
+                    $(".alert-danger-answer-modal").html($error_text);
+                    $(".alert-danger-answer-modal").css("display","block");
+
+                  }
+                },
+              error : function( data )
+              {
+
+              },
+              cache: false,
+              contentType: false,
+              processData: false
+      });
+
+
+
+      return false;
+});
+
 </script>
 @endsection

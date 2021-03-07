@@ -185,7 +185,42 @@
                 <input type="checkbox" name="permssions[]" value="manage_dashboard">
               </div>
             </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manange Muscles</label>
+                <input type="checkbox" name="permssions[]" value="manange_muscles">
+              </div>
+            </div>
           </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage  Exercise Type</label>
+                <input type="checkbox" name="permssions[]" value="manage_exercisetype">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage Equipment</label>
+                <input type="checkbox" name="permssions[]" value="manage_equipment">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manange Mechanics Type</label>
+                <input type="checkbox" name="permssions[]" value="manange_mechanicstype">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label>Manage  Level</label>
+                <input type="checkbox" name="permssions[]" value="manage_level">
+              </div>
+            </div>
+          </div>
+
           <input type="hidden" name="method_type" value="add" />
         </div>
         <div class="modal-footer">

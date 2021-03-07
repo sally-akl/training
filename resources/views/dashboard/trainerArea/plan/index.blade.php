@@ -23,8 +23,8 @@
                   <label class="form-label">Copy Type</label>
                   <select name="to_transaction_type" class="form-control">
                       <option value="">Select</option>
-                      <option value="same_programme">Same Programme</option>
-                      <option value="other_programme">Other Programme</option>
+                      <option value="same_programme">Same Plan</option>
+                      <option value="other_programme">Other Plan</option>
                   </select>
                 </div>
 
@@ -102,13 +102,13 @@
         <ol class="breadcrumb" aria-label="breadcrumbs" style="margin-top:10px;">
           <li class="breadcrumb-item"><a href='{{url("dashboard/trainers/clients/details")}}/{{$transaction_num}}'>Client Data</a></li>
           <li class="breadcrumb-item"><a href='{{url("dashboard/trainers/programmes/days")}}/{{$week}}/{{$transaction_num}}/{{$package}}/{{$user_id}}'>Week {{$week}}</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><a href="#">Programme design of Week {{$week}} / Day {{$day}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><a href="#">Plan design of Week {{$week}} / Day {{$day}}</a></li>
         </ol>
       </div>
     </div>
     <div class="col-lg-6" style="text-align: right;">
       @if(Auth::user()->role->name=="Trainer")
-      <button type="button" class="btn btn-primary copy_btn">Copy Programme design  Day {{$day}}</button>
+      <button type="button" class="btn btn-primary copy_btn">Copy Plan design  Day {{$day}}</button>
       @endif
     </div>
 
@@ -120,7 +120,7 @@
                     <!-- Cards navigation -->
                     <ul class="nav nav-tabs">
                       <li class="nav-item"><a href="#tab-top-1" class="nav-link  {{$t == 'excercises'?'active':''}}" data-toggle="tab">Excercises</a></li>
-                      <li class="nav-item"><a href="#tab-top-2" class="nav-link {{$t == 'recepies'?'active':''}}" data-toggle="tab">Recepies</a></li>
+                      <li class="nav-item"><a href="#tab-top-2" class="nav-link {{$t == 'recepies'?'active':''}}" data-toggle="tab">Diet</a></li>
                       <li class="nav-item"><a href="#tab-top-3" class="nav-link {{$t == 'supliment'?'active':''}}" data-toggle="tab">Food supplements</a></li>
                     </ul>
                     <div class="tab-content">
@@ -167,7 +167,7 @@
 
                                     <td class="text-right">
                                       <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->programme->id}}">
-                                        Details
+                                        Enter
                                       </a>
                                       <a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$programme->plan_id}}">
                                        <i class="far fa-trash-alt"></i>
@@ -189,7 +189,7 @@
                               <form action="" method="get" />
                               <div class="row form-group row">
 
-                                <label class="col-sm-2 form-control-label label-sm">Programme name</label>
+                                <label class="col-sm-2 form-control-label label-sm">Plan name</label>
                                 <div class="col-sm-6">
                                     <input id="inputHorizontalSuccess" name= "p_name"  value="{{ $programme_search }}"  class="form-control  form-control-success" type="text">
                                 </div>
@@ -246,7 +246,7 @@
 
                                     <td>
                                       <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->id}}">
-                                        Details
+                                        Enter
                                       </a>
                                     </td>
 
@@ -274,7 +274,7 @@
                       <!-- Content of card #2 -->
                       <div id="tab-top-2" class="card tab-pane {{$t == 'recepies'?'active show':''}}">
                         <div class="card-body">
-                          <div class="card-title">Recepies</div>
+                          <div class="card-title">Diet</div>
 
                                       <div class="card-body">
                                         <div class="card-title">Receips</div>
@@ -323,7 +323,7 @@
 
                                                   <td class="text-right">
                                                     <a href="#" class="btn  btn-xs show_recep"  bt-data="{{$receps->recepe->id}}">
-                                                      Details
+                                                      Enter
                                                     </a>
                                                     <a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$receps->plan_id}}">
                                                      <i class="far fa-trash-alt"></i>
@@ -340,13 +340,13 @@
                                         <!--  next cart -->
 
                                         <div class="card-body" style="margin-top:150px;">
-                                          <div class="card-title">Select more recepies</div>
+                                          <div class="card-title">Select more Diet</div>
                                           <div class="row" style="margin-top:5px;margin-bottom:30px;">
                                             <div class="col-sm-12">
                                               <form action="" method="get" />
                                               <div class="row form-group row">
 
-                                                <label class="col-sm-2 form-control-label label-sm">Recepie name</label>
+                                                <label class="col-sm-2 form-control-label label-sm">Diet name</label>
                                                 <div class="col-sm-6">
                                                     <input id="inputHorizontalSuccess" name= "recepie_name"  value="{{ $recepie_search }}"  class="form-control  form-control-success" type="text">
                                                 </div>
@@ -410,7 +410,7 @@
 
                                                     <td class="text-right">
                                                       <a href="#" class="btn  btn-xs show_recep"  bt-data="{{$receps->id}}">
-                                                        Details
+                                                        Enter
                                                       </a>
                                                     </td>
 
@@ -426,7 +426,7 @@
                                             <input type="hidden" name="week" value="{{$week}}"/>
 
                                             @if(count($receps_data)>0)
-                                              <button type="submit" class="btn btn-primary" style="margin-top:10px;">Add recepies</button>
+                                              <button type="submit" class="btn btn-primary" style="margin-top:10px;">Add Diet</button>
                                             @endif
                                           </form>
                                           </div>
@@ -481,7 +481,7 @@
                                     <td>{{substr($programme->programme->desc,0,100)}}</td>
                                     <td>
                                       <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->programme->id}}">
-                                        Details
+                                        Enter
                                       </a>
                                       <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$programme->plan_id}}">
                                        <i class="far fa-trash-alt"></i>
@@ -563,7 +563,7 @@
 
                                       <td>
                                         <a href="#" class="btn  btn-xs  show_details"  bt-data="{{$programme->id}}">
-                                          Details
+                                          Enter
                                         </a>
 
                                       </td>

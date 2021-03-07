@@ -102,9 +102,22 @@ class TrainerAreaController extends Controller
       $user->save();
       return redirect('dashboard/trainers/profile')->with("message","Sucessfully Updated");
     }
-    public function clients()
+    public function clients(Request $request)
     {
-      $customers =  User::selectraw("users.* , package.package_duration_type , package.package_duration , transactions.transfer_date , package.package_name , transactions.id as trans_id")->join("transactions","user_id","users.id")->join("package","package_id","package.id")->where("role_id",3)->where("package.user_id",Auth::id())->paginate($this->pagination_num);
+      $query  = User::selectraw("users.* , package.package_duration_type , package.package_duration , transactions.transfer_date , package.package_name , transactions.id as trans_id")->join("transactions","user_id","users.id")->join("package","package_id","package.id")->where("role_id",3)->where("package.user_id",Auth::id());
+      if(isset($request->email))
+         $query = $query->where('users.email',$request->email);
+      if(isset($request->client_status))
+      {
+        if($request->client_status == "expired")
+        {
+          $query = $query->whereraw('CAST(date_add(transfer_date,interval package_duration week) AS DATE)  < "'.date("Y-m-d").'"');
+        }
+        else{
+          $query = $query->whereraw('CAST(date_add(transfer_date,interval package_duration week) AS DATE)  > "'.date("Y-m-d").'"');
+        }
+      }
+      $customers =  $query->paginate($this->pagination_num);
       return view('dashboard.trainerArea.clients',compact('customers'));
     }
     public function client_details($id)
@@ -112,10 +125,34 @@ class TrainerAreaController extends Controller
       $transaction = Transactions::findOrFail($id);
       return view('dashboard.trainerArea.client_details',compact('transaction'));
     }
+
+    public function trainer_client_details($id)
+    {
+      $transaction = Transactions::findOrFail($id);
+      return view('dashboard.trainerArea.trainer_client_details',compact('transaction'));
+    }
+    public function trainer_get_search(Request $request)
+    {
+      return view('dashboard.trainerArea.excersise_search',array("data"=>$request));
+    }
+
     public function showprogramme($id)
     {
        $package = \App\Package::findOrFail($id);
        return view('dashboard.trainerArea.programme_design',compact('package'));
+    }
+    public function add_answer(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+             'answer' => ['required', 'string', 'max:750'],
+      ]);
+      if ($validator->fails())
+        return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
+      $qu = \App\Questionaire::find($request->qu);
+      $qu->answer = $request->answer;
+      $qu->save();
+      return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
+
     }
     private  function getCode($length = 10)
     {

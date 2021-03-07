@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="login-form">
-                        <h4>Login</h4>
+                        <h4>@lang('front.Login')</h4>
                         <div class="alert alert-danger alert-danger-modal" style="display:none">
                         </div>
                         <div class="alert alert-success alert-success-modal" style="display:none">
@@ -17,20 +17,20 @@
                         <form id="contact-form" class="form_submit_login" method="post" action="{{ url('signin') }}">
                           @csrf
                             <div class="form-group">
-                              <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email address">
+                              <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="{{__('front.email')}}">
                             </div>
                             <div class="form-group">
-                              <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                              <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="{{__('front.password')}}">
                             </div>
-                            <a href="#">Reset password</a>
-                            <button type="submit" class="login-btn">Login</button>
+                            <a href="#">@lang('front.Resetpassword')</a>
+                            <button type="submit" class="login-btn">@lang('front.Login')</button>
                         </form>
                         <span class="or">or</span>
                         <div class="log-or-btns">
                             <form action="{{url('/')}}/auth/google" method="get">
                               <button type="submit" class="google-btn">
                                   <i class="fab fa-google"></i>
-                                  <span>Login with Google</span>
+                                  <span>@lang('front.LoginwithGoogle')</span>
                               </button>
                             </form>
                             <div class="signin-button" id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>

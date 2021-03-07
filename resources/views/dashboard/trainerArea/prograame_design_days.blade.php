@@ -5,7 +5,7 @@
     <div class="col-auto">
       <ol class="breadcrumb" aria-label="breadcrumbs">
         <li class="breadcrumb-item"><a href='{{url("dashboard/trainers/clients/details")}}/{{$transaction_num}}'>Client Data</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a href="#">Programme design Week{{$week}} / Days</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">Plan design Week{{$week}} / Days</a></li>
       </ol>
     </div>
   </div>
@@ -32,8 +32,8 @@
                   <label class="form-label">Copy Type</label>
                   <select name="to_transaction_type" class="form-control">
                       <option value="">Select</option>
-                      <option value="same_programme">Same Programme</option>
-                      <option value="other_programme">Other Programme</option>
+                      <option value="same_programme">Same Plan</option>
+                      <option value="other_programme">Other Plan</option>
                   </select>
                 </div>
 
@@ -83,7 +83,7 @@
   <div class="card-header">
     <h3 class="card-title">Programme design Week{{$week}} / Days</h3>
     @if(Auth::user()->role->name=="Trainer")
-    <button type="button" class="btn btn-primary copy_btn">Copy Programme design  Week{{$week}}</button>
+    <button type="button" class="btn btn-primary copy_btn">Copy Plan design  Week{{$week}}</button>
     @endif
   </div>
   <div class="card-body border-bottom py-3">

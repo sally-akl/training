@@ -7,32 +7,32 @@
         <div class="ticket-content">
             <div class="ticket-txt">
                 <div class="d-flex justify-content-between">
-                    <h4>Ticket history</h4>
-                    <a href="#" class="sec-btn">Raise A Ticket</a>
+                    <h4>@lang('front.Tickethistory')</h4>
+                    <a href="#" class="sec-btn">@lang('front.RaiseATicket')</a>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea </p>
+                <p class="t_1">@lang('front.t_1') </p>
             </div>
             @foreach ($pending_tickets as $key => $crequest)
             <div class="main-card with-brd issue-block">
                 <div class="card-content">
                     <div class="d-sm-flex justify-content-between">
                         <div class="ticket-id">
-                            <span>TICET ID</span>
+                            <span>@lang('front.TICETID')</span>
                             <span>#{{$crequest->id}}</span>
                         </div>
                         <div class="ticket-meta d-flex">
                             <span>{{date("D,M d, Y, g:i a",strtotime($crequest->send_date))}}</span>
                             @if($crequest->status == "pending")
-                              <small>Pending</small>
+                              <small>@lang('front.Pending')</small>
                             @elseif($crequest->status == "in progress")
-                              <small>In progress</small>
+                              <small>@lang('front.Inprogress')</small>
                             @endif
                             <i class="fas fa-redo-alt"></i>
                         </div>
                     </div>
                     <h4><a href="{{url("/")}}/ticket/{{$crequest->id}}/{{$crequest->subject}}" style="color:#fff">{{$crequest->subject}}</a></h4>
                     <p>{{$crequest->msg}}</p>
-                    <small class="sub-txt">WE ARE LOOKING INTO your issue, hope to resolve THE ISSUE AS SOON AS POSSIBLE</small>
+                    <small class="sub-txt">@lang('front.t_2')</small>
                 </div>
             </div>
             @endforeach
@@ -43,18 +43,18 @@
                     <div class="card-content">
                         <div class="d-sm-flex justify-content-between">
                             <div class="ticket-id">
-                                <span>TICET ID</span>
+                                <span>@lang('front.TICETID')</span>
                                 <span>#{{$crequest->id}}</span>
                             </div>
                             <div class="ticket-meta d-flex">
                                 <span>{{date("D,M d, Y, g:i a",strtotime($crequest->send_date))}}</span>
-                                <small>Resolved</small>
+                                <small>@lang('front.Resolved')</small>
                                 <i class="fas fa-check"></i>
                             </div>
                         </div>
                         <h4><a href="{{url("/")}}/ticket/{{$crequest->id}}/{{$crequest->subject}}" style="color:#fff">{{$crequest->subject}}</a></h4>
                         <p>{{$crequest->msg}}</p>
-                        <small class="sub-txt">Hope YOU ARE Satisfy with the solution</small>
+                        <small class="sub-txt">@lang('front.t_3')</small>
                     </div>
                 </div>
                 @endforeach
@@ -68,7 +68,7 @@
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Ticket</h5>
+            <h5 class="modal-title">@lang('front.AddTicket')</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
             </button>
@@ -85,7 +85,7 @@
               <div class="row">
                 <div class="col-lg-12">
                   <div class="mb-3">
-                    <label class="form-label">Subject</label>
+                    <label class="form-label">@lang('front.Subject')</label>
                     <input type="text" class="form-control" name="add_subject">
                   </div>
                 </div>
@@ -93,7 +93,7 @@
               <div class="row">
                 <div class="col-lg-12">
                   <div class="mb-3">
-                    <label class="form-label">Message</label>
+                    <label class="form-label">@lang('front.Message')</label>
                     <textarea class="form-control desc" rows="3" name="add_msg"></textarea>
                   </div>
                 </div>
@@ -101,10 +101,21 @@
 
             </div>
             <div class="modal-footer">
+              @if(session()->has('locale') && session()->get('locale') =='ar')
+              <button type="submit" class="btn btn-primary" style="background-color: #ea380f !important;border: 1px solid #ea380f !important;">@lang('front.AddTicket')</button>
               <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
-                @lang('site.cancel')
+                @lang('front.Cancel')
               </a>
-              <button type="submit" class="btn btn-primary" style="background-color: #ea380f !important;border: 1px solid #ea380f !important;">Add Ticket</button>
+
+
+              @else
+              <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
+                @lang('front.Cancel')
+              </a>
+              <button type="submit" class="btn btn-primary" style="background-color: #ea380f !important;border: 1px solid #ea380f !important;">@lang('front.AddTicket')</button>
+
+              @endif
+
             </div>
           </form>
         </div>

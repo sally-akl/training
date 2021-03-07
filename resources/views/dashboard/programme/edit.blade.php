@@ -16,13 +16,13 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.programme_title')</label>
+                <label class="form-label">Program  Title</label>
                 <input type="text" class="form-control" name="title" value="{{$programme->title}}">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.programme_title') (ar)</label>
+                <label class="form-label">Program  Title (ar)</label>
                 <input type="text" class="form-control" name="title_ar" value="{{$programme->title_ar}}">
               </div>
             </div>
@@ -30,7 +30,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.programme_type')</label>
+                <label class="form-label">Program  Type</label>
                 <select name="programme_type" class="form-control" disabled>
                   <option value="">@lang('site.select')</option>
                   <option value="exercises" {{ $programme->type == 'exercises'?'selected':''}}>@lang('site.exercises')</option>
@@ -100,10 +100,72 @@
                 <input type="text" class="form-control" name="sets_num" value="{{$programme->number_of_sets}}">
               </div>
             </div>
+            <div class="col-lg-6 sets_num"  {{$programme->type == "exercises"?'':'style=display:none'}}>
+              <div class="mb-3">
+                <label class="form-label">Number of reps</label>
+                <input type="text" class="form-control" name="num_of_reps" value="{{$programme->num_of_reps}}">
+              </div>
+            </div>
             <div class="col-lg-6 serving_size"  {{$programme->type == "food supplements"?'':'style=display:none'}}>
               <div class="mb-3">
                 <label class="form-label">Serving size</label>
                 <input type="text" class="form-control" name="serving_size" value="{{$programme->serving_size}}">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 sets_num"  {{$programme->type == "exercises"?'':'style=display:none'}}>
+              <div class="mb-3">
+                <label class="form-label">Muscles</label>
+                <select name="muscles" class="form-control">
+                  @foreach(\App\Muscles::where("type","muscles")->get() as $filter)
+                   <option value="{{$filter->id}}" {{$programme->muscles == $filter->id ?'selected':''}}>{{$filter->title}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 sets_num"  {{$programme->type == "exercises"?'':'style=display:none'}}>
+              <div class="mb-3">
+                <label class="form-label">Exercise Type</label>
+                <select name="exercise_type" class="form-control">
+                  @foreach(\App\Muscles::where("type","exercisetype")->get() as $filter)
+                   <option value="{{$filter->id}}" {{$programme->exercise_type == $filter->id ?'selected':''}}>{{$filter->title}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 sets_num"  {{$programme->type == "exercises"?'':'style=display:none'}}>
+              <div class="mb-3">
+                <label class="form-label">Equipment</label>
+                <select name="equipment" class="form-control">
+                  @foreach(\App\Muscles::where("type","equipment")->get() as $filter)
+                   <option value="{{$filter->id}}" {{$programme->equipment == $filter->id ?'selected':''}}>{{$filter->title}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 sets_num"  {{$programme->type == "exercises"?'':'style=display:none'}}>
+              <div class="mb-3">
+                <label class="form-label">Mechanics Type</label>
+                <select name="mechanics_type" class="form-control">
+                  @foreach(\App\Muscles::where("type","mechanicstype")->get() as $filter)
+                   <option value="{{$filter->id}}" {{$programme->mechanics_type == $filter->id ?'selected':''}}>{{$filter->title}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 sets_num"  {{$programme->type == "exercises"?'':'style=display:none'}}>
+              <div class="mb-3">
+                <label class="form-label">Level</label>
+                <select name="level" class="form-control">
+                  @foreach(\App\Muscles::where("type","level")->get() as $filter)
+                   <option value="{{$filter->id}}" {{$programme->level == $filter->id ?'selected':''}}>{{$filter->title}}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
           </div>
@@ -160,7 +222,7 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">@lang('site.programme_desc')</label>
+                <label class="form-label">Program  Description</label>
                 <textarea class="form-control desc" rows="3" name="desc">{{$programme->desc}}</textarea>
               </div>
             </div>
@@ -168,7 +230,7 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">@lang('site.programme_desc') (ar)</label>
+                <label class="form-label">Program  Description (ar)</label>
                 <textarea class="form-control desc" rows="3" name="desc_ar">{{$programme->desc_ar}}</textarea>
               </div>
             </div>

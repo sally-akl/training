@@ -26,6 +26,11 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('category','Dashboard\CategoryController');
   Route::resource('subadmin','Dashboard\SubAdminController');
   Route::resource('slider','Dashboard\SliderController');
+  Route::resource('muscles','Dashboard\MusclesController');
+  Route::resource('exercisetype','Dashboard\ExerciseTypeController');
+  Route::resource('equipment','Dashboard\EquipmentController');
+  Route::resource('mechanicstype','Dashboard\MechanicsTypeController');
+  Route::resource('level','Dashboard\LevelController');
   Route::post('sliders/uploadImage/{id}','Dashboard\SliderController@uploadImage');
   Route::resource('notifications','Dashboard\NotificationsController');
   Route::get('notify/send/{id}','Dashboard\NotificationsController@senfNotify');
@@ -50,6 +55,13 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('trainers/programmes/copy','Dashboard\ProgrammeDesignController@copy');
   Route::post('trainers/programmes/copyweek','Dashboard\ProgrammeDesignController@copyweek');
   Route::post('trainers/programmes/copyday','Dashboard\ProgrammeDesignController@copyday');
+
+
+  Route::get('trainersarea/clients/details/{id}','Dashboard\TrainerAreaController@trainer_client_details');
+  Route::post('trainersarea/programmes/get','Dashboard\TrainerAreaController@trainer_get_search');
+
+
+  Route::post('trainers/questionair/answer','Dashboard\TrainerAreaController@add_answer');
   Route::resource('sections','Dashboard\SectionController');
   Route::group(['prefix'=>'recepies'],function () {
     Route::get('/',['uses'=>'Dashboard\RecepiesController@index']);
@@ -68,7 +80,9 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('chat/save','Dashboard\DashboardController@chat');
 });
 
-Route::middleware(['XSS','web'])->group(function () {
+Route::get('/lang/{lang}',['uses'=>'HomeController@lang']);
+
+Route::middleware(['XSS','web','Localization'])->group(function () {
 
   Route::get('/',['uses'=>'HomeController@index']);
   Route::get('/trainer/{id}/{details}',['uses'=>'HomeController@trainer_details']);
@@ -101,9 +115,6 @@ Route::middleware(['XSS','web'])->group(function () {
   Route::get('auth/apple/callback', 'Auth\LoginController@handleAppleCallback');
   Route::post('/chat/image/save',['uses'=>'HomeController@save_image_chat']);
   Route::post('/add/excercise/complete',['uses'=>'HomeController@complete_excercise']);
-
-
-
 
 });
 Auth::routes();

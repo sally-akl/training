@@ -49,7 +49,7 @@
               </td>
               <td>
                 <a class='btn  btn-xs card-btn' href="{{url('/dashboard/usersarea/subscrips/details')}}/{{$sub->id}}">
-                  Details
+                  Enter
                 </a>
 
               </td>

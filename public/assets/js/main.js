@@ -2,7 +2,7 @@
   =+=+=+=+=+=+=+==+=+=+=+    Mobile Menu     +=+=+=+=+=++=+=+=+=+=+=+=
 ======================================================================*/
 
-/*  Plugin: hs Menu (Modern Mega Menu) 
+/*  Plugin: hs Menu (Modern Mega Menu)
  *   Frameworks: jQuery 3.3.1 & Material Design Iconic Font 2.0
  *   Author: Asif Mughal
  *   GitHub: https://github.com/CodeHimBlog
@@ -14,8 +14,8 @@
 (function ($) {
 	$.fn.hsMenu = function (options) {
 		var setting = $.extend({
-			bgFading: true, //(false to disable) background dim overlay when side navigation drawer open 
-			outClickToClose: true, // (false to disable) close opened items if user click outside of them 
+			bgFading: true, //(false to disable) background dim overlay when side navigation drawer open
+			outClickToClose: true, // (false to disable) close opened items if user click outside of them
 			navControls: true, // (false to disable) provide buttons to allow visitors to increase some width and height of drawer
 			fixedMenubar: true, //false to static
 
@@ -230,7 +230,7 @@
 
 			}
 
-			// User Info 
+			// User Info
 
 			$(".hs-user").click(function () {
 
@@ -242,7 +242,7 @@
 			});
 
 
-			// Nested Dropdowns 
+			// Nested Dropdowns
 
 			$(".its-parent").click(function () {
 
@@ -270,10 +270,10 @@
 /*= Mobile header  */
 
        $(document).ready(function () {
-       
-           $(".hs-menubar").hsMenu(); 
-       
-       }); 
+
+           $(".hs-menubar").hsMenu();
+
+       });
 
 
 
@@ -311,7 +311,7 @@ cancelBtn.onclick =()=>{
   searchInput.value = "";
 }
 
-window.addEventListener('click', function(e){   
+window.addEventListener('click', function(e){
   if (document.getElementById('searchbox').contains(e.target)){
     // Clicked in box
   } else{
@@ -319,8 +319,7 @@ window.addEventListener('click', function(e){
     searchBtn.classList.remove("active");
     searchInput.classList.remove("active");
     cancelBtn.classList.remove("active");
-    searchData.classList.toggle("active");
+    //searchData.classList.toggle("active");
     searchInput.value = "";
   }
 });
-

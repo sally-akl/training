@@ -7,7 +7,7 @@
     <div class="container">
         <div class="profile-content">
             <div class="profile-txt">
-                <h4>Personal Information</h4>
+                <h4>@lang('front.PersonalInformation')</h4>
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea </p>
             </div>
             @include("dashboard.utility.error_messages")
@@ -25,28 +25,28 @@
             <div class="profile-edit-info">
 
                     <div class="form-group">
-                        <label for="name">Full Name</label>
+                        <label for="name">@lang('front.FullName')</label>
                         <input type="text" class="form-control" id="name" name="name" value="<?php echo  Auth::user()->name;  ?>">
                         <i class="far fa-user"></i>
                       </div>
                     <div class="form-group">
-                      <label for="Email">Email</label>
+                      <label for="Email">@lang('front.Email')</label>
                       <input type="email" class="form-control" id="Email"  name="email" value="<?php echo  Auth::user()->email;  ?>">
                       <i class="fas fa-at"></i>
                     </div>
                     <div class="form-group">
-                      <label for="Password1">New Password</label>
+                      <label for="Password1">@lang('front.NewPassword')</label>
                       <input type="password" class="form-control" id="Password1" name="password">
                       <i class="fas fa-unlock-alt"></i>
                     </div>
                     <div class="form-group">
-                        <label for="Password2">Confirm New Password </label>
+                        <label for="Password2">@lang('front.ConfirmNewPassword') </label>
                         <input type="password" class="form-control" id="Password2" name="password_confirmation">
                         <i class="fas fa-unlock-alt"></i>
                       </div>
                     <div class="form-group text-center mt-5">
-                       <button type="submit" class="main-btn mr-4">Update</button>
-                       <button type="submit" class="sec-btn">Cancel</button>
+                       <button type="submit" class="main-btn mr-4">@lang('front.Update')</button>
+                       <button type="submit" class="sec-btn">@lang('front.Cancel')</button>
                     </div>
 
             </div>

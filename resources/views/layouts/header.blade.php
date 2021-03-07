@@ -18,20 +18,22 @@
                        <!-- Navigation -->
                        <ul class="left-menu navbar-nav mr-auto">
                            <li class="nav-item active">
-                               <a class="nav-link" href="{{url('/')}}"> Home </a>
+                               <a class="nav-link" href="{{url('/')}}">@lang('front.Home')  </a>
                            </li>
                              @if(Auth::user())
                            <li class="nav-item">
-                               <a class="nav-link" href="{{url('/')}}/my-subscription"> My Subscription </a>
+                               <a class="nav-link" href="{{url('/')}}/my-subscription">@lang('front.MySubscription')</a>
                            </li>
                            @endif
+
+
                        </ul>
                    </div>
                      @guest
                    <div class="right-header align-self-center">
                        <div class="d-flex">
                            <div class="search-box mr-3" id="searchbox">
-                               <input type="text" placeholder="Type to search.." class="search_all_text">
+                               <input type="text" placeholder="{{__('front.Typetosearch')}}.." class="search_all_text">
                                <div class="search-icon">
                                    <i class="fas fa-search"></i>
                                </div>
@@ -39,8 +41,9 @@
                                    <i class="fas fa-times"></i>
                                </div>
                            </div>
-                           <a href="{{url('/')}}/auth-customer" class="main-btn mr-3">Sign in</a>
-                           <a href="{{url("/")}}/auth-customer-signup" class="sec-btn">Sign up</a>
+                           <a href="{{url('/')}}/auth-customer" class="main-btn mr-3">@lang('front.Signin')</a>
+                           <a href="{{url("/")}}/auth-customer-signup" class="sec-btn">@lang('front.Signup')</a>
+                           <a  href="{{url('/')}}/lang/{{(session()->has('locale') && session()->get('locale') =='ar')?'en':'ar'}}" class="sec-btn lang">@lang('front.language') </a>
                        </div>
                    </div>
                      @else
@@ -48,7 +51,7 @@
                    <div class="right-header align-self-center">
                        <div class="d-flex">
                            <div class="search-box mr-3" id="searchbox">
-                               <input type="text" placeholder="Type to search.." class="search_all_text">
+                               <input type="text" placeholder="{{__('front.Typetosearch')}}.." class="search_all_text">
                                <div class="search-icon">
                                    <i class="fas fa-search"></i>
                                </div>
@@ -93,6 +96,8 @@
                                </div>
                            </div>
 
+
+
                            <div class="dropdown show prfl-drop">
                                <a class="btn btn-secondary dropdown-toggle d-flex" href="#" role="button" id="dropProfile"
                                    data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
@@ -116,20 +121,20 @@
                                    <div class="drop-item">
                                        <a href="{{url('/')}}/edit-profile">
                                            <i class="far fa-edit"></i>
-                                           <span>Edit profile</span>
+                                           <span>@lang('front.Editprofile')</span>
                                        </a>
                                    </div>
                                    <div class="drop-item">
                                        <a href="{{url('/')}}/tickets">
                                            <i class="far fa-comment-alt"></i>
-                                           <span>Contact support</span>
+                                           <span>@lang('front.Contactsupport')</span>
                                        </a>
                                    </div>
                                    <div class="drop-item log-out">
                                        <a href="#" onclick="event.preventDefault();
                                  																	 document.getElementById('logout-form').submit();">
                                            <i class="fas fa-sign-out-alt"></i>
-                                           <span>Logout</span>
+                                           <span>@lang('front.Logout')</span>
                                        </a>
                                        <form id="logout-form" action="{{url("/")}}/signout" method="POST" style="display: none;">
                                                      @csrf
@@ -137,6 +142,8 @@
                                    </div>
                                </div>
                            </div>
+                           <a  href="{{url('/')}}/lang/{{(session()->has('locale') && session()->get('locale') =='ar')?'en':'ar'}}" class="sec-btn lang">@lang('front.language') </a>
+
                        </div>
                    </div>
                    @endguest
@@ -147,24 +154,24 @@
        <!-- mobile menu -->
        <nav class="mobile-menu hs-navigation">
            <div class="mobile-search">
-               <input type="text" placeholder="Type to search..">
+               <input type="text" placeholder="{{__('front.Typetosearch')}}" class="search_all_text">
                <div class="search-icon">
                    <i class="fas fa-search"></i>
                </div>
            </div>
            <ul class="nav-links">
-               <li class="active"><a href="{{url('/')}}"> Home </a></li>
+               <li class="active"><a href="{{url('/')}}">@lang('front.Home')  </a></li>
                 @guest
-                <li><a href="{{url('/')}}/auth-customer">Sign in</a></li>
-                <li><a href="{{url("/")}}/auth-customer-signup">Sign up</a></li>
+                <li><a href="{{url('/')}}/auth-customer">@lang('front.Signin')</a></li>
+                <li><a href="{{url("/")}}/auth-customer-signup">@lang('front.Signup')</a></li>
 
 
               @else
-              <li><a href="{{url('/')}}/my-subscription"> My Subscription</a></li>
-              <li><a href="{{url('/')}}/edit-profile"> Edit Profile</a></li>
-              <li><a href="{{url('/')}}/tickets"> Contact Support </a></li>
+              <li><a href="{{url('/')}}/my-subscription">@lang('front.MySubscription')</a></li>
+              <li><a href="{{url('/')}}/edit-profile">@lang('front.EditProfile')</a></li>
+              <li><a href="{{url('/')}}/tickets">@lang('front.ContactSupport')  </a></li>
               <li><a href="#" onclick="event.preventDefault();
-                                          document.getElementById('logout-form').submit();"> Logout</a>
+                                          document.getElementById('logout-form').submit();">@lang('front.Logout') </a>
                                           <form id="logout-form" action="{{url("/")}}/signout" method="POST" style="display: none;">
                                                         @csrf
                                                       </form>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use Auth;
+use App;
 class HomeController extends Controller
 {
     /**
@@ -175,6 +176,7 @@ class HomeController extends Controller
       $user = new \App\User();
       $user->name = $request->name;
       $user->email = $request->email;
+      $user->phone = $request->phone;
       $user->password = Hash::make($request->password);
       $user->role_id = 3;
       $user->save();
@@ -386,6 +388,13 @@ class HomeController extends Controller
 
         return json_encode(array("sucess"=>true));
       }
+    }
+
+    public function lang($lang)
+    {
+      App::setLocale($lang);
+      session()->put('locale', $lang);
+      return redirect()->back();
     }
 
     private  function getCode($length = 10)

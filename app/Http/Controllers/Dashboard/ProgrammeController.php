@@ -150,7 +150,15 @@ class ProgrammeController extends MainAdminController
       $programme->media_type =  $request->upload_type;
       $programme->type =  $request->programme_type;
       if($request->programme_type == "exercises")
+      {
         $programme->number_of_sets = $request->sets_num;
+        $programme->num_of_reps = $request->num_of_reps;
+        $programme->muscles = $request->muscles;
+        $programme->exercise_type = $request->exercise_type;
+        $programme->equipment = $request->equipment;
+        $programme->mechanics_type = $request->mechanics_type;
+        $programme->level = $request->level;
+      }
       if($request->programme_type == "food supplements")
         $programme->serving_size = $request->serving_size;
 
@@ -254,7 +262,15 @@ class ProgrammeController extends MainAdminController
       $programme->media_type =  $request->upload_type;
     //  $programme->type =  $request->programme_type;
       if($programme->type == "exercises")
+      {
         $programme->number_of_sets = $request->sets_num;
+        $programme->num_of_reps = $request->num_of_reps;
+        $programme->muscles = $request->muscles;
+        $programme->exercise_type = $request->exercise_type;
+        $programme->equipment = $request->equipment;
+        $programme->mechanics_type = $request->mechanics_type;
+        $programme->level = $request->level;
+      }
       if($programme->type == "food supplements")
         $programme->serving_size = $request->serving_size;
 

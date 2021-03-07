@@ -1,0 +1,123 @@
+.mr-auto, .mx-auto{
+  margin-right: 0px !important;
+}
+.mr-3, .mx-3{
+  margin-left: 1rem!important;
+}
+footer .social-icons{
+  border-left: 2px solid #000;
+  border-right: none !important;
+  margin-left: 15px;
+  margin-right: none !important;
+  margin-right: 0px !important;
+  padding-left: 15px;
+  padding-right: 34px !important;
+}
+footer .foot-email{
+  margin-right: 15px;
+}
+.coach-packages .main-tlt{
+  text-align: right;
+}
+.card-content p{
+  text-align: right;
+}
+.pack-price{
+  margin-right: 25px;
+}
+.pay-info h3{
+  text-align: right;
+}
+.pay-info ul{
+  margin-right: -47px;
+}
+.login-form h4{
+  text-align: right;
+}
+.login-page .login-form a{
+  text-align: right;
+}
+.dropdown-menu-right{
+  left: 0 !important;
+  right: auto !important;
+}
+.main-card .card-content h4{
+  text-align: right;
+}
+.main-tlt{
+  text-align: right;
+}
+.coach-sub-page .coach-tab .exercices .exer-block img, .coach-sub-page .coach-tab .spplements .supp-block img{
+  margin-left: 20px;
+}
+.coach-sub-page .coach-tab .exercices .exer-desc{
+  text-align: right;
+}
+.exer-desc{
+  text-align: right;
+}
+.coach-sub-page .coach-chat .chat-msgs .coach-msg .coach-msg-img{
+  margin-left: 15px;
+  margin-right: 0px;
+}
+.coach-sub-page .coach-tab .nutrition .nutr-block .calories-block
+{
+  border-right: none !important;
+  border-left: 1px solid #fff;
+}
+header .dropdown .dropdown-menu.profile-drop .drop-item{
+  text-align: right;
+}
+.prf-name span{
+  text-align: right !important;
+}
+header .dropdown.prfl-drop img{
+  margin-right: 0px;
+  margin-left: 5px;
+}
+.nt-drp{
+  margin-left: 15px;
+}
+.meal-modal .modal-body .meal-sum p , .meal-modal .modal-body .meal-item h4 , .meal-modal .modal-body .meal-item p , .profile-page .profile-content .profile-txt h4 , .profile-page .profile-content .profile-edit-info .form-group ,.mb-3 , .ticket-page .answer-blocks h3, .ticket-page .resolved-blocks h3{
+  text-align: right;
+}
+.ticket-page .answer-send input{
+  border-radius: 0 10px 10px 0 !important;
+}
+.ticket-page .answer-send button{
+  border-radius: 10px 0 0 10px !important;
+}
+.coach-sub-page .coach-chat .chat-msgs .user-msg{
+  text-align: left;
+  left: 0;
+  margin-right: auto;
+  margin-left: 0px;
+}
+.lang{
+  margin-right: 5px;
+}
+.sub-txt{
+  text-align: right;
+}
+.t_1{
+  text-align: right;
+}
+.modal-header .close{
+  margin: auto -1rem -1rem -1rem !important;
+}
+.ticket-page .issue-block .ticket-meta svg {
+    margin-right: 15px;
+    margin-left: auto !important;
+}
+.ticket-page .issue-block .ticket-meta small {
+    margin-right: 10px;
+    margin-left: auto !important;
+}
+.ticket-page .issue-block .ticket-meta span {
+    padding-left: 10px;
+    padding-right: auto !important;
+}
+.ticket-page .issue-block .ticket-meta span:after {
+    left: 0;
+    right: auto !important;
+}

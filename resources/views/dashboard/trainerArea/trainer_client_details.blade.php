@@ -3,39 +3,371 @@
 <style>
 
 </style>
+<div class="modal fade exer-modal" id="add_new_excercise_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: #2c2b2a !important;color:#fff;">
+              <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}' class="form_submit_excersice_model">
+                @csrf
+                <div class="row" style="padding: 15px;">
+                  <div class="col-lg-2" style="font-size: 14px;font-weight: bold;margin-top: 6px;">
+                    Add New Excercises
+                  </div>
+                  <div class="col-lg-8">
+                      <div class="row form-group">
+                        <div class="col-sm-8">
+                            <input id="inputHorizontalSuccess" name= "p_name"  value=""  class="form-control  form-control-success" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary search_ext_btn" style="background-color: #ea380f;border: 1px solid #ea380f;">Search</button>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <button type="submit" class="btn btn-primary" style="background-color: #ea380f;border: 1px solid #ea380f;">Add Excercises</button>
+                  </div>
+                </dv>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-2">
+                  <!-- Sidebar -->
+                  <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+                      <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
+                      <!-- Bootstrap List Group -->
+                      <ul class="list-group">
+
+                          <!-- Menu with submenu -->
+                          <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+                                  <span class="menu-collapsed">Exercise Type</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu1' class="collapse sidebar-submenu">
+                            @foreach(\App\Muscles::where("type","exercisetype")->get() as $filter)
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="exerc_filter_type[]" value="exercisetype_{{$filter->id}}" class="checks_filter" /><span class="menu-collapsed">{{$filter->title}}</span>
+                              </div>
+                            @endforeach
+
+                          </div>
+                          <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Equipment</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu2' class="collapse sidebar-submenu">
+                            @foreach(\App\Muscles::where("type","equipment")->get() as $filter)
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="exerc_filter_type[]" value="equipment_{{$filter->id}}" class="checks_filter" /><span class="menu-collapsed">{{$filter->title}}</span>
+                              </div>
+                            @endforeach
+                          </div>
+
+                          <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Mechanics Type</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu3' class="collapse sidebar-submenu">
+                            @foreach(\App\Muscles::where("type","mechanicstype")->get() as $filter)
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="exerc_filter_type[]" value="mechanicstype_{{$filter->id}}" class="checks_filter" /><span class="menu-collapsed">{{$filter->title}}</span>
+                              </div>
+                            @endforeach
+                          </div>
+
+                          <a href="#submenu4" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Level</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu4' class="collapse sidebar-submenu">
+                            @foreach(\App\Muscles::where("type","level")->get() as $filter)
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="exerc_filter_type[]" value="level_{{$filter->id}}" class="checks_filter" /><span class="menu-collapsed">{{$filter->title}}</span>
+                              </div>
+                            @endforeach
+                          </div>
+
+                          <a href="#submenu5" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Muscles</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu5' class="collapse sidebar-submenu">
+                            @foreach(\App\Muscles::where("type","muscles")->get() as $filter)
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="exerc_filter_type[]" value="Muscles_{{$filter->id}}" class="checks_filter" /><span class="menu-collapsed">{{$filter->title}}</span>
+                              </div>
+                            @endforeach
+                          </div>
+                      </ul><!-- List Group END-->
+                  </div><!-- sidebar-container END -->
+                </div>
+                <div class="col-lg-10 search_excercise_area">
+
+                </div>
+              </div>
+
+           </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal modal-blur fade" id="show_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="all_content">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-blur fade" id="copy_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Copy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger alert-danger-modal" style="display:none">
+        </div>
+        <div class="alert alert-success alert-success-modal" style="display:none">
+        </div>
+        <form action="{{ url('dashboard/trainers/programmes/copyday') }}" method="post" class="form_submit_model">
+
+          <div class="row">
+
+            <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Copy Type</label>
+                  <select name="to_transaction_type" class="form-control">
+                      <option value="">Select</option>
+                      <option value="same_programme">Same Plan</option>
+                      <option value="other_programme">Other Plan</option>
+                  </select>
+                </div>
+
+            </div>
+          </div>
+          <div class="row c_tran" style="display:none">
+
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Copy to transaction</label>
+                <select name="to_transaction" class="form-control">
+                  @php  $trans_to = \App\Transactions::where("id","!=",$transaction->id)->get();  @endphp
+                  @foreach($trans_to as $t_to)
+                    <option value="{{$t_to->id}}">{{$t_to->transaction_num}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row w_tran" style="display:none">
+              <div class="col-lg-6">
+                <div class="mb-3 " >
+                  <label class="form-label">Day</label>
+                  <select name="select_day" class="form-control" >
+                     @php
+                        //$days = \App\Transactions::find($transaction->id)->package->package_duration *  7;
+                        $weekss = \App\Transactions::find($transaction->id)->package->package_duration ;
+                      @endphp
+                      @for($w = 1;$w<=$weekss;$w++)
+                        @php
+                          $end  = 7 ;
+                          $begin = 1;
+
+                          $end_day = $w * 7;
+                          $begin_day = ($end_day-7)+1;
+                          $days_real = [];
+                          for($j=$begin_day;$j<=$end_day;$j++)
+                          {
+                             $days_real[]=$j;
+                          }
+                        @endphp
+                      <optgroup label="Week {{$w}}">
+                        @for($d = $begin;$d<=$end;$d++)
+                          @php  $to_day = $days_real[$d-1];  @endphp
+                            <option value="{{$to_day}}">Day {{$d}}</option>
+                        @endfor
+                    </optgroup>
+                      @endfor
+
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <input type="hidden" name="transaction_copy_num" value="{{$transaction->id}}" />
+          <input type="hidden" name="copy_type" value="day" />
+          <input type="hidden" name="day_num" class="day_num_excercises" value="" />
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
 <!-- ==== Main content ==== -->
 <main class="main-content coach-sub-page">
     <div class="container">
-        <h3 class="main-tlt mb-3 pt-5">@lang('front.MySubscription')</h3>
+        <h3 class="main-tlt mb-3 pt-5"></h3>
         <div class="main-card with-brd">
             <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <span class="pack-name">{{(session()->has('locale') && session()->get('locale') =='ar')?$transaction->package->package_name_ar:$transaction->package->package_name}}</span>
-                    <div class="sub-info">
-                        <div class="d-flex">
-                            <div class="sub-info-block">
-                                <i class="fas fa-flag-checkered"></i>
-                                @php  $join_date = date('m/d/Y',strtotime($transaction->transfer_date));   @endphp
-                                <small>@lang('front.Starton') {{$join_date}}</small>
-                            </div>
-                            <div class="sub-info-block">
-                                <i class="fas fa-hourglass-half"></i>
-                                <small>@lang('front.Expireon') {{date('m/d/Y', strtotime($join_date. ' + '.$transaction->package->package_duration.' weeks'))}}</small>
-                            </div>
-                            <div class="sub-info-block">
-                                <i class="fas fa-dollar-sign"></i>
-                                <small>@lang('front.Price') {{$transaction->package->package_price}} USD</small>
-                            </div>
-                        </div>
-                    </div>
+                <div class="d-flex justify-content-between" style="color:#fff;">
+                  Client details -
+                   @if($transaction->user != null)
+
+                    {{$transaction->user->name}}
+
+                  @endif
                 </div>
             </div>
-            <div class="card-content">
+            <div class="card-content coach_div_st">
                 <div class="d-sm-flex">
                     <img src="{{url($transaction->trainer->image)}}" alt="">
-                    <div class="sub-coach">
-                        <h4>{{(session()->has('locale') && session()->get('locale') =='ar')?$transaction->trainer->name_ar:$transaction->trainer->name}}</h4>
-                        <p>{{(session()->has('locale') && session()->get('locale') =='ar')?$transaction->trainer->description_ar:$transaction->trainer->desc}}</p>
+                    <div class="sub-coach" style="width:35%;margin-right: 20px;">
+
+                      <table class="table card-table table-vcenter text-nowrap datatable">
+                        <tbody>
+                            <tr>
+                              <td> @lang('site.transfer_num')</td>
+                              <td>
+                              {{$transaction->transaction_num}}
+                              </td>
+                            </tr>
+
+                          <tr>
+                            <td>Name</td>
+                            <td>
+                              @if($transaction->user != null)
+                                  <span>
+                                  {{$transaction->user->name}}
+                                  </span>
+
+                              @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Email</td>
+                            <td>
+                              @if($transaction->user != null)
+                                  <span>
+                                  {{$transaction->user->email}}
+                                  </span>
+
+                              @endif
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+
+                    </div>
+                    <div class="sub-coach" style="width:50%;">
+                      <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                          <tbody>
+
+
+                            <tr>
+                              <td>Phone</td>
+                              <td>
+                                @if($transaction->user != null)
+                                    <span>
+                                    {{$transaction->user->phone}}
+                                    </span>
+
+                                @endif
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Subscribe package</td>
+                              <td>
+                                @if($transaction->package != null)
+                                  <span>
+                                  {{$transaction->package->package_name}}
+                                  </span>
+
+                                @endif
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Client Type</td>
+                              <td style="color: #ea380f;">
+                                @php  $join_date = date('Y-m-d',strtotime($transaction->transfer_date));   @endphp
+                                @if($transaction->package->package_duration_type == "day")
+                                  @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' days'));   @endphp
+                                  @if($expired_date < date("Y-m-d"))
+                                     <span>expired client </span>
+                                  @elseif($expired_date >= date("Y-m-d"))
+                                     <span>progress  client </span>
+                                  @endif
+
+                               @elseif($transaction->package->package_duration_type == "week")
+                                   @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' weeks'));   @endphp
+                                   @if($expired_date < date("Y-m-d"))
+                                      <span>expired client </span>
+                                   @elseif($expired_date >= date("Y-m-d"))
+                                      <span>progress  client </span>
+                                   @endif
+                               @elseif($transaction->package->package_duration_type == "month")
+                                    @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' months'));   @endphp
+                                    @if($expired_date < date("Y-m-d"))
+                                       <span>expired client </span>
+                                    @elseif($expired_date >= date("Y-m-d"))
+                                       <span>progress  client </span>
+                                    @endif
+                               @endif
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Join date</td>
+                              <td>
+                                <span>
+                                  {{$join_date}}
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Expire date</td>
+                              <td>
+                                <span>
+                                  {{$expired_date}}
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -52,22 +384,21 @@
                 <div class="coach-chat">
                     <div class="chat-content">
                         <div class="chat-bar d-flex justify-content-between">
-                            <span>{{(session()->has('locale') && session()->get('locale') =='ar')?$transaction->trainer->name_ar:$transaction->trainer->name}}</span>
+                            <span>{{$transaction->trainer->name}}</span>
                             <small></small>
                         </div>
                         <div class="chat-msgs d-flex">
-                            @php  $main_chat_cls = "chat_".$transaction->trainer->id."_".$transaction->user->id;  @endphp
+                          @php  $main_chat_cls = "chat_".$transaction->trainer->id."_".$transaction->user->id;  @endphp
                             <div class="chat-msgs-content align-self-end w-100 {{$main_chat_cls}} chat-messages">
                                 <!--<div class="time-divider">
                                     <span>Today</span>
                                 </div>
                               -->
-                              @php  $chats = \App\Chat::whereraw("((from_user ='".$transaction->trainer->id."'  and  to_user='".$transaction->user->id."') or (from_user ='".$transaction->user->id."'  and to_user='".$transaction->trainer->id."'))")->where("booking_id",$transaction->id)->orderby("created_at","asc")->get();
+                             @php  $chats = \App\Chat::whereraw("((from_user ='".$transaction->trainer->id."'  and  to_user='".$transaction->user->id."') or (from_user ='".$transaction->user->id."'  and to_user='".$transaction->trainer->id."'))")->where("booking_id",$transaction->id)->orderby("created_at","asc")->get();  @endphp
 
 
-                               @endphp
                               @foreach($chats as $chat)
-                                @if($chat->from_user == $transaction->user->id)
+                              @if($chat->from_user != $transaction->trainer->id)
                                 <div class="user-msg">
                                     <div class="msg-content">
                                         @if($chat->msg_type == "text")
@@ -99,16 +430,16 @@
                             </div>
                         </div>
                         <div class="chat-send d-flex">
-                            <input type="hidden" name="sender" value="{{$transaction->user->id}}" />
-                            <input type="hidden" name="receiver" value="{{$transaction->trainer->id}}" />
+                            <input type="hidden" name="sender" value="{{$transaction->trainer->id}}" />
+                            <input type="hidden" name="receiver" value="{{$transaction->user->id}}" />
                             <input type="hidden" name="booking" value="{{$transaction->id}}" />
                             <input type="hidden" name="submit_form_url" value="{{ url('dashboard/chat/save') }}" />
                             <input type="hidden" name="submit_form_img_url" value="{{ url('chat/image/save') }}" />
                             <input type="hidden" name="main_img_url" value="{{ url('/') }}" />
-                            <input type="hidden" name="viewer_type" value="user" />
-                            <input type="hidden" name="viewer_type_in" value="site" />
-                            <input type="hidden" name="sender_img" value="{{$output}}" />
-                            <input type="hidden" name="sender_name" value="{{$transaction->user->name}}" />
+                            <input type="hidden" name="viewer_type" value="trainer" />
+                            <input type="hidden" name="viewer_type_in" value="dashboard" />
+                            <input type="hidden" name="sender_img" value="{{url('/')}}{{$transaction->trainer->image}}" />
+                            <input type="hidden" name="sender_name" value="{{$transaction->trainer->name}}" />
                             <input type="hidden" name="selected_date_is" value="{{date('Y-m-d H:i')}}" />
                             <input type="text" class="write_msg chat_text_box" placeholder="Type your message..." />
                             <!-- <button class="sb-btn"><i class="fas fa-paperclip"></i></button>-->
@@ -129,7 +460,7 @@
             <div class="col-lg-6">
                 <div class="coach-tab">
                       <ul class="nav nav-pills mb-0" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation"{{(session()->has('locale') && session()->get('locale') =='ar')?'style=margin-right:-42px':''}}>
+                        <li class="nav-item" role="presentation">
                           <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">@lang('front.ExercisesProgram')</a>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -170,9 +501,16 @@
                                         <option value="7">@lang('front.Day') 7</option>
                                       </select>
                                 </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                  <div class="col-lg-6">
+                                     <a href="#" class="sec-btn lang add_new_excercise_modal" style="border-radius: 0px;">Add new</a>
+                                     <a href="#" class="sec-btn lang copy_btn" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
+                                  </div>
+                                </div>
                                 <div class="exercices">
+
                                   @php
-                                  $plan_data = \App\Plan::join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+                                  $plan_data = \App\Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
                                                           ->whereraw("(programm_designs.type = 'exercises')")
                                                           ->where("package_user_plan.package_id",$transaction->package->id)
                                                           ->where("package_user_plan.day_num",1)
@@ -191,7 +529,11 @@
                                       @endif
 
                                         <div class="exer-desc"  data-toggle="modal" data-target="#exerModal_{{$programme->programme->id}}">
-                                            <span>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->title_ar:$programme->programme->title}}</span>
+                                            <span>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->title_ar:$programme->programme->title}}
+                                              <span><a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$programme->plan_id}}">
+                                             <i class="far fa-trash-alt"></i>
+                                           </a></span>
+                                         </span>
                                             @php  $complete_ex = \App\CompleteExcercies::where("programme_id",$programme->programme->id)->where("user_id",Auth::user()->id)->where("day_num",1)->first();  @endphp
                                             @if(isset($complete_ex->programme_id))
                                              <small class="set_num_{{$programme->programme->id}}" style="color:green">{{$programme->set_num}}</small>
@@ -236,11 +578,7 @@
                                                         </div>
                                                         <p>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->desc_ar:$programme->programme->desc}}</p>
                                                         <div class="text-center mt-4">
-                                                            <form action="{{url('/')}}/add/excercise/complete" method="post" class="complete_ex_form">
-                                                              <input type="hidden" name="pr_id" value="{{$programme->programme->id}}"/>
 
-                                                              <button type="submit" class="main-btn py-2 excercise_complete">Complete</button>
-                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -479,6 +817,7 @@
         </div>
     </div>
 </main>
+@include("dashboard/utility/modal_delete")
 @endsection
 @section('footerjscontent')
 @if(Auth::user()->role->name=="user")
@@ -611,5 +950,267 @@
     $(".chat_modal_img_body_render").attr("src",$(this).attr("src"));
     $('#chat_modal_img').modal('show');
   });
+  $(".copy_btn").on("click",function(){
+    $(".day_num_excercises").val($(".day_excercise").val());
+    $('#copy_modal').modal('show');
+  });
+  $("select[name='to_transaction_type']").on("change",function(){
+      var val = $(this).val();
+      $(".c_tran").css("display","none");
+      $(".w_tran").css("display","none");
+      if(val == "same_programme")
+      {
+         $(".w_tran").css("display","flex");
+      }
+      else{
+          $(".c_tran").css("display","flex");
+      }
+  });
+  _aftersearch = function(response)
+  {
+    $(".search_excercise_area").html("")
+    $(".search_excercise_area").html(response);
+    $("input[name='selected_excercise']").off(0);
+    $("input[name='selected_excercise']").on("change",function(){
+      if($(this).is(":checked"))
+      {
+        var id = $(this).val();
+        var url = '{{url("/dashboard/trainers/programmes/save")}}/excercises'+"/"+id;
+        $.ajax({url: url , success: function(result){
+        }});
+      }
+
+    });
+    $(".show_details").off();
+    $(".show_details").on("click",function(){
+      var id = $(this).attr("bt-data");
+      $.ajax({url: '{{url("/dashboard/trainers/programmes/detaills")}}'+"/"+id , success: function(result){
+        $(".all_content").html("");
+        $(".all_content").html(result);
+        $('#show_modal').modal('show');
+      }});
+    });
+  }
+  var ex_select_checkbox = [];
+  $(".add_new_excercise_modal").on("click",function(){
+    var formData = new FormData();
+
+    formData.append('package_num','{{$transaction->package->id}}');
+    formData.append('user_num','{{Auth::user()->id}}');
+    formData.append('transaction','{{$transaction->id}}');
+    formData.append('day_num',$(".day_excercise").val());
+    formData.append('week',$(".week_excercise").val());
+    formData.append('programme_search',$("input[name='p_name']").val());
+    $.ajax({
+              url: '{{url("/dashboard/trainersarea/programmes/get")}}',
+              type: "POST",
+              data: formData,
+              async: false,
+              success: function (response) {
+                ex_select_checkbox = [];
+                _aftersearch(response);
+              },
+            error : function( data )
+            {
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+    });
+    $('#add_new_excercise_modal').modal('show');
+  });
+  $("input[name='selected_supplement']").on("change",function(){
+    if($(this).is(":checked"))
+    {
+      var id = $(this).val();
+      var url = '{{url("/dashboard/trainers/programmes/save")}}/supliment'+"/"+id;
+      $.ajax({url: url , success: function(result){
+      }});
+    }
+
+  });
+  $("input[name='selected_recepies']").on("change",function(){
+    if($(this).is(":checked"))
+    {
+      var id = $(this).val();
+      var url = '{{url("/dashboard/trainers/programmes/save")}}/recepies'+"/"+id;
+      $.ajax({url: url , success: function(result){
+      }});
+    }
+
+  });
+  $(".show_details").off();
+  $(".show_details").on("click",function(){
+    var id = $(this).attr("bt-data");
+    $.ajax({url: '{{url("/dashboard/trainers/programmes/detaills")}}'+"/"+id , success: function(result){
+      $(".all_content").html("");
+      $(".all_content").html(result);
+      $('#show_modal').modal('show');
+    }});
+  });
+  $(".search_ext_btn").on("click",function(){
+
+     formData = new FormData();
+     formData.append('package_num','{{$transaction->package->id}}');
+     formData.append('user_num','{{Auth::user()->id}}');
+     formData.append('transaction','{{$transaction->id}}');
+     formData.append('day_num',$(".day_excercise").val());
+     formData.append('week',$(".week_excercise").val());
+     formData.append('programme_search',$("input[name='p_name']").val());
+     formData.append('programme_filter',JSON.stringify(ex_select_checkbox));
+     $.ajax({
+               url: '{{url("/dashboard/trainersarea/programmes/get")}}',
+               type: "POST",
+               data: formData,
+               async: false,
+               success: function (response) {
+                 _aftersearch(response);
+               },
+             error : function( data )
+             {
+
+             },
+             cache: false,
+             contentType: false,
+             processData: false
+     });
+     console.log(ex_select_checkbox);
+  });
+
+
+  $("input[name='exerc_filter_type[]']").on("change",function(){
+     if($(this).is(':checked'))
+     {
+       ex_select_checkbox.push($(this).val());
+     }
+     else{
+       const index = ex_select_checkbox.indexOf($(this).val());
+        if (index > -1) {
+          ex_select_checkbox.splice(index, 1);
+        }
+     }
+     formData = new FormData();
+
+     formData.append('package_num','{{$transaction->package->id}}');
+     formData.append('user_num','{{Auth::user()->id}}');
+     formData.append('transaction','{{$transaction->id}}');
+     formData.append('day_num',$(".day_excercise").val());
+     formData.append('week',$(".week_excercise").val());
+     formData.append('programme_search',$("input[name='p_name']").val());
+     formData.append('programme_filter',JSON.stringify(ex_select_checkbox));
+     $.ajax({
+               url: '{{url("/dashboard/trainersarea/programmes/get")}}',
+               type: "POST",
+               data: formData,
+               async: false,
+               success: function (response) {
+                 _aftersearch(response);
+               },
+             error : function( data )
+             {
+
+             },
+             cache: false,
+             contentType: false,
+             processData: false
+     });
+
+  });
+  $(".form_submit_excersice_model").submit(function(e){
+
+      e.preventDefault();
+      var submit_form_url = $(this).attr('action');
+      var $method_is = "POST";
+      var formData = new FormData($(this)[0]);
+      $(".alert-success-modal").css("display","none");
+      $(".alert-danger-modal").css("display","none");
+
+        $.ajax({
+                  url: submit_form_url,
+                  type: $method_is,
+                  data: formData,
+                  async: false,
+
+                  success: function (response) {
+                  window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
+                  },
+                error : function( data )
+                {
+
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+        });
+
+
+
+        return false;
+  });
+  $(".delete_btn").on("click",function(){
+    $('#delete_modal').modal('show');
+    $("input[name='delete_val']").val($(this).attr("bt-data"));
+    $("input[name='type_val']").val($(this).attr("bt-type"));
+    return false;
+  });
+  $(".delete_it_sure").on("click",function(){
+    var id = $("input[name='delete_val']").val();
+    var type_val = $("input[name='type_val']").val();
+
+
+    var url_delete = '{{url("/dashboard/trainers/programmes/delete")}}'+"/"+id;
+
+    var tt = "";
+    console.log(type_val);
+    if(type_val == "excer")
+    {
+      tt = "excercises";
+    }
+    else if(type_val == "recep")
+    {
+      tt = "recepies";
+      url_delete = '{{url("/dashboard/trainers/receips/delete")}}'+"/"+id;
+    }
+    else{
+      tt = "supliment";
+    }
+
+    $.ajax({url: url_delete , success: function(result){
+            var result = JSON.parse(result);
+            if(result.sucess)
+            {
+              window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
+            }
+    }});
+  });
+  // Hide submenus
+$('#body-row .collapse').collapse('hide');
+
+// Collapse/Expand icon
+$('#collapse-icon').addClass('fa-angle-double-left');
+
+// Collapse click
+$('[data-toggle=sidebar-colapse]').click(function() {
+    SidebarCollapse();
+});
+
+function SidebarCollapse () {
+    $('.menu-collapsed').toggleClass('d-none');
+    $('.sidebar-submenu').toggleClass('d-none');
+    $('.submenu-icon').toggleClass('d-none');
+    $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
+
+    // Treating d-flex/d-none on separators with title
+    var SeparatorTitle = $('.sidebar-separator-title');
+    if ( SeparatorTitle.hasClass('d-flex') ) {
+        SeparatorTitle.removeClass('d-flex');
+    } else {
+        SeparatorTitle.addClass('d-flex');
+    }
+
+    // Collapse/Expand icon
+    $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+}
 </script>
 @endsection

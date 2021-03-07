@@ -13,28 +13,51 @@
         <tbody>
 
           <tr>
-            <th> @lang('site.programme_title')</th><td>{{$programme->title}}</td>
+            <th>
+              @if($programme->type == "exercises")
+               @lang('site.programme_title')
+              @else
+                <span>Program  Title</span>
+              @endif
+
+             </th><td>{{$programme->title}}</td>
           </tr>
           <tr>
-            <th> @lang('site.programme_title') (ar)</th><td>{{$programme->title_ar}}</td>
+            <th>
+              @if($programme->type == "exercises")
+               @lang('site.programme_title')
+               @else
+                 <span>Program  Title</span>
+               @endif
+               (ar)</th><td>{{$programme->title_ar}}</td>
           </tr>
-          @if($programme->type == "exercises")
-          <tr>
-            <th>@lang('site.upload_programme')</th><td>{{$programme->media_type}} </td>
-          </tr>
-          @endif
           <tr>
             <th>@lang('site.programme_type')</th><td>{{$programme->type}}</td>
           </tr>
           <tr>
-            <th>@lang('site.programme_desc')</th><td>{{$programme->desc}}</td>
+            <th>
+              @if($programme->type == "exercises")
+                 @lang('site.programme_desc')
+              @else
+                <span>Program  Description</span>
+              @endif
+            </th><td>{{$programme->desc}}</td>
           </tr>
           <tr>
-            <th>@lang('site.programme_desc') (ar)</th><td>{{$programme->desc_ar}}</td>
+            <th>
+              @if($programme->type == "exercises")
+                @lang('site.programme_desc')
+              @else
+                <span>Program  Description</span>
+              @endif
+              (ar)</th><td>{{$programme->desc_ar}}</td>
           </tr>
           @if($programme->type == "exercises")
           <tr>
             <th>Number of sets</th><td>{{$programme->number_of_sets}}</td>
+          </tr>
+          <tr>
+            <th>Number of reps</th><td>{{$programme->num_of_reps}}</td>
           </tr>
           @endif
           @if($programme->type == "food supplements")
@@ -59,7 +82,7 @@
 @if($programme->media_type == "image")
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Programme images</h3>
+    <h3 class="card-title">Plan images</h3>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="table-responsive">

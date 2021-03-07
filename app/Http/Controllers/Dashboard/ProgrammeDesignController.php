@@ -166,7 +166,8 @@ class ProgrammeDesignController extends Controller
       }
 
       Session::forget($type."_values");
-      return redirect('dashboard/trainers/programmes/design/'.$day.'/'.$week.'/'.$transaction_num.'/'.$package.'/'.$user."?type=".$type)->with("message","Sucessfully Added");
+      return "ok";
+      //return redirect('dashboard/trainers/programmes/design/'.$day.'/'.$week.'/'.$transaction_num.'/'.$package.'/'.$user."?type=".$type)->with("message","Sucessfully Added");
     }
     public function show($id)
     {

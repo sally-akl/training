@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.master')
 @section('content')
-@if(count($customers)==0)
+@if(count($filters)==0)
 <div class="empty">
   <div class="empty-icon">
     <img src="{{url('/')}}/img/illustrations/undraw_printing_invoices_5r4r.svg" height="128" class="mb-4"  alt="">
@@ -19,10 +19,20 @@
 @else
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">@lang('site.Users')</h3>
-    <div class="search">
-         <button type="button" class="btn search_btn"><i class="fa fa-search" aria-hidden="true"></i> {{ __('site.search') }} </button>
-    </div>
+    <h3 class="card-title">
+      @if($type == "muscles")
+       <span>Muscles</span>
+      @elseif($type == "exercisetype")
+        <span>Exercise Type</span>
+      @elseif($type == "equipment")
+        <span>Equipment</span>
+      @elseif($type == "mechanicstype")
+        <span>Mechanics Type</span>
+      @elseif($type == "level")
+        <span>Level</span>
+      @endif
+
+    </h3>
   </div>
   <div class="card-body border-bottom py-3">
     <div class="d-flex">
@@ -36,36 +46,25 @@
       <table class="table card-table table-vcenter text-nowrap datatable">
         <thead>
           <tr>
-
-            <th></th>
-            <th>Name</th>
-            <th>Email</th>
+            <th>
+               Title
+            </th>
+            <th>
+                Title (ar)
+            </th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          @foreach ($customers as $key => $user)
+          	@foreach ($filters as $key => $filter)
           <tr>
-            <td>
-
-              <span class="avatar avatar-xl" >
-                @php   $words = explode(" ", $user->name);
-                      $output= "";
-                      foreach ($words as $w) {
-                         $output .= $w[0];
-                       }
-                       echo $output;
-                 @endphp
-              </span>
-
-              </td>
-              <td>{{$user->name}}</td>
-              <td>{{$user->email}}</td>
+            <td>{{$filter->title}}</td>
+            <td>{{$filter->title_ar}}</td>
             <td class="text-right">
-              <a class='btn btn-info btn-xs edit_btn' bt-data="{{$user->id}}">
+              <a class='btn btn-info btn-xs edit_btn' bt-data="{{$filter->id}}">
     						<i class="far fa-edit"></i>
     					</a>
-    					<a href="#" class="btn btn-danger btn-xs delete_btn"  bt-data="{{$user->id}}">
+    					<a href="#" class="btn btn-danger btn-xs delete_btn"  bt-data="{{$filter->id}}">
     						<i class="far fa-trash-alt"></i>
     					</a>
             </td>
@@ -75,7 +74,7 @@
       </table>
     </div>
     <div class="card-footer d-flex align-items-center">
-      {{$customers->links('dashboard.vendor.pagination.default')}}
+      {{$filters->links('dashboard.vendor.pagination.default')}}
     </div>
   </div>
 </div>
@@ -96,44 +95,24 @@
       <div class="alert alert-success alert-success-modal" style="display:none">
 
       </div>
-      <form method="POST" action="{{ url('dashboard/user') }}" class="form_submit_model">
+      <form method="POST" action="{{ url('dashboard') }}/{{$type}}" class="form_submit_model">
         <div class="modal-body">
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.name')</label>
-                <input type="text" class="form-control" name="name">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" name="title">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
-                <label class="form-label">@lang('site.email')</label>
-                <input type="email" class="form-control" name="email">
+                <label class="form-label">Title (ar)</label>
+                <input type="text" class="form-control" name="title_ar">
               </div>
             </div>
           </div>
-          <div class="row password_div">
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">@lang('site.password')</label>
-                <input type="password" class="form-control" name="password">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">@lang('site.re_password')</label>
-                <input type="password" class="form-control" name="password_confirmation">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label class="form-label">Phone</label>
-                <input type="text" class="form-control" name="phone">
-              </div>
-            </div>
-          </div>
+
+
           <input type="hidden" name="method_type" value="add" />
         </div>
         <div class="modal-footer">
@@ -141,39 +120,6 @@
             @lang('site.cancel')
           </a>
           <button type="submit" class="btn btn-primary">+ {{ __('site.save') }} </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<div class="modal modal-blur fade" id="serach_modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">@lang('site.search')</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-        </button>
-      </div>
-      <form method="GET" action="{{ url('dashboard/user') }}" >
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">@lang('site.name')</label>
-            <input type="text" class="form-control" name="name">
-          </div>
-
-            <div class="mb-3">
-              <label class="form-label">@lang('site.email')</label>
-              <input type="email" class="form-control" name="email">
-            </div>
-
-        </div>
-        <input type="hidden" name="search" value="search" />
-        <div class="modal-footer">
-          <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
-            @lang('site.cancel')
-          </a>
-          <button type="submit" class="btn btn-primary">{{ __('site.search') }} </button>
         </div>
       </form>
     </div>
@@ -191,7 +137,7 @@
       $(".alert-success-modal").css("display","block");
       $('#add_edit_modal').modal('hide');
       $("input[name='method_type']").val("add");
-      window.location.href = '{{url("/dashboard/user")}}';
+      window.location.href = "{{ url('dashboard') }}/{{$type}}";
     }
     else
     {
@@ -212,16 +158,15 @@
   {
       $(".password_div").css("display","none");
       var id = $(this).attr("bt-data");
-      var url_edit = '{{url("/dashboard/user")}}'+"/"+id;
+      var url_edit = "{{url('dashboard') }}/{{$type}}"+"/"+id;
       $(".form_submit_model").attr("action",url_edit);
       $.ajax({
-          url: '{{url("/dashboard/user")}}'+"/"+id+"/edit",
+          url: "{{url('dashboard') }}/{{$type}}"+"/"+id+"/edit",
           type: 'GET',
           dataType: 'json',
           success: function (response) {
-            $("input[name='name']").val(response.name);
-            $("input[name='email']").val(response.email);
-            $("input[name='phone']").val(response.phone);
+            $("input[name='title']").val(response.title);
+            $("input[name='title_ar']").val(response.title_ar);
             $("input[name='method_type']").val("edit");
             $('#add_edit_modal').modal('show');
           },
@@ -232,7 +177,7 @@
   $(".add_btn").on("click",function(){
       $(".password_div").css("display","flex");
       $("input[name='method_type']").val("add");
-      $(".form_submit_model").attr("action",'{{url("/dashboard/user")}}');
+      $(".form_submit_model").attr("action","{{ url('dashboard') }}/{{$type}}");
       $('#add_edit_modal').modal('show');
       return false;
   });
@@ -251,9 +196,9 @@
       {
           $method_is = "PUT";
           var data = {
-            name : $("input[name='name']").val(),
-            email : $("input[name='email']").val(),
-            phone : $("input[name='phone']").val()
+            title : $("input[name='title']").val(),
+            title_ar : $("input[name='title_ar']").val(),
+
           };
           $.ajax({
               type: $method_is,
@@ -300,18 +245,14 @@
   });
   $(".delete_it_sure").on("click",function(){
     var id = $("input[name='delete_val']").val();
-    var url_delete = '{{url("/dashboard/user")}}'+"/"+id;
+    var url_delete = "{{url('dashboard') }}/{{$type}}"+"/"+id;
     $.ajax({url: url_delete ,type: "DELETE", success: function(result){
             var result = JSON.parse(result);
             if(result.sucess)
             {
-              window.location.href = '{{url("/dashboard/user")}}';
+              window.location.href = "{{url('dashboard') }}/{{$type}}";
             }
     }});
-  });
-  $(".search_btn").on("click",function(){
-      $('#serach_modal').modal('show');
-      return false;
   });
 </script>
 @endsection

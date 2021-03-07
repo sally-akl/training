@@ -63,11 +63,11 @@
                             <div class="coach-pic">
                               <img src="{{url($user->image)}}" alt="" style="border-radius:50%;width: 150px;height: 150px;">
                             </div>
-                            <h5 class="card-title">{{$user->name}}</h5>
-                            <p class="card-text">{{$user->desc}}</p>
+                            <h5 class="card-title">{{(session()->has('locale') && session()->get('locale') =='ar')?$user->name_ar:$user->name}}</h5>
+                            <p class="card-text">{{(session()->has('locale') && session()->get('locale') =='ar')?$user->description_ar:$user->desc}}</p>
                             @php  $user_pac = $user->packages()->where("package_type","paid")->orderBy("package_price","asc")->first();  @endphp
 
-                            <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">Start from
+                            <a href="{{url("/")}}/trainer/{{$user->id}}/{{$user->name}}">@lang('front.Startfrom')
                                @if($user_pac !== null)
                                {{$user_pac->package_price}}
                                @else
@@ -83,7 +83,7 @@
 
             </div>
             <div class="all-lnk">
-                <a href="{{url("/")}}?category={{request()->category}}&search={{request()->search}}&show=all">Show All</a>
+                <a href="{{url("/")}}?category={{request()->category}}&search={{request()->search}}&show=all">@lang('front.ShowAll')</a>
             </div>
         </div>
     </div>
