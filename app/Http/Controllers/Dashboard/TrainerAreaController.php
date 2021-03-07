@@ -154,6 +154,39 @@ class TrainerAreaController extends Controller
       return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
 
     }
+    public function get_excercise_byday($day,$id)
+    {
+      $transaction = \App\Transactions::find($id);
+      $plan_data = \App\Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+                              ->whereraw("(programm_designs.type = 'exercises')")
+                              ->where("package_user_plan.package_id",$transaction->package->id)
+                              ->where("package_user_plan.day_num",$day)
+                              ->where("package_user_plan.transaction_id",$transaction->id)
+                              ->get();
+      return view('dashboard.trainerArea.excercices_partial',compact('plan_data'));
+    }
+    public function get_suppliment_byday($day,$id)
+    {
+      $transaction = \App\Transactions::find($id);
+      $plan_data = \App\Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+                              ->whereraw("(programm_designs.type = 'food supplements')")
+                              ->where("package_user_plan.package_id",$transaction->package->id)
+                              ->where("package_user_plan.day_num",$day)
+                              ->where("package_user_plan.transaction_id",$transaction->id)
+                              ->get();
+      return view('dashboard.trainerArea.suppliment_partial',compact('plan_data'));
+    }
+    public function get_food_byday($day,$id)
+    {
+      $transaction = \App\Transactions::find($id);
+      $plan_receps = \App\Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("receips","receips.id","package_user_plan.recepe_id")
+                         ->where("package_user_plan.package_id",$transaction->package->id)
+                         ->where("package_user_plan.day_num",$day)
+                         ->where("package_user_plan.transaction_id",$transaction->id)
+                         ->get();
+      return view('dashboard.trainerArea.food_partial',compact('plan_receps'));
+
+    }
     private  function getCode($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

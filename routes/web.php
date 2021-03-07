@@ -59,6 +59,9 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
 
   Route::get('trainersarea/clients/details/{id}','Dashboard\TrainerAreaController@trainer_client_details');
   Route::post('trainersarea/programmes/get','Dashboard\TrainerAreaController@trainer_get_search');
+  Route::get('/trainersarea/get/excercies/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_excercise_byday']);
+  Route::get('/trainersarea/get/suppliment/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_suppliment_byday']);
+  Route::get('/trainersarea/get/food/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_food_byday']);
 
 
   Route::post('trainers/questionair/answer','Dashboard\TrainerAreaController@add_answer');

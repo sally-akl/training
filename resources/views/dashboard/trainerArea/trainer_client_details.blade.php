@@ -30,7 +30,7 @@
               </div>
 
               <div class="row">
-                <div class="col-lg-2">
+                <div class="col-lg-2 col-sm-12  col-md-2">
                   <!-- Sidebar -->
                   <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
                       <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
@@ -119,7 +119,7 @@
                       </ul><!-- List Group END-->
                   </div><!-- sidebar-container END -->
                 </div>
-                <div class="col-lg-10 search_excercise_area">
+                <div class="col-lg-10 col-sm-12  col-md-10 search_excercise_area">
 
                 </div>
               </div>
@@ -529,8 +529,8 @@
                                       @endif
 
                                         <div class="exer-desc"  data-toggle="modal" data-target="#exerModal_{{$programme->programme->id}}">
-                                            <span>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->title_ar:$programme->programme->title}}
-                                              <span><a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$programme->plan_id}}">
+                                            <span>{{$programme->programme->title}}
+                                              <span style="float: right;"><a href="#" class="btn btn-danger btn-xs delete_btn" bt-type="excer"  bt-data="{{$programme->plan_id}}">
                                              <i class="far fa-trash-alt"></i>
                                            </a></span>
                                          </span>
@@ -902,13 +902,56 @@
   }
   completeForm();
 
+var   _delete = function()
+  {
+    $(".delete_btn").off();
+    $(".delete_btn").on("click",function(){
+      $('#delete_modal').modal('show');
+      $("input[name='delete_val']").val($(this).attr("bt-data"));
+      $("input[name='type_val']").val($(this).attr("bt-type"));
+      return false;
+    });
+    $(".delete_it_sure").off();
+    $(".delete_it_sure").on("click",function(){
+      var id = $("input[name='delete_val']").val();
+      var type_val = $("input[name='type_val']").val();
+
+
+      var url_delete = '{{url("/dashboard/trainers/programmes/delete")}}'+"/"+id;
+
+      var tt = "";
+      console.log(type_val);
+      if(type_val == "excer")
+      {
+        tt = "excercises";
+      }
+      else if(type_val == "recep")
+      {
+        tt = "recepies";
+        url_delete = '{{url("/dashboard/trainers/receips/delete")}}'+"/"+id;
+      }
+      else{
+        tt = "supliment";
+      }
+
+      $.ajax({url: url_delete , success: function(result){
+              var result = JSON.parse(result);
+              if(result.sucess)
+              {
+                window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
+              }
+      }});
+    });
+  }
+  _delete();
 
   $(".day_excercise").on("change",function(){
     var val = $(this).val();
-    var url = '{{url("/get/excercies")}}'+"/"+val+"/"+$("input[name='trans']").val();
+    var url = '{{url("/dashboard/trainersarea/get/excercies")}}'+"/"+val+"/"+$("input[name='trans']").val();
     $.ajax({url: url , success: function(result){
         $(".exercices").html("");
         $(".exercices").html(result);
+        _delete();
         completeForm();
         $('.exer-modal .owl-carousel').owlCarousel({
           loop: true,
@@ -921,18 +964,20 @@
   });
   $(".day_programme").on("change",function(){
     var val = $(this).val();
-    var url = '{{url("/get/food")}}'+"/"+val+"/"+$("input[name='trans']").val();
+    var url = '{{url("/dashboard/trainersarea/get/food")}}'+"/"+val+"/"+$("input[name='trans']").val();
     $.ajax({url: url , success: function(result){
         $(".nutrition").html("");
         $(".nutrition").html(result);
+        _delete();
     }});
   });
   $(".day_suppliment").on("change",function(){
     var val = $(this).val();
-    var url = '{{url("/get/suppliment")}}'+"/"+val+"/"+$("input[name='trans']").val();
+    var url = '{{url("/dashboard/trainersarea/get/suppliment")}}'+"/"+val+"/"+$("input[name='trans']").val();
     $.ajax({url: url , success: function(result){
         $(".spplements").html("");
         $(".spplements").html(result);
+        _delete();
         $('.exer-modal .owl-carousel').owlCarousel({
           loop: true,
           items:1,
@@ -1148,42 +1193,7 @@
 
         return false;
   });
-  $(".delete_btn").on("click",function(){
-    $('#delete_modal').modal('show');
-    $("input[name='delete_val']").val($(this).attr("bt-data"));
-    $("input[name='type_val']").val($(this).attr("bt-type"));
-    return false;
-  });
-  $(".delete_it_sure").on("click",function(){
-    var id = $("input[name='delete_val']").val();
-    var type_val = $("input[name='type_val']").val();
 
-
-    var url_delete = '{{url("/dashboard/trainers/programmes/delete")}}'+"/"+id;
-
-    var tt = "";
-    console.log(type_val);
-    if(type_val == "excer")
-    {
-      tt = "excercises";
-    }
-    else if(type_val == "recep")
-    {
-      tt = "recepies";
-      url_delete = '{{url("/dashboard/trainers/receips/delete")}}'+"/"+id;
-    }
-    else{
-      tt = "supliment";
-    }
-
-    $.ajax({url: url_delete , success: function(result){
-            var result = JSON.parse(result);
-            if(result.sucess)
-            {
-              window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
-            }
-    }});
-  });
   // Hide submenus
 $('#body-row .collapse').collapse('hide');
 
