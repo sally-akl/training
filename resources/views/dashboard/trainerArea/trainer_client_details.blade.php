@@ -394,6 +394,7 @@
 
           <input type="hidden" name="transaction_copy_num" value="{{$transaction->id}}" />
           <input type="hidden" name="copy_type" value="day" />
+          <input type="hidden" name="copy_programme_type" value="" />
           <input type="hidden" name="day_num" class="day_num_excercises" value="" />
           <button type="submit" class="btn btn-primary">Save</button>
         </form>
@@ -670,7 +671,7 @@
                                 <div class="row" style="margin-bottom: 20px;">
                                   <div class="col-lg-6">
                                      <a href="#" class="sec-btn lang add_new_excercise_modal" style="border-radius: 0px;">Add new</a>
-                                     <a href="#" class="sec-btn lang copy_btn" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
+                                     <a href="#" class="sec-btn lang copy_btn" data-pr="exercises" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
                                   </div>
                                 </div>
                                 <div class="exercices">
@@ -781,7 +782,7 @@
                                 <div class="row" style="margin-bottom: 20px;">
                                   <div class="col-lg-6">
                                      <a href="#" class="sec-btn lang add_new_recep_modal" style="border-radius: 0px;">Add new</a>
-                                     <a href="#" class="sec-btn lang copy_btn" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
+                                     <a href="#" class="sec-btn lang copy_btn" data-pr="dietary meals" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
                                   </div>
                                 </div>
                                 @php
@@ -921,7 +922,7 @@
                             <div class="row" style="margin-bottom: 20px;">
                               <div class="col-lg-6">
                                  <a href="#" class="sec-btn lang add_new_suppliment_modal" style="border-radius: 0px;">Add new</a>
-                                 <a href="#" class="sec-btn lang copy_btn" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
+                                 <a href="#" class="sec-btn lang copy_btn" data-pr="food supplements" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
                               </div>
                             </div>
                             <div class="supplement-program">
@@ -1187,6 +1188,7 @@ var   _delete = function()
   });
   $(".copy_btn").on("click",function(){
     $(".day_num_excercises").val($(".day_excercise").val());
+    $("input[name='copy_programme_type']").val($(this).attr("data-pr"));
     $('#copy_modal').modal('show');
   });
   $("select[name='to_transaction_type']").on("change",function(){
@@ -1632,6 +1634,41 @@ var   _delete = function()
 
                   success: function (response) {
                   window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
+                  },
+                error : function( data )
+                {
+
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+        });
+
+
+
+        return false;
+  });
+
+  $(".form_submit_model").submit(function(e){
+
+      e.preventDefault();
+      var submit_form_url = $(this).attr('action');
+      var $method_is = "POST";
+      formData = new FormData($(this)[0]);
+      $(".alert-success-modal").css("display","none");
+      $(".alert-danger-modal").css("display","none");
+      $.ajax({
+                  url: submit_form_url,
+                  type: $method_is,
+                  data: formData,
+                  async: false,
+                  dataType: 'json',
+                  success: function (response) {
+                    if(response.sucess)
+                    {
+                      $(".alert-success-modal").html("Sucessfully copy");
+                      $(".alert-success-modal").css("display","block");
+                    }
                   },
                 error : function( data )
                 {

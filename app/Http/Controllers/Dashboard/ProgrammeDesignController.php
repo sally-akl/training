@@ -302,15 +302,27 @@ class ProgrammeDesignController extends Controller
       $to_transaction_type = $request->to_transaction_type;
       $transaction_copy_num = $request->transaction_copy_num;
       $transaction = \App\Transactions::find($transaction_copy_num);
+      $copy_programme_type = $request->copy_programme_type;
+
       if($to_transaction_type == "same_programme")
       {
          $to_day =  $request->select_day;
          $day_num = $request->day_num;
          if($transaction != null)
          {
-           $plans = $transaction->plan()->whereraw("day_num =".$day_num)->get();
+           if($copy_programme_type == "exercises" || $copy_programme_type=="food supplements")
+           {
+             $plans = $transaction->plan()->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")->where("programm_designs.type",$copy_programme_type)->whereraw("day_num =".$day_num)->get();
+           }
+           else{
+             $plans = $transaction->plan()->join("receips","receips.id","package_user_plan.recepe_id")->whereraw("day_num =".$day_num)->get();
+           }
+
+
+
            foreach($plans as $plan)
            {
+
              $p = \App\Plan::firstOrNew(['day_num' => $to_day ,
                                          'package_id' => $transaction->package_id  ,
                                          'user_id'=> $transaction->user_id ,
@@ -322,6 +334,7 @@ class ProgrammeDesignController extends Controller
                   ]);
              $p->save();
            }
+           
          }
       }
       else{
@@ -331,7 +344,11 @@ class ProgrammeDesignController extends Controller
         $day_num = $request->day_num;
         if($transaction != null)
         {
-          $plans = $transaction->plan()->whereraw("day_num =".$day_num)->get();
+          if($copy_programme_type == "exercises" || $copy_programme_type=="food supplements")
+             $plans = $transaction->plan()->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")->where("programm_designs.type",$copy_programme_type)->whereraw("day_num =".$day_num)->get();
+          else
+             $plans = $transaction->plan()->join("receips","receips.id","package_user_plan.recepe_id")->whereraw("day_num =".$day_num)->get();
+
           foreach($plans as $plan)
           {
             $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
