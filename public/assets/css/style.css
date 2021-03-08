@@ -2226,7 +2226,7 @@ footer.login-footer .copyrights {
   text-align: right;
   position: absolute;
 }
-.checks_filter{
+.checks_filter , .checks_filter_recp{
   margin-right: 10px;
 }
 .badge {

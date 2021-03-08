@@ -135,6 +135,14 @@ class TrainerAreaController extends Controller
     {
       return view('dashboard.trainerArea.excersise_search',array("data"=>$request));
     }
+    public function trainer_get_search_suppliment(Request $request)
+    {
+      return view('dashboard.trainerArea.suppliment_search',array("data"=>$request));
+    }
+    public function recepe_trainer_get_search(Request $request)
+    {
+      return view('dashboard.trainerArea.recep_search',array("data"=>$request));
+    }
 
     public function showprogramme($id)
     {

@@ -31,6 +31,9 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('equipment','Dashboard\EquipmentController');
   Route::resource('mechanicstype','Dashboard\MechanicsTypeController');
   Route::resource('level','Dashboard\LevelController');
+
+
+
   Route::post('sliders/uploadImage/{id}','Dashboard\SliderController@uploadImage');
   Route::resource('notifications','Dashboard\NotificationsController');
   Route::get('notify/send/{id}','Dashboard\NotificationsController@senfNotify');
@@ -62,6 +65,8 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('/trainersarea/get/excercies/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_excercise_byday']);
   Route::get('/trainersarea/get/suppliment/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_suppliment_byday']);
   Route::get('/trainersarea/get/food/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_food_byday']);
+  Route::post('trainersarea/suppliment/get','Dashboard\TrainerAreaController@trainer_get_search_suppliment');
+  Route::post('trainersarea/recepe/get','Dashboard\TrainerAreaController@recepe_trainer_get_search');
 
 
   Route::post('trainers/questionair/answer','Dashboard\TrainerAreaController@add_answer');

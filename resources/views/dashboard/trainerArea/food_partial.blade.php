@@ -17,7 +17,7 @@
 
   @endphp
     <div class="calories-block">
-        <span>{{$Calories}}</span>
+        <span style="font-size: 52px;">{{$Calories}}</span>
         <small>@lang('front.Calories')</small>
     </div>
     <div class="meals-block"  data-toggle="modal" data-target="#mealModal_{{$receps->recepe->id}}">
@@ -37,6 +37,12 @@
             <div class="meal-stat-item">
                 <span>@lang('front.Fat')</span>
                 <small>{{$Fat}}g</small>
+            </div>
+            <div class="meal-stat-item">
+                <span><a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$receps->plan_id}}">
+                 <i class="far fa-trash-alt"></i>
+               </a></span>
+
             </div>
         </div>
     </div>

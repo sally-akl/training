@@ -4,7 +4,10 @@
       <img src="{{url('/')}}{{$programme->programme->images[0]->image}}" alt="">
     @endif
       <div class="exer-desc"  data-toggle="modal" data-target="#supplimentexerModal_{{$programme->programme->id}}">
-          <span>{{$programme->programme->title}}</span>
+          <span>{{$programme->programme->title}}<span style="float: right;">  <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$programme->plan_id}}">
+             <i class="far fa-trash-alt"></i>
+           </a>
+           </span></span>
           <small>{{$programme->suplement_serving_size}}</small>
           <p>{{$programme->programme->desc}}</p>
       </div>

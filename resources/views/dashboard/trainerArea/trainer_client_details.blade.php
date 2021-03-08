@@ -3,6 +3,172 @@
 <style>
 
 </style>
+<!-- food -->
+<div class="modal fade exer-modal" id="add_new_recep_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: #2c2b2a !important;color:#fff;">
+              <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}' class="form_submit_recepe_model">
+                @csrf
+                <div class="row" style="padding: 15px;">
+                  <div class="col-lg-2" style="font-size: 14px;font-weight: bold;margin-top: 6px;">
+                    Add New Recepe
+                  </div>
+                  <div class="col-lg-8">
+                      <div class="row form-group">
+                        <div class="col-sm-8">
+                            <input id="inputHorizontalSuccess" name= "p_recepe_name"  value=""  class="form-control  form-control-success" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary search_recep_btn" style="background-color: #ea380f;border: 1px solid #ea380f;">Search</button>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <button type="submit" class="btn btn-primary" style="background-color: #ea380f;border: 1px solid #ea380f;">Add Recepe</button>
+                  </div>
+                </dv>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-2 col-sm-12  col-md-2">
+                  <!-- Sidebar -->
+                  <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+                      <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
+                      <!-- Bootstrap List Group -->
+                      <ul class="list-group">
+
+                          <!-- Menu with submenu -->
+                          <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+                                  <span class="menu-collapsed">Sort Calories</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu1' class="collapse sidebar-submenu">
+
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="rec_filter_type[]" value="calor_asc" class="checks_filter_recp" /><span class="menu-collapsed">Low to high Calories</span>
+                              </div>
+
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="rec_filter_type[]" value="calor_desc" class="checks_filter_recp" /><span class="menu-collapsed">High to low Calories</span>
+                              </div>
+
+
+                          </div>
+                          <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Sort portein</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu2' class="collapse sidebar-submenu">
+
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="rec_filter_type[]" value="port_asc" class="checks_filter_recp" /><span class="menu-collapsed">Low to high </span>
+                              </div>
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="rec_filter_type[]" value="port_desc" class="checks_filter_recp" /><span class="menu-collapsed">High to low </span>
+                              </div>
+
+                          </div>
+
+                          <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Sort Carbohydrates</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu3' class="collapse sidebar-submenu">
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="rec_filter_type[]" value="carb_asc" class="checks_filter_recp" /><span class="menu-collapsed">Low to high </span>
+                              </div>
+                              <div  class="list-group-item list-group-item-action bg-dark text-white">
+                                <input type="checkbox" name="rec_filter_type[]" value="carb_desc" class="checks_filter_recp" /><span class="menu-collapsed">High to low </span>
+                              </div>
+                          </div>
+
+                          <a href="#submenu4" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-start align-items-center">
+
+                                  <span class="menu-collapsed">Sort fats</span>
+                                  <span class="submenu-icon ml-auto"></span>
+                              </div>
+                          </a>
+                          <!-- Submenu content -->
+                          <div id='submenu4' class="collapse sidebar-submenu">
+                            <div  class="list-group-item list-group-item-action bg-dark text-white">
+                              <input type="checkbox" name="rec_filter_type[]" value="fats_asc" class="checks_filter_recp" /><span class="menu-collapsed">Low to high </span>
+                            </div>
+                            <div  class="list-group-item list-group-item-action bg-dark text-white">
+                              <input type="checkbox" name="rec_filter_type[]" value="fats_desc" class="checks_filter_recp" /><span class="menu-collapsed">High to low </span>
+                            </div>
+                          </div>
+                      </ul><!-- List Group END-->
+                  </div><!-- sidebar-container END -->
+                </div>
+                <div class="col-lg-10 col-sm-12  col-md-10 search_recp_area">
+
+                </div>
+              </div>
+
+           </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--  -->
+
+
+
+<!-- suppliment -->
+<div class="modal fade exer-modal" id="add_new_suppliment_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: #2c2b2a !important;color:#fff;">
+              <form method="POST" action='{{url("/dashboard/trainers/programmes/add")}}' class="form_submit_suppliment_model">
+                @csrf
+                <div class="row" style="padding: 15px;">
+                  <div class="col-lg-2" style="font-size: 14px;font-weight: bold;margin-top: 6px;">
+                    Add New Supplement
+                  </div>
+                  <div class="col-lg-8">
+                      <div class="row form-group">
+                        <div class="col-sm-8">
+                            <input id="inputHorizontalSuccess" name= "p_sub_name"  value=""  class="form-control  form-control-success" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary search_sup_btn" style="background-color: #ea380f;border: 1px solid #ea380f;">Search</button>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <button type="submit" class="btn btn-primary" style="background-color: #ea380f;border: 1px solid #ea380f;">Add Supplement</button>
+                  </div>
+                </dv>
+              </div>
+
+              <div class="row">
+
+                <div class="col-lg-12 col-sm-12  col-md-12 search_suppliment_area">
+
+                </div>
+              </div>
+
+           </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- suppliment -->
+
 <div class="modal fade exer-modal" id="add_new_excercise_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -612,8 +778,14 @@
                                       <option value="7">@lang('front.Day') 7</option>
                                     </select>
                                 </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                  <div class="col-lg-6">
+                                     <a href="#" class="sec-btn lang add_new_recep_modal" style="border-radius: 0px;">Add new</a>
+                                     <a href="#" class="sec-btn lang copy_btn" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
+                                  </div>
+                                </div>
                                 @php
-                                 $plan_receps = \App\Plan::join("receips","receips.id","package_user_plan.recepe_id")
+                                 $plan_receps = \App\Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("receips","receips.id","package_user_plan.recepe_id")
                                                     ->where("package_user_plan.package_id",$transaction->package->id)
                                                     ->where("package_user_plan.day_num",1)
                                                     ->where("package_user_plan.transaction_id",$transaction->id)
@@ -641,7 +813,7 @@
 
                                       @endphp
                                         <div class="calories-block">
-                                            <span>{{$Calories}}</span>
+                                            <span style="font-size: 52px;">{{$Calories}}</span>
                                             <small>@lang('front.Calories')</small>
                                         </div>
                                         <div class="meals-block"  data-toggle="modal" data-target="#mealModal_{{$receps->recepe->id}}">
@@ -662,6 +834,13 @@
                                                     <span>@lang('front.Fat')</span>
                                                     <small>{{$Fat}}g</small>
                                                 </div>
+                                                <div class="meal-stat-item">
+                                                    <span><a href="#" class="btn btn-danger btn-xs delete_btn"  bt-type="recep" bt-data="{{$receps->plan_id}}">
+                                                     <i class="far fa-trash-alt"></i>
+                                                   </a></span>
+
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -739,10 +918,16 @@
                                   <option value="7">@lang('front.Day') 7</option>
                                 </select>
                             </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                              <div class="col-lg-6">
+                                 <a href="#" class="sec-btn lang add_new_suppliment_modal" style="border-radius: 0px;">Add new</a>
+                                 <a href="#" class="sec-btn lang copy_btn" style="border-radius: 0px;background-color: #2c2b2a;">Copy</a>
+                              </div>
+                            </div>
                             <div class="supplement-program">
                                 <div class="spplements">
                                   @php
-                                  $plan_data = \App\Plan::join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
+                                  $plan_data = \App\Plan::selectraw("package_user_plan.* , package_user_plan.id as plan_id")->join("programm_designs","programm_designs.id","package_user_plan.programme_design_id")
                                                           ->whereraw("(programm_designs.type = 'food supplements')")
                                                           ->where("package_user_plan.package_id",$transaction->package->id)
                                                           ->where("package_user_plan.day_num",1)
@@ -755,7 +940,12 @@
                                         <img src="{{url('/')}}{{$programme->programme->images[0]->image}}" alt="">
                                       @endif
                                         <div class="exer-desc"  data-toggle="modal" data-target="#supplimentexerModal_{{$programme->programme->id}}">
-                                            <span>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->title_ar:$programme->programme->title}}</span>
+                                            <span>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->title_ar:$programme->programme->title}}
+                                            <span style="float: right;">  <a href="#" class="btn btn-danger btn-xs delete_btn"   bt-type="supliment" bt-data="{{$programme->plan_id}}">
+                                               <i class="far fa-trash-alt"></i>
+                                             </a>
+                                             </span>
+                                            </span>
                                             <small>{{$programme->suplement_serving_size}}</small>
                                             <p>{{(session()->has('locale') && session()->get('locale') =='ar')?$programme->programme->desc_ar:$programme->programme->desc}}</p>
                                         </div>
@@ -1036,7 +1226,207 @@ var   _delete = function()
       }});
     });
   }
+  _aftersupplimentsearch = function(response)
+  {
+    $(".search_suppliment_area").html("")
+    $(".search_suppliment_area").html(response);
+    $("input[name='selected_supplement']").off();
+    $("input[name='selected_supplement']").on("change",function(){
+      if($(this).is(":checked"))
+      {
+        var id = $(this).val();
+        var url = '{{url("/dashboard/trainers/programmes/save")}}/supliment'+"/"+id;
+        $.ajax({url: url , success: function(result){
+        }});
+      }
+
+    });
+    $(".show_details").off();
+    $(".show_details").on("click",function(){
+      var id = $(this).attr("bt-data");
+      $.ajax({url: '{{url("/dashboard/trainers/programmes/detaills")}}'+"/"+id , success: function(result){
+        $(".all_content").html("");
+        $(".all_content").html(result);
+        $('#show_modal').modal('show');
+      }});
+    });
+  }
+  _afterrecepsearch = function(response)
+  {
+    $(".search_recp_area").html("")
+    $(".search_recp_area").html(response);
+    $("input[name='selected_recepies']").off();
+    $("input[name='selected_recepies']").on("change",function(){
+      if($(this).is(":checked"))
+      {
+        var id = $(this).val();
+        var url = '{{url("/dashboard/trainers/programmes/save")}}/recepies'+"/"+id;
+        $.ajax({url: url , success: function(result){
+        }});
+      }
+
+    });
+    $(".show_recep").off();
+    $(".show_recep").on("click",function(){
+      var id = $(this).attr("bt-data");
+      $.ajax({url: "{{ url('dashboard/trainers/receps/detaills') }}"+"/"+id , success: function(result){
+        $(".all_content").html("");
+        $(".all_content").html(result);
+        $('#show_modal').modal('show');
+      }});
+    });
+  }
+  $(".search_sup_btn").on("click",function(){
+    var formData = new FormData();
+
+    formData.append('package_num','{{$transaction->package->id}}');
+    formData.append('user_num','{{Auth::user()->id}}');
+    formData.append('transaction','{{$transaction->id}}');
+    formData.append('day_num',$(".day_suppliment").val());
+    formData.append('week',$(".week_suppliment").val());
+    formData.append('programme_search',$("input[name='p_sub_name']").val());
+    $.ajax({
+              url: '{{url("/dashboard/trainersarea/suppliment/get")}}',
+              type: "POST",
+              data: formData,
+              async: false,
+              success: function (response) {
+                _aftersupplimentsearch(response);
+              },
+            error : function( data )
+            {
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+    });
+  });
+  $(".add_new_suppliment_modal").on("click",function(){
+      var formData = new FormData();
+
+      formData.append('package_num','{{$transaction->package->id}}');
+      formData.append('user_num','{{Auth::user()->id}}');
+      formData.append('transaction','{{$transaction->id}}');
+      formData.append('day_num',$(".day_suppliment").val());
+      formData.append('week',$(".week_suppliment").val());
+      formData.append('programme_search',$("input[name='p_sub_name']").val());
+      $.ajax({
+                url: '{{url("/dashboard/trainersarea/suppliment/get")}}',
+                type: "POST",
+                data: formData,
+                async: false,
+                success: function (response) {
+                  _aftersupplimentsearch(response);
+                },
+              error : function( data )
+              {
+
+              },
+              cache: false,
+              contentType: false,
+              processData: false
+      });
+      $('#add_new_suppliment_modal').modal('show');
+  });
   var ex_select_checkbox = [];
+  var recp_select_checkbox = [];
+
+  $(".search_recep_btn").on("click",function(){
+    var formData = new FormData();
+
+    formData.append('package_num','{{$transaction->package->id}}');
+    formData.append('user_num','{{Auth::user()->id}}');
+    formData.append('transaction','{{$transaction->id}}');
+    formData.append('day_num',$(".day_programme").val());
+    formData.append('week',$(".week_programme").val());
+    formData.append('programme_search',$("input[name='p_recepe_name']").val());
+    formData.append('programme_filter',JSON.stringify(recp_select_checkbox));
+    $.ajax({
+              url: '{{url("/dashboard/trainersarea/recepe/get")}}',
+              type: "POST",
+              data: formData,
+              async: false,
+              success: function (response) {
+                _afterrecepsearch(response);
+              },
+            error : function( data )
+            {
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+    });
+  });
+  $("input[name='rec_filter_type[]']").on("change",function(){
+     if($(this).is(':checked'))
+     {
+       recp_select_checkbox.push($(this).val());
+     }
+     else{
+       const index = recp_select_checkbox.indexOf($(this).val());
+        if (index > -1) {
+          recp_select_checkbox.splice(index, 1);
+        }
+     }
+     formData = new FormData();
+
+     formData.append('package_num','{{$transaction->package->id}}');
+     formData.append('user_num','{{Auth::user()->id}}');
+     formData.append('transaction','{{$transaction->id}}');
+     formData.append('day_num',$(".day_programme").val());
+     formData.append('week',$(".week_programme").val());
+     formData.append('programme_search',$("input[name='p_recepe_name']").val());
+     formData.append('programme_filter',JSON.stringify(recp_select_checkbox));
+     $.ajax({
+               url: '{{url("/dashboard/trainersarea/recepe/get")}}',
+               type: "POST",
+               data: formData,
+               async: false,
+               success: function (response) {
+                 _afterrecepsearch(response);
+               },
+             error : function( data )
+             {
+
+             },
+             cache: false,
+             contentType: false,
+             processData: false
+     });
+
+  });
+
+  $(".add_new_recep_modal").on("click",function(){
+    var formData = new FormData();
+
+    formData.append('package_num','{{$transaction->package->id}}');
+    formData.append('user_num','{{Auth::user()->id}}');
+    formData.append('transaction','{{$transaction->id}}');
+    formData.append('day_num',$(".day_programme").val());
+    formData.append('week',$(".week_programme").val());
+    formData.append('programme_search',$("input[name='p_recepe_name']").val());
+    $.ajax({
+              url: '{{url("/dashboard/trainersarea/recepe/get")}}',
+              type: "POST",
+              data: formData,
+              async: false,
+              success: function (response) {
+                recp_select_checkbox = [];
+                _afterrecepsearch(response);
+              },
+            error : function( data )
+            {
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+    });
+    $('#add_new_recep_modal').modal('show');
+  });
+
   $(".add_new_excercise_modal").on("click",function(){
     var formData = new FormData();
 
@@ -1161,6 +1551,69 @@ var   _delete = function()
              processData: false
      });
 
+  });
+  $(".form_submit_recepe_model").submit(function(e){
+
+        e.preventDefault();
+        var submit_form_url = $(this).attr('action');
+        var $method_is = "POST";
+        var formData = new FormData($(this)[0]);
+        $(".alert-success-modal").css("display","none");
+        $(".alert-danger-modal").css("display","none");
+
+          $.ajax({
+                    url: submit_form_url,
+                    type: $method_is,
+                    data: formData,
+                    async: false,
+
+                    success: function (response) {
+                    window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
+                    },
+                  error : function( data )
+                  {
+
+                  },
+                  cache: false,
+                  contentType: false,
+                  processData: false
+          });
+
+
+
+          return false;
+  });
+
+  $(".form_submit_suppliment_model").submit(function(e){
+
+        e.preventDefault();
+        var submit_form_url = $(this).attr('action');
+        var $method_is = "POST";
+        var formData = new FormData($(this)[0]);
+        $(".alert-success-modal").css("display","none");
+        $(".alert-danger-modal").css("display","none");
+
+          $.ajax({
+                    url: submit_form_url,
+                    type: $method_is,
+                    data: formData,
+                    async: false,
+
+                    success: function (response) {
+                    window.location.href = '{{url("/dashboard/trainersarea/clients/details/")}}/{{$transaction->id}}';
+                    },
+                  error : function( data )
+                  {
+
+                  },
+                  cache: false,
+                  contentType: false,
+                  processData: false
+          });
+
+
+
+          return false;
   });
   $(".form_submit_excersice_model").submit(function(e){
 
