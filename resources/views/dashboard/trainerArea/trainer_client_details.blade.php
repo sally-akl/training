@@ -536,6 +536,32 @@
                         </table>
                       </div>
                     </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-lg-10 col-sm-12  col-md-12">
+                    <table class="table card-table table-vcenter text-nowrap datatable">
+                      <tbody>
+                        @php $answers = \App\QuestionsAnswers::where("transaction_id",$transaction->id)->get();  @endphp
+                        @foreach($answers as $ans)
+                          <tr>
+                            <td>
+                              @if(session()->has('locale') && session()->get('locale') =='ar')
+                                {{$ans->question->title_ar}}
+                              @else
+                                {{$ans->question->title}}
+                              @endif
+
+                            </td>
+                            <td>
+                             {{$ans->answer}}
+                            </td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+
+                  </div>
                 </div>
             </div>
         </div>
