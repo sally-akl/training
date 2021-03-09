@@ -51,7 +51,7 @@ class StripeController extends Controller
         $transaction->paymentId = "none";
         $transaction->amount =  \App\Package::find($package_id)->package_price;
         $transaction->save();
-        return redirect('my-subscription');
+        return redirect('subscribe/questions/'.$transaction->id);
 
       } catch (\Exception $ex) {
         return redirect("/checkout/".$pakage_name."/".$package_id)->withErrors(array("errors"=>array("exist"=>$ex->getMessage())));

@@ -604,7 +604,7 @@
                             <input type="hidden" name="submit_form_img_url" value="{{ url('chat/image/save') }}" />
                             <input type="hidden" name="main_img_url" value="{{ url('/') }}" />
                             <input type="hidden" name="viewer_type" value="trainer" />
-                            <input type="hidden" name="viewer_type_in" value="dashboard" />
+                            <input type="hidden" name="viewer_type_in" value="front" />
                             <input type="hidden" name="sender_img" value="{{url('/')}}{{$transaction->trainer->image}}" />
                             <input type="hidden" name="sender_name" value="{{$transaction->trainer->name}}" />
                             <input type="hidden" name="selected_date_is" value="{{date('Y-m-d H:i')}}" />
@@ -1011,10 +1011,10 @@
 @include("dashboard/utility/modal_delete")
 @endsection
 @section('footerjscontent')
-@if(Auth::user()->role->name=="user")
+
 <script src="{{ asset('js/socket.io.min.js') }}"></script>
 <script src="{{ asset('js/chat.js') }}"></script>
-@endif
+
 <!-- intro slider -->
 <script type="text/javascript">
     $('.exer-modal .owl-carousel').owlCarousel({

@@ -6,10 +6,17 @@
            <div class="container-fluid">
                <nav class="navbar navbar-expand-lg">
 
+
+                    @if(Auth::user() && Auth::user()->role->name=="Trainer")
                    <!-- Brand -->
+                   <a class="navbar-brand main-logo" href="{{url('/')}}/dashboard">
+                       <img src="{{url('/')}}/assets/img/logo.png" class="navbar-brand-img" alt="logo">
+                   </a>
+                   @else
                    <a class="navbar-brand main-logo" href="{{url('/')}}">
                        <img src="{{url('/')}}/assets/img/logo.png" class="navbar-brand-img" alt="logo">
                    </a>
+                   @endif
 
                    <!-- Toggler -->
                    <div class="menu-trigger"> <i class="fas fa-bars"></i></div>
@@ -17,13 +24,24 @@
                    <div class="collapse navbar-collapse main-menu" id="navbarCollapse">
                        <!-- Navigation -->
                        <ul class="left-menu navbar-nav mr-auto">
+
+                          @if(Auth::user() && Auth::user()->role->name=="Trainer")
+                           <li class="nav-item active">
+                               <a class="nav-link" href="{{url('/')}}/dashboard">@lang('front.Home')  </a>
+                           </li>
+                           @else
                            <li class="nav-item active">
                                <a class="nav-link" href="{{url('/')}}">@lang('front.Home')  </a>
                            </li>
+                           @endif
+
+
                              @if(Auth::user())
+                              @if(Auth::user()->role->name!="Trainer")
                            <li class="nav-item">
                                <a class="nav-link" href="{{url('/')}}/my-subscription">@lang('front.MySubscription')</a>
                            </li>
+                               @endif
                            @endif
 
 
@@ -50,6 +68,7 @@
 
                    <div class="right-header align-self-center">
                        <div class="d-flex">
+                           @if(Auth::user()->role->name!="Trainer")
                            <div class="search-box mr-3" id="searchbox">
                                <input type="text" placeholder="{{__('front.Typetosearch')}}.." class="search_all_text">
                                <div class="search-icon">
@@ -59,6 +78,8 @@
                                    <i class="fas fa-times"></i>
                                </div>
                            </div>
+                           @endif
+                           @if(Auth::user()->role->name!="Trainer")
                            <div class="dropdown nt-drp show">
                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropNotification"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -95,6 +116,7 @@
                                  @endforeach
                                </div>
                            </div>
+                           @endif
 
 
 
@@ -118,6 +140,7 @@
                                </a>
 
                                <div class="dropdown-menu profile-drop dropdown-menu-right" aria-labelledby="dropProfile">
+                                  @if(Auth::user()->role->name!="Trainer")
                                    <div class="drop-item">
                                        <a href="{{url('/')}}/edit-profile">
                                            <i class="far fa-edit"></i>
@@ -140,10 +163,19 @@
                                                      @csrf
                                                    </form>
                                    </div>
+                                   @else
+                                   <div class="drop-item">
+                                       <a href="{{url('/')}}/dashboard">
+                                           <i class="far fa-edit"></i>
+                                           <span>Dashboard</span>
+                                       </a>
+                                   </div>
+                                   @endif
                                </div>
                            </div>
+                           @if(Auth::user()->role->name!="Trainer")
                            <a  href="{{url('/')}}/lang/{{(session()->has('locale') && session()->get('locale') =='ar')?'en':'ar'}}" class="sec-btn lang">@lang('front.language') </a>
-
+                           @endif
                        </div>
                    </div>
                    @endguest

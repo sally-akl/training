@@ -38,6 +38,7 @@ $(".attachment_img").on("change",function(e)
 
               console.log(response);
               var html = "";
+              /*
               if(viewer_type_in == "dashboard")
               {
                 html = '<div class="chat-message-left pb-4">';
@@ -59,6 +60,27 @@ $(".attachment_img").on("change",function(e)
                 html += '<span>'+date_str+'<small><i class="fas fa-check-double"></i></small></span>';
                 html +='</div>';
                 html +='</div>';
+              }
+              */
+
+              if(viewer_type == "trainer")
+              {
+                html = '<div class="coach-msg d-flex">';
+                html += '<img src="'+sender_img+'" class="coach-msg-img align-self-center" alt="">';
+                html += '<div class="msg-content align-self-center">';
+                html += '<img src="'+img+'" alt="" class="chat_img_press">';
+                html +='<span>'+date_str+'</span>';
+                html +='</div>';
+                html +='</div>';
+              }
+              else{
+                html = '<div class="user-msg">';
+                html += '<div class="msg-content">';
+                html += '<img src="'+img+'" alt="" class="chat_img_press">';
+                html += '<span>'+date_str+'<small><i class="fas fa-check-double"></i></small></span>';
+                html +='</div>';
+                html +='</div>';
+
               }
 
               $(".chat-messages").append(html);
@@ -91,6 +113,7 @@ $( ".chat_text_box" ).blur(function() {
      socket.emit("stopTyping" , {sender:sender , receiver:receiver});
 });
 $(".send_btn").on("click",function(){
+
     var message = $(".chat_text_box").val();
     var submit_form_url = $("input[name='submit_form_url']").val();
     var sender_img = $("input[name='sender_img']").val();
@@ -123,7 +146,7 @@ $(".send_btn").on("click",function(){
             processData: false
     });
     var html = "";
-    if(viewer_type_in == "dashboard")
+  /*  if(viewer_type_in == "dashboard")
     {
       html = '<div class="chat-message-left pb-4">';
       html +='<div>';
@@ -144,6 +167,28 @@ $(".send_btn").on("click",function(){
       html += '<span>'+date_str+'<small><i class="fas fa-check-double"></i></small></span>';
       html +='</div>';
       html +='</div>';
+    }
+    */
+
+    if(viewer_type == "trainer")
+    {
+      html = '<div class="coach-msg d-flex">';
+      html += '<img src="'+sender_img+'" class="coach-msg-img align-self-center" alt="">';
+      html += '<div class="msg-content align-self-center">';
+      html += '<p>'+message+'</p>';
+      html +='<span>'+date_str+'</span>';
+      html +='</div>';
+      html +='</div>';
+
+    }
+    else{
+      html = '<div class="user-msg">';
+      html += '<div class="msg-content">';
+      html += '<p>'+message+'</p>';
+      html += '<span>'+date_str+'<small><i class="fas fa-check-double"></i></small></span>';
+      html +='</div>';
+      html +='</div>';
+
     }
 
     $(".chat-messages").append(html);
@@ -172,6 +217,7 @@ socket.on("message" , function(data){
 
     var html = "";
     var notf = "";
+    /*
     if(data.viewer_type_in != "dashboard")
     {
       html = '<div class="chat-message-right pb-4">';
@@ -254,6 +300,60 @@ socket.on("message" , function(data){
          notf +='</div>';
 
        }
+
+    }
+    */
+    if(data.viewer_type == "trainer")
+    {
+
+      html = '<div class="coach-msg d-flex">';
+      html += '<img src="'+data.img+'" class="coach-msg-img align-self-center" alt="">';
+      html += '<div class="msg-content align-self-center">';
+      if(data.send_type_att != "image")
+        html += '<p>'+sent_msg_is+'</p>';
+      if(data.send_type_att == "image")
+         html += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
+      html +='<span>'+data.date+'</span>';
+      html +='</div>';
+      html +='</div>';
+
+      notf = '<div class="d-flex">';
+      notf += '<img src="'+data.img+'" alt="" class="chat_img_press">';
+      notf += '<div class="not-det">';
+      notf += '<a href="#">Notify from '+data.sender_name+'</a>';
+
+      if(data.send_type_att != "image")
+        notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
+      if(data.send_type_att == "image")
+         notf += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
+      notf += '<span>'+data.date+'</span>';
+      notf +='</div>';
+      notf +='</div>';
+
+    }
+    else{
+
+      html = '<div class="user-msg">';
+      html += '<div class="msg-content">';
+      if(data.send_type_att != "image")
+         html += '<p>'+sent_msg_is+'</p>';
+      if(data.send_type_att == "image")
+         html += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
+      html += '<span>'+data.date+'<small><i class="fas fa-check-double"></i></small></span>';
+      html +='</div>';
+      html +='</div>';
+
+      notf = '<div class="d-flex">';
+      notf += '<div class="not-det">';
+      notf += '<a href="#">Notify from '+data.sender_name+'</a>';
+
+      if(data.send_type_att != "image")
+        notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
+      if(data.send_type_att == "image")
+         notf += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
+      notf += '<span>'+data.date+'</span>';
+      notf +='</div>';
+      notf +='</div>';
 
     }
     $(".chat-messages").append(html);

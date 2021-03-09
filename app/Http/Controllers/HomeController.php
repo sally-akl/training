@@ -339,9 +339,29 @@ class HomeController extends Controller
               return redirect('strip/pay/'.$type."/".$id);
           }
         }
-        return redirect('my-subscription');
+      //  return redirect('my-subscription');
+      return redirect('subscribe/questions');
       }
       return redirect('auth-customer');
+    }
+    public function subscribequestions($id)
+    {
+      $questions = \App\Questions::all();
+      return view('subscribequestions',compact('questions','id'));
+    }
+    public function complete_subscribequestions(Request $request)
+    {
+      $questions = \App\Questions::all();
+      foreach($questions as $question)
+      {
+        $answers = new \App\QuestionsAnswers();
+        $answers->question_id = $question->id;
+        $qid = "qu_".$question->id;
+        $answers->answer = $request->$qid;
+        $answers->transaction_id = $request->trans;
+        $answers->save();
+      }
+      return redirect('my-subscription');
     }
     public function save_image_chat(Request $request)
     {

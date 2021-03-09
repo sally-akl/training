@@ -31,6 +31,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('equipment','Dashboard\EquipmentController');
   Route::resource('mechanicstype','Dashboard\MechanicsTypeController');
   Route::resource('level','Dashboard\LevelController');
+  Route::resource('questions','Dashboard\QuestionsController');
 
 
 
@@ -123,6 +124,8 @@ Route::middleware(['XSS','web','Localization'])->group(function () {
   Route::get('auth/apple/callback', 'Auth\LoginController@handleAppleCallback');
   Route::post('/chat/image/save',['uses'=>'HomeController@save_image_chat']);
   Route::post('/add/excercise/complete',['uses'=>'HomeController@complete_excercise']);
+  Route::get('/subscribe/questions/{id}',['uses'=>'HomeController@subscribequestions']);
+  Route::post('/subscribe/add',['uses'=>'HomeController@complete_subscribequestions']);
 
 });
 Auth::routes();

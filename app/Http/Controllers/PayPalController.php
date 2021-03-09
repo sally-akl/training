@@ -181,7 +181,7 @@ class PayPalController extends Controller
           $transaction->amount = \App\Package::find($package_id)->package_price;
           $transaction->save();
 
-          return redirect('my-subscription');
+          return redirect('subscribe/questions/'.$transaction->id);
         }
         \Session::put('error','Payment failed');
         Session::forget('package_name');
