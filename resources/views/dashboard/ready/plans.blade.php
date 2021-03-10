@@ -67,4 +67,5 @@
         @endforeach
     </tbody>
   </table>
+  <button type="submit" class="btn btn-primary" style="background-color: #ea380f;border: 1px solid #ea380f;">Copy programme</button>
 </div>

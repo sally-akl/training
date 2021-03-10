@@ -46,7 +46,7 @@
           <td><input type="text" name="selected_text_{{$programme->id}}" value="{{$programme->number_of_sets}}" class="form-control"/></td>
 
           <td>
-            
+
           </td>
 
 
@@ -54,7 +54,6 @@
         @endforeach
     </tbody>
   </table>
-  <input type="hidden" name="programme_type" value="excercises" />
 </div>
 <div class="card-footer d-flex align-items-center">
   {{ $programme_data->links('dashboard.vendor.pagination.default')}}

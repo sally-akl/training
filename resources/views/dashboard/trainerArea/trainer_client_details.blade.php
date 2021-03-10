@@ -7,11 +7,11 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body" style="background-color: #2c2b2a !important;color:#fff;">
-              <form method="POST" action='{{url("/dashboard/trainers/ready/copy")}}' class="form_submit_ready_model">
+              <form method="POST" action='{{url("/dashboard/trainersarea/ready/copy")}}' class="form_submit_ready_model">
                 @csrf
                 <input type="hidden" name="package_num" value="{{$transaction->package->id}}" />
                 <input type="hidden" name="user_num" value="{{Auth::user()->id}}" />
-                <input type="hidden" name="transaction" value="{{$transaction->id}"/>
+                <input type="hidden" name="transaction" value="{{$transaction->id}}"/>
                 <div class="row" style="padding: 15px;">
                   <div class="col-lg-2">
 
@@ -62,7 +62,7 @@
 
                 </div>
               </div>
-
+            
            </form>
         </div>
     </div>
@@ -1125,6 +1125,37 @@
 </script>
 
 <script type="text/javascript">
+
+$(".form_submit_ready_model").submit(function(e){
+
+    e.preventDefault();
+    var submit_form_url = $(this).attr('action');
+    var $method_is = "POST";
+    var formData = new FormData($(this)[0]);
+
+      $.ajax({
+                url: submit_form_url,
+                type: $method_is,
+                data: formData,
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+                  $('#add_new_ready_modal').modal('hide');
+                  $(".search_ready_area").html("");
+                },
+              error : function( data )
+              {
+
+              },
+              cache: false,
+              contentType: false,
+              processData: false
+      });
+
+
+
+      return false;
+});
 
   $("select[name='select_day_ready']").on("change",function(){
 

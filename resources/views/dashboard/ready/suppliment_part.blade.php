@@ -50,7 +50,7 @@
           <td><input type="text" name="selected_text_serving_{{$programme->id}}" value="{{$programme->serving_size}}" class="form-control"/></td>
 
           <td>
-          
+
           </td>
 
 
@@ -58,7 +58,6 @@
         @endforeach
     </tbody>
   </table>
-
 </div>
 <div class="card-footer d-flex align-items-center">
   {{ $programme_data->links('dashboard.vendor.pagination.default')}}

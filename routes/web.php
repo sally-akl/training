@@ -73,6 +73,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::get('/trainersarea/get/food/{id}/{trans}',['uses'=>'Dashboard\TrainerAreaController@get_food_byday']);
   Route::post('trainersarea/suppliment/get','Dashboard\TrainerAreaController@trainer_get_search_suppliment');
   Route::post('trainersarea/recepe/get','Dashboard\TrainerAreaController@recepe_trainer_get_search');
+  Route::post('trainersarea/ready/copy','Dashboard\TrainerAreaController@copy_ready_plan');
 
 
   Route::post('trainers/questionair/answer','Dashboard\TrainerAreaController@add_answer');

@@ -195,6 +195,26 @@ class TrainerAreaController extends Controller
       return view('dashboard.trainerArea.food_partial',compact('plan_receps'));
 
     }
+    public function copy_ready_plan(Request $request)
+    {
+      $day = $request->select_day_ready;
+      $plans = \App\ReadyPlan::where("day_num",$day)->get();
+
+      foreach($plans as $plan)
+      {
+        $p = \App\Plan::firstOrNew(['day_num' => $plan->day_num ,
+                                    'package_id' => $request->package_num  ,
+                                    'user_id'=> $request->user_num ,
+                                    'programme_design_id'=>$plan->programme_design_id,
+                                    'recepe_id'=>$plan->recepe_id,
+                                    'transaction_id'=>$request->transaction,
+                                    'set_num'=>$plan->set_num,
+                                    'suplement_serving_size'=>$plan->suplement_serving_size,
+             ]);
+        $p->save();
+      }
+      return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
+    }
     private  function getCode($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
