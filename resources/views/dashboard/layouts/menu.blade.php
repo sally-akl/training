@@ -39,33 +39,13 @@
         </a>
       </li>
       <li>
-        <a class="dropdown-item" href='{{url("/dashboard/muscles")}}' style="color:#000 !important;">
-          Muscles
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href='{{url("/dashboard/exercisetype")}}' style="color:#000 !important;">
-          Exercise Type
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href='{{url("/dashboard/equipment")}}' style="color:#000 !important;">
-          Equipment
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href='{{url("/dashboard/mechanicstype")}}' style="color:#000 !important;">
-          Mechanics Type
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href='{{url("/dashboard/level")}}' style="color:#000 !important;">
-          Level
-        </a>
-      </li>
-      <li>
         <a class="dropdown-item" href='{{url("/dashboard/questions")}}' style="color:#000 !important;">
           Questions
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href='{{url("/dashboard/readyplan")}}' style="color:#000 !important;">
+          Ready plan
         </a>
       </li>
 
@@ -110,6 +90,7 @@
           Level
         </a>
       </li>
+
 
     </ul>
   </li>
@@ -185,4 +166,5 @@
       </span>
     </a>
   </li>
+
 </ul>

@@ -225,6 +225,12 @@
                 <input type="checkbox" name="permssions[]" value="manange_questions">
               </div>
             </div>
+            <div class="col-lg-4">
+              <div class="mb-3">
+                      <label>Manage Ready plan</label>
+                <input type="checkbox" name="permssions[]" value="manage_ready_plan">
+              </div>
+            </div>
           </div>
 
           <input type="hidden" name="method_type" value="add" />

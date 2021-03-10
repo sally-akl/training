@@ -33,7 +33,11 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('level','Dashboard\LevelController');
   Route::resource('questions','Dashboard\QuestionsController');
 
-
+  Route::resource('readyplan','Dashboard\ReadyplanController');
+  Route::post('readyplans/excer/get','Dashboard\ReadyplanController@get_excercise_div');
+  Route::post('readyplans/supplement/get','Dashboard\ReadyplanController@get_supplement_div');
+  Route::post('readyplans/meals/get','Dashboard\ReadyplanController@get_meals_div');
+  Route::get('readyplans/programmes/save/{type}/{id}','Dashboard\ReadyplanController@addprogramme');
 
   Route::post('sliders/uploadImage/{id}','Dashboard\SliderController@uploadImage');
   Route::resource('notifications','Dashboard\NotificationsController');
