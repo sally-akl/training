@@ -38,6 +38,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('readyplans/supplement/get','Dashboard\ReadyplanController@get_supplement_div');
   Route::post('readyplans/meals/get','Dashboard\ReadyplanController@get_meals_div');
   Route::get('readyplans/programmes/save/{type}/{id}','Dashboard\ReadyplanController@addprogramme');
+  Route::get('readyplans/plans/get/{day}','Dashboard\ReadyplanController@get_plans');
 
   Route::post('sliders/uploadImage/{id}','Dashboard\SliderController@uploadImage');
   Route::resource('notifications','Dashboard\NotificationsController');

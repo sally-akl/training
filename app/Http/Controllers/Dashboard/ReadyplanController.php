@@ -130,6 +130,12 @@ class ReadyplanController extends MainAdminController
       return redirect('dashboard/readyplan')->with("message","Sucessfully Added");
     }
 
+    public function get_plans($day)
+    {
+       $plans = ReadyPlan::where("day_num",$day)->get();
+       return view('dashboard.ready.plans',compact('plans'));
+    }
+
 
     /**
      * Remove the specified resource from storage.

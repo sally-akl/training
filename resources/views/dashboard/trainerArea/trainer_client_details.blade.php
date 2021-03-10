@@ -3,6 +3,71 @@
 <style>
 
 </style>
+<div class="modal fade exer-modal" id="add_new_ready_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: #2c2b2a !important;color:#fff;">
+              <form method="POST" action='{{url("/dashboard/trainers/ready/copy")}}' class="form_submit_ready_model">
+                @csrf
+                <input type="hidden" name="package_num" value="{{$transaction->package->id}}" />
+                <input type="hidden" name="user_num" value="{{Auth::user()->id}}" />
+                <input type="hidden" name="transaction" value="{{$transaction->id}"/>
+                <div class="row" style="padding: 15px;">
+                  <div class="col-lg-2">
+
+                  </div>
+                  <div class="col-lg-8">
+                      <div class="row form-group">
+                        <div class="col-sm-12">
+                          <select name="select_day_ready" class="form-control" >
+                             @php
+                                //$days = \App\Transactions::find($transaction->id)->package->package_duration *  7;
+                                $weekss = \App\Transactions::find($transaction->id)->package->package_duration ;
+                              @endphp
+                              @for($w = 1;$w<=$weekss;$w++)
+                                @php
+                                  $end  = 7 ;
+                                  $begin = 1;
+
+                                  $end_day = $w * 7;
+                                  $begin_day = ($end_day-7)+1;
+                                  $days_real = [];
+                                  for($j=$begin_day;$j<=$end_day;$j++)
+                                  {
+                                     $days_real[]=$j;
+                                  }
+                                @endphp
+                              <optgroup label="Week {{$w}}">
+                                @for($d = $begin;$d<=$end;$d++)
+                                  @php  $to_day = $days_real[$d-1];  @endphp
+                                    <option value="{{$to_day}}">Day {{$d}}</option>
+                                @endfor
+                            </optgroup>
+                              @endfor
+
+                          </select>
+                        </div>
+
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+
+                  </div>
+                </dv>
+              </div>
+
+              <div class="row">
+
+                <div class="col-lg-12 col-sm-12  col-md-12 search_ready_area">
+
+                </div>
+              </div>
+
+           </form>
+        </div>
+    </div>
+</div>
+</div>
 <!-- food -->
 <div class="modal fade exer-modal" id="add_new_recep_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -562,6 +627,8 @@
                     </table>
 
                   </div>
+
+                  <a href="#" class="sec-btn lang ready_btn" style="border-radius: 0px;">Ready plans and Diet</a>
                 </div>
             </div>
         </div>
@@ -1058,6 +1125,19 @@
 </script>
 
 <script type="text/javascript">
+
+  $("select[name='select_day_ready']").on("change",function(){
+
+    var val = $(this).val();
+    var url = '{{url("/dashboard/readyplans/plans/get")}}'+"/"+val;
+    $.ajax({url: url , success: function(result){
+      $(".search_ready_area").html("");
+      $(".search_ready_area").append(result);
+    }});
+  });
+  $(".ready_btn").on("click",function(){
+    $('#add_new_ready_modal').modal('show');
+  });
   $(".week_excercise").on("change",function(){
     var val = $(this).val();
     var url = '{{url("/get/weekday")}}'+"/"+val;
