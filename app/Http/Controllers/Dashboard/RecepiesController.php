@@ -79,6 +79,47 @@ class RecepiesController extends Controller
 
     }
 
+    public function storerecepe(Request $request)
+    {
+         $validator = $this->validation($request);
+         if ($validator->fails())
+          return json_encode(array("sucess"=>false ,"errors"=> $validator->errors()));
+
+
+          $recepe = new Receips();
+          $recepe->name = $request->name;
+          $recepe->desciption = $request->body;
+          if ($request->hasFile('img')) {
+               $photo = $request->file('img');
+               $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
+               $photo->move(public_path('/img/programme/'), $photo_name);
+               $photo_name = '/img/programme/'.$photo_name;
+               $recepe->image = $photo_name;
+           }
+          $recepe->save();
+          for($i=1;$i<=$request->character_num;$i++)
+          {
+              $s = "food_".$i;
+              $cal = "integrate_".$i;
+              $car = "serving_num_".$i;
+              if(isset($request->$s) && isset($request->$cal) && isset($request->$car))
+              {
+                $sp = new \App\RecepiesIntegrate();
+                $sp->programme_id  = $request->$s;
+                $sp->integrate_programme_id  = $request->$cal;
+                $sp->recep_id  = $recepe->id;
+                $sp->serving  =$request->$car;
+                $sp->save();
+              }
+          }
+
+          return json_encode(array("sucess"=>true,"sucess_text"=>trans('site.add_sucessfully')));
+
+    }
+
+
+
+
     /**
      * Show the form for editing the specified resource.
      *

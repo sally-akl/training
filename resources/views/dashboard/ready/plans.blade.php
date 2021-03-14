@@ -27,7 +27,7 @@
                     <div class="select-day d-flex">
                         <span class="align-self-center">@lang('front.Selectday') :</span>
                         <select class="custom-select day_ready_excercise" class="align-self-center ">
-                            <option value="0">@lang('front.select')</option>
+                            <option value="0">Select</option>
                             <option value="1">@lang('front.Day') 1</option>
                             <option value="2">@lang('front.Day') 2</option>
                             <option value="3">@lang('front.Day') 3</option>

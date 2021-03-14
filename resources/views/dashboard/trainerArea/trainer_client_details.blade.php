@@ -1,8 +1,97 @@
-@extends('layouts.app')
+@extends('layouts.trianer')
 @section('content')
 <style>
 
 </style>
+<div class="modal modal-blur fade" id="add_edit_recep_modal" tabindex="-1" role="dialog" aria-hidden="true" style="    z-index: 999999999999;">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">@lang('site.new_add')</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+      </div>
+      <div class="alert alert-danger alert-danger-modal" style="display:none">
+
+      </div>
+      <div class="alert alert-success alert-success-modal" style="display:none">
+
+      </div>
+      <form method="POST" action="{{ url('dashboard/recepies/trainer/store') }}" class="form_add_new_meal_model">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" name="name">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">@lang('site.image')</label>
+                <input type="file" class="form-control" onchange="loadPreview(this)" name="img"  id="img" >
+                <div id="thumb-output"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control desc" rows="3" name="body">{{old('body')}}</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row masged">
+            <input type="hidden" name="character_num" value="1" />
+              <div class="col-lg-12">
+                <div class="mb-3">
+                  <label class="form-label">Choose Food and Serving number</label>
+                  <div class="msgd_characters_div">
+                    <div class="row  ch_htm_div msgd_remove_ch_div1">
+                       <div class="col-lg-2">
+                         <label>Food</label>
+                         <select name="food_1" class="form-control select_food">
+                           <option value="">Select</option>
+                           @foreach(\App\Programme::where("type","dietary meals")->get() as $programme)
+                              <option value="{{$programme->id}}">{{$programme->title}}</option>
+                           @endforeach
+                         </select>
+
+                       </div>
+                       <div class="col-lg-2">
+                         <label> Serving size  , Calories , ... </label>
+                         <select name="integrate_1" class="form-control">
+                         </select>
+                       </div>
+                       <div class="col-lg-2">
+                         <label>Serving num</label>
+                          <input type="text" class="form-control" name="serving_num_1" value="{{old('serving_num1')}}">
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-12">
+                        <button type="button" class="btn btn-primary msgd_add_character">+</button>
+                      </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          <input type="hidden" name="method_type" value="add" />
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-dismiss="modal">
+            @lang('site.cancel')
+          </a>
+          <button type="submit" class="btn btn-primary">+ {{ __('site.save') }} </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <div class="modal fade exer-modal" id="add_new_ready_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content coach-sub-page">
@@ -19,7 +108,7 @@
                         <div class="col-sm-12" style="position: relative;background-color: #2c2b2a;padding: 10px 15px;margin-bottom: 10px;">
                           <select name="ready_plan_select" class="form-control" style="background-color: #2c2b2a;border: none;color: #ea380f;font-weight: bold;" >
 
-                            <option value="0">@lang('front.select')</option>
+                            <option value="0">Select</option>
                             @foreach(\App\ReadyPlanPackage::all() as $ready)
                             <option value="{{$ready->id}}">{{(session()->has('locale') && session()->get('locale') =='ar')?$ready->title_ar:$ready->title}}</option>
                             @endforeach
@@ -61,7 +150,7 @@
                   <div class="col-lg-2" style="font-size: 14px;font-weight: bold;margin-top: 6px;">
                     Add New Recepe
                   </div>
-                  <div class="col-lg-8">
+                  <div class="col-lg-7">
                       <div class="row form-group">
                         <div class="col-sm-8">
                             <input id="inputHorizontalSuccess" name= "p_recepe_name"  value=""  class="form-control  form-control-success" type="text">
@@ -71,7 +160,8 @@
                         </div>
                       </div>
                   </div>
-                  <div class="col-lg-2">
+                  <div class="col-lg-3">
+                    <button type="button" class="btn btn-primary add_new_meal" style="background-color: #ea380f;border: 1px solid #ea380f;">+ Create new meal</button>
                     <button type="submit" class="btn btn-primary" style="background-color: #ea380f;border: 1px solid #ea380f;">Add Recepe</button>
                   </div>
                 </dv>
@@ -468,121 +558,129 @@
             <div class="card-content coach_div_st">
                 <div class="d-sm-flex">
                     <img src="{{url($transaction->trainer->image)}}" alt="">
-                    <div class="sub-coach" style="width:35%;margin-right: 20px;">
+                    <div class="sub-coach" style="width:100%;margin-right: 20px;">
+                      <div class="row">
+                        <div class="col-lg-6 col-sm-6  col-md-6">
+                          <div class="table-responsive">
+                          <table class="table card-table table-vcenter text-nowrap datatable">
+                            <tbody>
+                                <tr>
+                                  <td> @lang('site.transfer_num')</td>
+                                  <td>
+                                  {{$transaction->transaction_num}}
+                                  </td>
+                                </tr>
 
-                      <table class="table card-table table-vcenter text-nowrap datatable">
-                        <tbody>
-                            <tr>
-                              <td> @lang('site.transfer_num')</td>
-                              <td>
-                              {{$transaction->transaction_num}}
-                              </td>
-                            </tr>
+                              <tr>
+                                <td>Name</td>
+                                <td>
+                                  @if($transaction->user != null)
+                                      <span>
+                                      {{$transaction->user->name}}
+                                      </span>
 
-                          <tr>
-                            <td>Name</td>
-                            <td>
-                              @if($transaction->user != null)
-                                  <span>
-                                  {{$transaction->user->name}}
-                                  </span>
-
-                              @endif
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Email</td>
-                            <td>
-                              @if($transaction->user != null)
-                                  <span>
-                                  {{$transaction->user->email}}
-                                  </span>
-
-                              @endif
-                            </td>
-                          </tr>
-
-                        </tbody>
-                      </table>
-
-                    </div>
-                    <div class="sub-coach" style="width:50%;">
-                      <div class="table-responsive">
-                        <table class="table card-table table-vcenter text-nowrap datatable">
-                          <tbody>
-
-
-                            <tr>
-                              <td>Phone</td>
-                              <td>
-                                @if($transaction->user != null)
-                                    <span>
-                                    {{$transaction->user->phone}}
-                                    </span>
-
-                                @endif
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Subscribe package</td>
-                              <td>
-                                @if($transaction->package != null)
-                                  <span>
-                                  {{$transaction->package->package_name}}
-                                  </span>
-
-                                @endif
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Client Type</td>
-                              <td style="color: #ea380f;">
-                                @php  $join_date = date('Y-m-d',strtotime($transaction->transfer_date));   @endphp
-                                @if($transaction->package->package_duration_type == "day")
-                                  @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' days'));   @endphp
-                                  @if($expired_date < date("Y-m-d"))
-                                     <span>expired client </span>
-                                  @elseif($expired_date >= date("Y-m-d"))
-                                     <span>progress  client </span>
                                   @endif
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Email</td>
+                                <td>
+                                  @if($transaction->user != null)
+                                      <span>
+                                      {{$transaction->user->email}}
+                                      </span>
 
-                               @elseif($transaction->package->package_duration_type == "week")
-                                   @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' weeks'));   @endphp
-                                   @if($expired_date < date("Y-m-d"))
-                                      <span>expired client </span>
-                                   @elseif($expired_date >= date("Y-m-d"))
-                                      <span>progress  client </span>
-                                   @endif
-                               @elseif($transaction->package->package_duration_type == "month")
-                                    @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' months'));   @endphp
-                                    @if($expired_date < date("Y-m-d"))
-                                       <span>expired client </span>
-                                    @elseif($expired_date >= date("Y-m-d"))
-                                       <span>progress  client </span>
+                                  @endif
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6  col-md-6">
+                          <div class="table-responsive">
+                            <table class="table card-table table-vcenter text-nowrap datatable">
+                              <tbody>
+
+
+                                <tr>
+                                  <td>Phone</td>
+                                  <td>
+                                    @if($transaction->user != null)
+                                        <span>
+                                        {{$transaction->user->phone}}
+                                        </span>
+
                                     @endif
-                               @endif
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Join date</td>
-                              <td>
-                                <span>
-                                  {{$join_date}}
-                                </span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Expire date</td>
-                              <td>
-                                <span>
-                                  {{$expired_date}}
-                                </span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Subscribe package</td>
+                                  <td>
+                                    @if($transaction->package != null)
+                                      <span>
+                                      {{$transaction->package->package_name}}
+                                      </span>
+
+                                    @endif
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Client Type</td>
+                                  <td style="color: #ea380f;">
+                                    @php  $join_date = date('Y-m-d',strtotime($transaction->transfer_date));   @endphp
+                                    @if($transaction->package->package_duration_type == "day")
+                                      @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' days'));   @endphp
+                                      @if($expired_date < date("Y-m-d"))
+                                         <span>expired client </span>
+                                      @elseif($expired_date >= date("Y-m-d"))
+                                         <span>progress  client </span>
+                                      @endif
+
+                                   @elseif($transaction->package->package_duration_type == "week")
+                                       @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' weeks'));   @endphp
+                                       @if($expired_date < date("Y-m-d"))
+                                          <span>expired client </span>
+                                       @elseif($expired_date >= date("Y-m-d"))
+                                          <span>progress  client </span>
+                                       @endif
+                                   @elseif($transaction->package->package_duration_type == "month")
+                                        @php   $expired_date = date('Y-m-d', strtotime($join_date. ' + '.$transaction->package->package_duration.' months'));   @endphp
+                                        @if($expired_date < date("Y-m-d"))
+                                           <span>expired client </span>
+                                        @elseif($expired_date >= date("Y-m-d"))
+                                           <span>progress  client </span>
+                                        @endif
+                                   @endif
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Join date</td>
+                                  <td>
+                                    <span>
+                                      {{$join_date}}
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Expire date</td>
+                                  <td>
+                                    <span>
+                                      {{$expired_date}}
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       </div>
+
+
+
                     </div>
+
 
                 </div>
                 <div class="row">
@@ -610,8 +708,15 @@
 
                   </div>
 
-                  <a href="#" class="sec-btn lang ready_btn" style="border-radius: 0px;">Ready plans and Diet</a>
+
                 </div>
+                <div class="row">
+                  <div class="col-lg-3 col-sm-12  col-md-3">
+                    <a href="#" class="sec-btn lang ready_btn" style="border-radius: 0px;">Ready plans and Diet</a>
+                  </div>
+                </div>
+
+
             </div>
         </div>
         @php   $words = explode(" ", $transaction->user->name);
@@ -1107,6 +1212,136 @@
 </script>
 
 <script type="text/javascript">
+
+$(".form_add_new_meal_model").submit(function(e){
+
+    e.preventDefault();
+    var submit_form_url = $(this).attr('action');
+    var $method_is = "POST";
+    formData = new FormData($(this)[0]);
+    $(".alert-success-modal").css("display","none");
+    $(".alert-danger-modal").css("display","none");
+    files = $('#img')[0].files;
+
+      if(files.length > 0 ){
+         formData.append('img',files[0]);
+       }
+      $.ajax({
+                url: submit_form_url,
+                type: $method_is,
+                data: formData,
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+                  if(response.sucess)
+                  {
+                    $(".alert-success-modal").html(response.sucess_text);
+                    $(".alert-success-modal").css("display","block");
+                    $('#add_edit_recep_modal').modal('hide');
+                  }
+                  else{
+                    var $error_text = "";
+                    var errors = response.errors;
+
+                    $.each(errors, function (key, value) {
+                      $error_text +=value+"<br>";
+                    });
+
+                    $(".alert-danger-modal").html($error_text);
+                    $(".alert-danger-modal").css("display","block");
+
+                  }
+
+                },
+              error : function( data )
+              {
+
+              },
+              cache: false,
+              contentType: false,
+              processData: false
+      });
+
+
+
+      return false;
+});
+$(".add_new_meal").on("click",function(){
+     $('#add_edit_recep_modal').modal('show');
+});
+
+  function loadPreview(input){
+      var data = $(input)[0].files; //this file data
+      $.each(data, function(index, file){
+          if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){
+              var fRead = new FileReader();
+              fRead.onload = (function(file){
+                  return function(e) {
+                      var img = $('<img/>').addClass('thumb').attr('src', e.target.result); //create image thumb element
+                      $('#thumb-output').append(img);
+                  };
+              })(file);
+              fRead.readAsDataURL(file);
+          }
+      });
+  }
+
+  var i = 1;
+
+  var _select_food = function()
+  {
+
+    $(".select_food").off();
+    //$(".select_food").select2();
+    $(".select_food").on("change",function(){
+
+       var val = $(this).val();
+       var name = $(this).attr("name");
+       var parts = name.split("_");
+       var select_name = "integrate_"+parts[1];
+       var url = '{{url("/dashboard/recepies/select/integration")}}'+"/"+val;
+       $.ajax({url: url , success: function(result){
+          var result = JSON.parse(result);
+          $("select[name="+select_name+"]").html("");
+          $("select[name="+select_name+"]").append(result.integrate);
+
+       }});
+    });
+
+  }
+    _select_food();
+  var _remove_m = function()
+{
+  $(".msg_rem_btn").off();
+  $(".msg_rem_btn").on("click",function(){
+
+     var val = $(this).attr("data-remove");
+     var rem = "msgd_remove_ch_div"+val;
+     $(".msgd_characters_div").find("."+rem).remove();
+  });
+}
+  $(".msgd_add_character").on("click",function(){
+  i = i +1;
+  var food = "food_"+i;
+  var integrate = "integrate_"+i;
+  var serving_num = "serving_num_"+i;
+
+  var $options = $("select[name='food_1'] > option").clone();
+
+  var rem = "msgd_remove_ch_div"+i;
+  html = '<div class="row ch_htm_div '+rem+'">';
+  html +='<div class="col-lg-2"><label>Food</label><select name="'+food+'" class="form-control select_food"></select></div>';
+  html +='<div class="col-lg-2"><label>Serving size  , Calories , ... </label><select name="'+integrate+'" class="form-control"></select></div>';
+  html +='<div class="col-lg-2"><label>Serving num</label><input type="text" class="form-control" name="'+serving_num+'" ></div>';
+  html +='<div class="col-lg-2"><div class="div_h_20"></div><button type="button" class="btn btn-danger msg_rem_btn" data-remove="'+i+'">-</button></div>';
+  html +='</div>';
+
+  $(".msgd_characters_div").append(html);
+  $("select[name='"+food+"']").append($options);
+  _remove_m();
+  _select_food();
+  $("input[name='character_num']").val(i);
+});
 
 var _day_ready_change = function(select_plan)
 {
