@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\ReadyPlan;
+use App\ReadyPlanPackage;
 use Session;
 use Validator;
 
@@ -130,10 +131,13 @@ class ReadyplanController extends MainAdminController
       return redirect('dashboard/readyplan')->with("message","Sucessfully Added");
     }
 
-    public function get_plans($day)
+    public function get_plans($pac_plan)
     {
-       $plans = ReadyPlan::where("day_num",$day)->get();
-       return view('dashboard.ready.plans',compact('plans'));
+      return view('dashboard.ready.plans',compact('pac_plan'));
+    }
+    public function get_plans_days($daynum,$pac_plan)
+    {
+      return view('dashboard.ready.plans_days',compact('daynum','pac_plan'));
     }
 
 

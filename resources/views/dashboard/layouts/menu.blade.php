@@ -44,7 +44,7 @@
         </a>
       </li>
       <li>
-        <a class="dropdown-item" href='{{url("/dashboard/readyplan")}}' style="color:#000 !important;">
+        <a class="dropdown-item" href='{{url("/dashboard/readyplanpackage")}}' style="color:#000 !important;">
           Ready plan
         </a>
       </li>

@@ -43,7 +43,7 @@
                       $plan_data = \App\ReadyPlan::selectraw("ready_plan.* , ready_plan.id as plan_id")->join("programm_designs","programm_designs.id","ready_plan.programme_design_id")
                                               ->whereraw("(programm_designs.type = 'exercises')")
                                               ->where("ready_plan.package_id",$pac_plan)
-                                              ->where("ready_plan.day_num",1)
+                                              ->where("ready_plan.day_num",$daynum)
                                               ->get();
                       @endphp
                       @foreach ($plan_data as $key => $programme)
@@ -78,7 +78,7 @@
                     @php
                      $plan_receps = \App\ReadyPlan::selectraw("ready_plan.* , ready_plan.id as plan_id")->join("receips","receips.id","ready_plan.recepe_id")
                                         ->where("ready_plan.package_id",$pac_plan)
-                                        ->where("ready_plan.day_num",1)
+                                        ->where("ready_plan.day_num",$daynum)
                                         ->get();
 
                     @endphp
@@ -141,7 +141,7 @@
                       $plan_data = \App\ReadyPlan::selectraw("ready_plan.* , ready_plan.id as plan_id")->join("programm_designs","programm_designs.id","ready_plan.programme_design_id")
                                               ->whereraw("(programm_designs.type = 'food supplements')")
                                               ->where("ready_plan.package_id",$pac_plan)
-                                              ->where("ready_plan.day_num",1)
+                                              ->where("ready_plan.day_num",$daynum)
                                               ->get();
                       @endphp
                       @foreach ($plan_data as $key => $programme)

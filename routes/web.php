@@ -32,6 +32,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::resource('mechanicstype','Dashboard\MechanicsTypeController');
   Route::resource('level','Dashboard\LevelController');
   Route::resource('questions','Dashboard\QuestionsController');
+  Route::resource('readyplanpackage','Dashboard\ReadyplanpackageController');
 
   Route::resource('readyplan','Dashboard\ReadyplanController');
   Route::post('readyplans/excer/get','Dashboard\ReadyplanController@get_excercise_div');
@@ -64,6 +65,16 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
   Route::post('trainers/programmes/copy','Dashboard\ProgrammeDesignController@copy');
   Route::post('trainers/programmes/copyweek','Dashboard\ProgrammeDesignController@copyweek');
   Route::post('trainers/programmes/copyday','Dashboard\ProgrammeDesignController@copyday');
+
+  Route::get('readypackage/weeks/{id}','Dashboard\ReadyplanpackageController@weeks');
+  Route::get('readypackage/days/{week}/{transaction}','Dashboard\ReadyplanpackageController@days');
+  Route::get('readypackage/programmes/design/{day}/{week}/{transaction}','Dashboard\ReadyplanpackageController@design');
+  Route::post('readypackage/programmes/add','Dashboard\ReadyplanpackageController@createplan');
+  Route::get('readypackage/programmes/save/{type}/{id}','Dashboard\ReadyplanpackageController@addprogramme');
+  Route::get('readypackage/programmes/delete/{id}','Dashboard\ReadyplanpackageController@delete');
+
+  Route::get('readypackage/plans/get/{day}','Dashboard\ReadyplanController@get_plans');
+  Route::get('readypackage/plans/days/select/{day}/{plan}','Dashboard\ReadyplanController@get_plans_days');
 
 
   Route::get('trainersarea/clients/details/{id}','Dashboard\TrainerAreaController@trainer_client_details');

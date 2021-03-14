@@ -197,8 +197,10 @@ class TrainerAreaController extends Controller
     }
     public function copy_ready_plan(Request $request)
     {
-      $day = $request->select_day_ready;
-      $plans = \App\ReadyPlan::where("day_num",$day)->get();
+      $plan = $request->ready_plan_select;
+      $day_is = $request->ready_day_num;
+      $plans = \App\ReadyPlan::where("package_id",$plan)->where("day_num",$day_is)->get();
+      
 
       foreach($plans as $plan)
       {

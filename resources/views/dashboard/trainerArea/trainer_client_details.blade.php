@@ -5,53 +5,29 @@
 </style>
 <div class="modal fade exer-modal" id="add_new_ready_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
+        <div class="modal-content coach-sub-page">
             <div class="modal-body" style="background-color: #2c2b2a !important;color:#fff;">
               <form method="POST" action='{{url("/dashboard/trainersarea/ready/copy")}}' class="form_submit_ready_model">
                 @csrf
                 <input type="hidden" name="package_num" value="{{$transaction->package->id}}" />
                 <input type="hidden" name="user_num" value="{{Auth::user()->id}}" />
                 <input type="hidden" name="transaction" value="{{$transaction->id}}"/>
+                <input type="hidden" name="ready_day_num" value="1"/>
                 <div class="row" style="padding: 15px;">
-                  <div class="col-lg-2">
-
-                  </div>
-                  <div class="col-lg-8">
+                  <div class="col-lg-12">
                       <div class="row form-group">
-                        <div class="col-sm-12">
-                          <select name="select_day_ready" class="form-control" >
-                             @php
-                                //$days = \App\Transactions::find($transaction->id)->package->package_duration *  7;
-                                $weekss = \App\Transactions::find($transaction->id)->package->package_duration ;
-                              @endphp
-                              @for($w = 1;$w<=$weekss;$w++)
-                                @php
-                                  $end  = 7 ;
-                                  $begin = 1;
+                        <div class="col-sm-12" style="position: relative;background-color: #2c2b2a;padding: 10px 15px;margin-bottom: 10px;">
+                          <select name="ready_plan_select" class="form-control" style="background-color: #2c2b2a;border: none;color: #ea380f;font-weight: bold;" >
 
-                                  $end_day = $w * 7;
-                                  $begin_day = ($end_day-7)+1;
-                                  $days_real = [];
-                                  for($j=$begin_day;$j<=$end_day;$j++)
-                                  {
-                                     $days_real[]=$j;
-                                  }
-                                @endphp
-                              <optgroup label="Week {{$w}}">
-                                @for($d = $begin;$d<=$end;$d++)
-                                  @php  $to_day = $days_real[$d-1];  @endphp
-                                    <option value="{{$to_day}}">Day {{$d}}</option>
-                                @endfor
-                            </optgroup>
-                              @endfor
+                            <option value="0">@lang('front.select')</option>
+                            @foreach(\App\ReadyPlanPackage::all() as $ready)
+                            <option value="{{$ready->id}}">{{(session()->has('locale') && session()->get('locale') =='ar')?$ready->title_ar:$ready->title}}</option>
+                            @endforeach
 
                           </select>
                         </div>
 
                       </div>
-                  </div>
-                  <div class="col-lg-2">
-
                   </div>
                 </dv>
               </div>
@@ -62,7 +38,13 @@
 
                 </div>
               </div>
-            
+              <div class="row">
+
+                <div class="col-lg-12 col-sm-12  col-md-12">
+                   <button type="submit" class="btn btn-primary copy_ready_btn" style="display:none;">Copy programme</button>
+                </div>
+              </div>
+
            </form>
         </div>
     </div>
@@ -1125,6 +1107,51 @@
 </script>
 
 <script type="text/javascript">
+
+var _day_ready_change = function(select_plan)
+{
+  $(".day_ready_excercise").off();
+  $(".day_ready_excercise").on("change",function(){
+    var val = $(this).val();
+    $("input[name='ready_day_num']").val(val);
+    var url = '{{url("/dashboard/readypackage/plans/days/select")}}'+"/"+val+"/"+select_plan;
+    $.ajax({url: url , success: function(result){
+       _ready_change(result,select_plan);
+
+    }});
+  });
+}
+
+
+var _ready_change = function(result,select_plan)
+{
+  $(".search_ready_area").html("");
+  $(".search_ready_area").append(result);
+  _day_ready_change(select_plan);
+  $(".week_ready_excercise").off();
+  $(".week_ready_excercise").on("change",function(){
+    var val = $(this).val();
+    var url = '{{url("/get/weekday")}}'+"/"+val;
+    $.ajax({url: url , success: function(result){
+        $(".day_ready_excercise").html("");
+        $(".day_ready_excercise").append(result);
+        _day_ready_change(select_plan);
+    }});
+  });
+
+}
+$("select[name='ready_plan_select']").on("change",function()
+{
+   var select_plan = $(this).val();
+   var url = '{{url("/dashboard/readypackage/plans/get")}}'+"/"+select_plan;
+   $(".copy_ready_btn").css("display","block");
+   $.ajax({url: url , success: function(result){
+
+       _ready_change(result,select_plan);
+   }});
+
+
+});
 
 $(".form_submit_ready_model").submit(function(e){
 
