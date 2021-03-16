@@ -109,8 +109,8 @@
                           <select name="ready_plan_select" class="form-control" style="background-color: #2c2b2a;border: none;color: #ea380f;font-weight: bold;" >
 
                             <option value="0">Select</option>
-                            @foreach(\App\ReadyPlanPackage::all() as $ready)
-                            <option value="{{$ready->id}}">{{(session()->has('locale') && session()->get('locale') =='ar')?$ready->title_ar:$ready->title}}</option>
+                            @foreach(\App\ReadyPlanPackage::all() as $k=>$ready)
+                            <option value="{{$ready->id}}" {{$k==0?'selected':''}}>{{(session()->has('locale') && session()->get('locale') =='ar')?$ready->title_ar:$ready->title}}</option>
                             @endforeach
 
                           </select>
@@ -683,8 +683,8 @@
 
 
                 </div>
-                <div class="row">
-                  <div class="col-lg-10 col-sm-12  col-md-12">
+                <div class="row" style="margin-top: 5px;">
+                  <div class="col-lg-9 col-sm-9  col-md-9">
                     <table class="table card-table table-vcenter text-nowrap datatable">
                       <tbody>
                         @php $answers = \App\QuestionsAnswers::where("transaction_id",$transaction->id)->get();  @endphp
@@ -707,13 +707,11 @@
                     </table>
 
                   </div>
-
-
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-sm-12  col-md-3">
+                  <div class="col-lg-3 col-sm-3  col-md-3" style="padding: 25px;">
                     <a href="#" class="sec-btn lang ready_btn" style="border-radius: 0px;">Ready plans and Diet</a>
                   </div>
+
+
                 </div>
 
 
@@ -1187,6 +1185,7 @@
             </div>
         </div>
     </div>
+    <div class="loading" style="display:none;">Loading&#8230;</div>
 </main>
 @include("dashboard/utility/modal_delete")
 @endsection
@@ -1350,7 +1349,9 @@ var _day_ready_change = function(select_plan)
     var val = $(this).val();
     $("input[name='ready_day_num']").val(val);
     var url = '{{url("/dashboard/readypackage/plans/days/select")}}'+"/"+val+"/"+select_plan;
+    $(".loading").css("display","block");
     $.ajax({url: url , success: function(result){
+        $(".loading").css("display","none");
        _ready_change(result,select_plan);
 
     }});
@@ -1367,7 +1368,9 @@ var _ready_change = function(result,select_plan)
   $(".week_ready_excercise").on("change",function(){
     var val = $(this).val();
     var url = '{{url("/get/weekday")}}'+"/"+val;
+    $(".loading").css("display","block");
     $.ajax({url: url , success: function(result){
+        $(".loading").css("display","none");
         $(".day_ready_excercise").html("");
         $(".day_ready_excercise").append(result);
         _day_ready_change(select_plan);
@@ -1380,8 +1383,10 @@ $("select[name='ready_plan_select']").on("change",function()
    var select_plan = $(this).val();
    var url = '{{url("/dashboard/readypackage/plans/get")}}'+"/"+select_plan;
    $(".copy_ready_btn").css("display","block");
-   $.ajax({url: url , success: function(result){
+   $(".loading").css("display","block");
 
+   $.ajax({url: url , success: function(result){
+        $(".loading").css("display","none");
        _ready_change(result,select_plan);
    }});
 
@@ -1429,7 +1434,17 @@ $(".form_submit_ready_model").submit(function(e){
     }});
   });
   $(".ready_btn").on("click",function(){
-    $('#add_new_ready_modal').modal('show');
+
+    var val = 1;
+    $("input[name='ready_day_num']").val(val);
+    var url = '{{url("/dashboard/readypackage/plans/days/select")}}'+"/"+val+"/"+$("select[name='ready_plan_select']").val();
+    $(".loading").css("display","block");
+    $.ajax({url: url , success: function(result){
+       $(".loading").css("display","none");
+       _ready_change(result,$("select[name='ready_plan_select']").val());
+       $(".copy_ready_btn").css("display","block");
+       $('#add_new_ready_modal').modal('show');
+    }});
   });
   $(".week_excercise").on("change",function(){
     var val = $(this).val();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Events\NotifyChatMessage;
 
 class DashboardController extends MainAdminController
 {
@@ -53,6 +54,7 @@ class DashboardController extends MainAdminController
       $notification->is_send = 1;
       $notification->save();
 
+      event(new NotifyChatMessage($request->booking));
       return "ok";
     }
 

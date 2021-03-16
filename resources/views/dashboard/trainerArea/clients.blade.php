@@ -41,8 +41,9 @@
                  @endphp
               </span>
 
+
               </td>
-              <td>{{$user->name}}</td>
+              <td>{{$user->name}} <span class="badge bg-red" id="trans_{{$user->trans_id}}" style="margin-left:5px;display:none;"></span></td>
               <td>{{$user->email}}</td>
               <td>{{$user->phone}}</td>
               <td>{{$user->package_name}}</td>
@@ -132,5 +133,19 @@ $(".search_btn").on("click",function(){
     $('#serach_modal').modal('show');
     return false;
 });
+
+// Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher('4954d6ba6783ab65325d', {
+     cluster: 'eu'
+  });
+
+  var channel = pusher.subscribe('chat-message');
+  channel.bind('App\\Events\\NotifyChatMessage', function(data) {
+    console.log("enter thereeeee__",data.trans_id);
+    $("#trans_"+data.trans_id).css("display","block");
+    //console.log("echo__",JSON.stringify(data));
+  });
 </script>
 @endsection

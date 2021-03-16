@@ -89,7 +89,7 @@ $(".attachment_img").on("change",function(e)
                 $(".chat_modal_img_body_render").attr("src",$(this).attr("src"));
                 $('#chat_modal_img').modal('show');
               });
-              socket.emit("message" , {sender:sender , receiver:receiver,msg:$("input[name='main_img_url']").val()+response,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type,viewer_type_in:viewer_type_in,send_type_att:"image"});
+              socket.emit("message" , {sender:sender , receiver:receiver,msg:$("input[name='main_img_url']").val()+response,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type,viewer_type_in:viewer_type_in,send_type_att:"image",tran_id:$("input[name='booking']").val()});
 
             },
           error : function( data )
@@ -192,7 +192,7 @@ $(".send_btn").on("click",function(){
     }
 
     $(".chat-messages").append(html);
-    socket.emit("message" , {sender:sender , receiver:receiver,msg:message,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type,viewer_type_in:viewer_type_in,send_type_att:"text"});
+    socket.emit("message" , {sender:sender , receiver:receiver,msg:message,img:sender_img,sender_name:sender_name,date:date_str,viewer_type:viewer_type,viewer_type_in:viewer_type_in,send_type_att:"text",tran_id:$("input[name='booking']").val()});
 });
 socket.on("Typing" , function(data){
   if(data.receiver == sender)
@@ -330,6 +330,7 @@ socket.on("message" , function(data){
       notf +='</div>';
       notf +='</div>';
 
+
     }
     else{
 
@@ -343,17 +344,28 @@ socket.on("message" , function(data){
       html +='</div>';
       html +='</div>';
 
-      notf = '<div class="d-flex">';
-      notf += '<div class="not-det">';
-      notf += '<a href="#">Notify from '+data.sender_name+'</a>';
 
+
+
+      notf = '<div class="row" style="margin-bottom: 10px;color: beige;padding: 6px;">';
+
+      notf += '<div class="col-md-6">';
+      notf += data.sender_name+'</div>';
+
+      notf +='<div class="col-md-6">';
       if(data.send_type_att != "image")
-        notf += '<p class="text-truncate">'+sent_msg_is+'</p>';
+        notf += sent_msg_is;
       if(data.send_type_att == "image")
          notf += '<img src="'+sent_msg_is+'" alt="" class="chat_img_press">';
-      notf += '<span>'+data.date+'</span>';
       notf +='</div>';
       notf +='</div>';
+      //notf += '<span>'+data.date+'</span>';
+
+      console.log(data.tran_id);
+      localStorage.setItem("trans_"+data.tran_id, "trans_"+data.tran_id);
+      $("#trans_"+data.tran_id).css("display","block");
+
+
 
     }
     $(".chat-messages").append(html);

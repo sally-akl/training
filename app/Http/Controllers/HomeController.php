@@ -340,7 +340,7 @@ class HomeController extends Controller
           }
         }
       //  return redirect('my-subscription');
-      return redirect('subscribe/questions');
+      return redirect('subscribe/questions/'.$transaction->id);
       }
       return redirect('auth-customer');
     }

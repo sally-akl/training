@@ -4,7 +4,8 @@
   <div class="row align-items-center">
     <div class="col-auto">
       <ol class="breadcrumb" aria-label="breadcrumbs">
-        <li class="breadcrumb-item active" aria-current="page"><a href="#">Ready Plan design Week{{$week}} / Days</a></li>
+        <li class="breadcrumb-item " aria-current="page"><a href="{{url('/')}}/dashboard/readypackage/weeks/{{$transaction_num}}">Weeks</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">Ready Plan design Week{{$week}} - Days</a></li>
       </ol>
     </div>
   </div>

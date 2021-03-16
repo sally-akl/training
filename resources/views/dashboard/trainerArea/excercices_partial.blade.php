@@ -43,7 +43,7 @@
                            @endforeach
                            @endif
                            @if($programme->programme->media_type !='image')
-                            <div>{!! $programme->programme->vedio !!}</div>
+                            <div><iframe width="800" height="310"  src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
                           @endif
                       </div>
                   </div>

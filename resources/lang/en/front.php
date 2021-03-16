@@ -37,7 +37,7 @@ return [
     'Selectday'=>'Select day',
     'Day'=>'Day',
     'SupplementsProgram'=>'Supplements Program',
-    'Protien'=>'Protien',
+    'Protien'=>'Protein',
     'Carbs'=>'Carbs',
     'Fat'=>'Fat',
     'cal'=>'cal',
@@ -67,6 +67,4 @@ return [
     'typemessage'=>'Type your message...',
     'Typetosearch'=>'Type to search',
     'phone'=>'Phone number',
-    'subscribe_questions'=>'Fill the following questions',
-    'Fill'=>'Fill'
 ];

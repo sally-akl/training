@@ -8,7 +8,9 @@
             Day {{$day}} - Package ( {{\App\ReadyPlanPackage::find($transaction_num)->title}} )
         </h2>
         <ol class="breadcrumb" aria-label="breadcrumbs" style="margin-top:10px;">
-          <li class="breadcrumb-item active" aria-current="page"><a href="#">Ready Plan design of Week {{$week}} / Day {{$day}}</a></li>
+          <li class="breadcrumb-item " aria-current="page"><a href="{{url('/')}}/dashboard/readypackage/weeks/{{$transaction_num}}">Weeks</a></li>
+          <li class="breadcrumb-item" aria-current="page"><a href="{{url('/')}}/dashboard/readypackage/days/{{$week}}/{{$transaction_num}}">Ready Plan design Week{{$week}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><a href="#">Ready Plan design of Week {{$week}} - Day {{$day}}</a></li>
         </ol>
       </div>
     </div>
@@ -119,7 +121,7 @@
                               </thead>
                               <tbody>
                                   @php
-                                    
+
                                     if(empty($programme_search))
                                       $programme_data = \App\Programme::where("type","exercises")->whereraw("id  not IN(select programme_design_id from ready_plan where day_num='".$day."' and package_id='".$transaction_num."' and recepe_id IS NULL)")->paginate(10);
                                     else
