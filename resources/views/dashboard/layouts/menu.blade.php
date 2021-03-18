@@ -48,6 +48,11 @@
           Ready plan
         </a>
       </li>
+      <li>
+        <a class="dropdown-item" href='{{url("/dashboard/recepies")}}' style="color:#000 !important;">
+        Diet
+        </a>
+      </li>
 
 
 

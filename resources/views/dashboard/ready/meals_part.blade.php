@@ -21,9 +21,9 @@
       @endphp
         @php
          if(empty($programme_search))
-           $receps_data = \App\Receips::whereraw("id  not IN(select recepe_id from ready_plan where day_num='".$day."'  and  programme_design_id  IS NULL)")->paginate(10);
+           $receps_data = \App\Receips::whereraw("id  not IN(select recepe_id from ready_plan where day_num='".$day."'  and  programme_design_id  IS NULL)")->where("receips.user_id",Auth::id())->paginate(10);
          else
-          $receps_data = \App\Receips::where('name', 'LIKE', '%'.$recepie_search.'%')->whereraw("id  not IN(select recepe_id from ready_plan where day_num='".$day."' and programme_design_id  IS NULL)")->paginate(10);
+          $receps_data = \App\Receips::where('name', 'LIKE', '%'.$recepie_search.'%')->whereraw("id  not IN(select recepe_id from ready_plan where day_num='".$day."' and programme_design_id  IS NULL)")->where("receips.user_id",Auth::id())->paginate(10);
         @endphp
         @foreach ($receps_data as $key => $receps)
         <tr>

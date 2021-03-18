@@ -75,6 +75,7 @@ Route::group(['before' => 'auth.basic','prefix'=>'dashboard'],function () {
 
   Route::get('readypackage/plans/get/{day}','Dashboard\ReadyplanController@get_plans');
   Route::get('readypackage/plans/days/select/{day}/{plan}','Dashboard\ReadyplanController@get_plans_days');
+  Route::get('readypackage/receips/delete/{id}','Dashboard\ReadyplanpackageController@delete');
 
 
   Route::get('trainersarea/clients/details/{id}','Dashboard\TrainerAreaController@trainer_client_details');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use App\Receips;
 use Session;
 use Validator;
@@ -21,7 +22,7 @@ class RecepiesController extends Controller
      */
     public function index()
     {
-        $receips = Receips::orderBy("id","desc")->paginate($this->pagination_num);
+        $receips = Receips::where("user_id",Auth::id())->orderBy("id","desc")->paginate($this->pagination_num);
         return view('dashboard.receips.index',compact('receips'));
     }
 
@@ -51,6 +52,7 @@ class RecepiesController extends Controller
           $recepe = new Receips();
           $recepe->name = $request->name;
           $recepe->desciption = $request->body;
+          $recepe->user_id = Auth::id();
           if ($request->hasFile('img')) {
                $photo = $request->file('img');
                $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
@@ -89,6 +91,7 @@ class RecepiesController extends Controller
           $recepe = new Receips();
           $recepe->name = $request->name;
           $recepe->desciption = $request->body;
+          $recepe->user_id = Auth::id();
           if ($request->hasFile('img')) {
                $photo = $request->file('img');
                $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
@@ -149,6 +152,7 @@ class RecepiesController extends Controller
          $recepe = Receips::find($id);
          $recepe->name = $request->name;
          $recepe->desciption = $request->body;
+         $recepe->user_id = Auth::id();
          if ($request->hasFile('img')) {
              $photo = $request->file('img');
              $photo_name = md5(rand(1,1000).time()).'.'.$photo->getClientOriginalExtension();
