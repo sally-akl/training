@@ -67,4 +67,6 @@ return [
     'typemessage'=>'اكتب ردك',
     'Typetosearch'=>'البحث',
     'phone'=>'رقم الجوال',
+    'subscribe_questions'=>'اسئلة المدرب',
+    'Fill'=>'املا',
 ];

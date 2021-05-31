@@ -1,7 +1,12 @@
 @extends('layouts.trianer')
 @section('content')
 <style>
-
+.select_r_plan_s_all{
+ background-color: #2c2b2a;
+ border: none;color: #ea380f;
+ font-weight: bold;
+ background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='red' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px;
+}
 </style>
 <div class="modal modal-blur fade" id="add_edit_recep_modal" tabindex="-1" role="dialog" aria-hidden="true" style="    z-index: 999999999999;">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -106,7 +111,7 @@
                   <div class="col-lg-12">
                       <div class="row form-group">
                         <div class="col-sm-12" style="position: relative;background-color: #2c2b2a;padding: 10px 15px;margin-bottom: 10px;">
-                          <select name="ready_plan_select" class="form-control" style="background-color: #2c2b2a;border: none;color: #ea380f;font-weight: bold;" >
+                          <select name="ready_plan_select" class="form-control select_r_plan_s_all">
 
                             <option value="0">Select</option>
                             @foreach(\App\ReadyPlanPackage::all() as $k=>$ready)
@@ -593,9 +598,26 @@
                                   @endif
                                 </td>
                               </tr>
+                              @php $answers = \App\QuestionsAnswers::where("transaction_id",$transaction->id)->get();  @endphp
+                              @foreach($answers as $ans)
+                                <tr>
+                                  <td>
+                                    @if(session()->has('locale') && session()->get('locale') =='ar')
+                                      {{$ans->question->title_ar}}
+                                    @else
+                                      {{$ans->question->title}}
+                                    @endif
+
+                                  </td>
+                                  <td>
+                                   {{$ans->answer}}
+                                  </td>
+                                </tr>
+                              @endforeach
 
                             </tbody>
                           </table>
+
                           </div>
                         </div>
                         <div class="col-lg-6 col-sm-6  col-md-6">
@@ -683,34 +705,14 @@
 
 
                 </div>
-                <div class="row" style="margin-top: 5px;">
-                  <div class="col-lg-9 col-sm-9  col-md-9">
-                    <table class="table card-table table-vcenter text-nowrap datatable">
-                      <tbody>
-                        @php $answers = \App\QuestionsAnswers::where("transaction_id",$transaction->id)->get();  @endphp
-                        @foreach($answers as $ans)
-                          <tr>
-                            <td>
-                              @if(session()->has('locale') && session()->get('locale') =='ar')
-                                {{$ans->question->title_ar}}
-                              @else
-                                {{$ans->question->title}}
-                              @endif
-
-                            </td>
-                            <td>
-                             {{$ans->answer}}
-                            </td>
-                          </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-
+                <div class="row" style="margin-top: 20px;">
+                  <div class="col-lg-2 col-sm-2  col-md-2">
                   </div>
-                  <div class="col-lg-3 col-sm-3  col-md-3" style="padding: 25px;">
-                    <a href="#" class="sec-btn lang ready_btn" style="border-radius: 0px;">Ready plans and Diet</a>
+                  <div class="col-lg-8 col-sm-9  col-md-8" style="text-align: center;">
+                     <a href="#" class="sec-btn lang ready_btn" style="border-radius: 0px;">Ready plans and Diet</a>
                   </div>
-
+                  <div class="col-lg-2 col-sm-1  col-md-2">
+                  </div>
 
                 </div>
 
@@ -869,7 +871,7 @@
                                       @endif
 
                                       @if($programme->programme->media_type != "image")
-                                      <iframe width="170" height="200" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" {{(session()->has('locale') && session()->get('locale') =='ar')?'style=margin-left:23px;margin-right:19px;':'style=margin-right:20px'}}></iframe>
+                                      <iframe width="170" height="200" src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" {{(session()->has('locale') && session()->get('locale') =='ar')?'style=margin-left:23px;margin-right:19px;':'style=margin-right:20px'}}></iframe>
 
                                       @endif
 

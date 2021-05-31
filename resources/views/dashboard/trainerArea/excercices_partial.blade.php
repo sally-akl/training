@@ -5,7 +5,7 @@
     @endif
 
     @if($programme->programme->media_type != "image")
-      <img src="{{url('/')}}/img/download.png" alt="">
+      <iframe width="170" height="200" src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" {{(session()->has('locale') && session()->get('locale') =='ar')?'style=margin-left:23px;margin-right:19px;':'style=margin-right:20px'}}></iframe>
     @endif
 
       <div class="exer-desc"  data-toggle="modal" data-target="#exerModal_{{$programme->programme->id}}">

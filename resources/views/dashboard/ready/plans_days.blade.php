@@ -28,13 +28,13 @@
                         <span class="align-self-center">@lang('front.Selectday') :</span>
                         <select class="custom-select day_ready_excercise" class="align-self-center ">
                             <option value="0">Select</option>
-                            <option value="1">@lang('front.Day') 1</option>
-                            <option value="2">@lang('front.Day') 2</option>
-                            <option value="3">@lang('front.Day') 3</option>
-                            <option value="4">@lang('front.Day') 4</option>
-                            <option value="5">@lang('front.Day') 5</option>
-                            <option value="6">@lang('front.Day') 6</option>
-                            <option value="7">@lang('front.Day') 7</option>
+                            <option value="1" {{$daynum == 1?"selected":""}}>@lang('front.Day') 1</option>
+                            <option value="2" {{$daynum == 2?"selected":""}}>@lang('front.Day') 2</option>
+                            <option value="3" {{$daynum == 3?"selected":""}}>@lang('front.Day') 3</option>
+                            <option value="4" {{$daynum == 4?"selected":""}}>@lang('front.Day') 4</option>
+                            <option value="5" {{$daynum == 5?"selected":""}}>@lang('front.Day') 5</option>
+                            <option value="6" {{$daynum == 6?"selected":""}}>@lang('front.Day') 6</option>
+                            <option value="7" {{$daynum == 7?"selected":""}}>@lang('front.Day') 7</option>
                           </select>
                     </div>
                     <div class="exercices">
@@ -53,7 +53,7 @@
                           @endif
 
                           @if($programme->programme->media_type != "image")
-                          <iframe width="170" height="200" src="{{$programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" {{(session()->has('locale') && session()->get('locale') =='ar')?'style=margin-left:23px;margin-right:19px;':'style=margin-right:20px'}}></iframe>
+                          <iframe width="170" height="200" src="{{$programme->programme->vedio}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" {{(session()->has('locale') && session()->get('locale') =='ar')?'style=margin-left:23px;margin-right:19px;':'style=margin-right:20px'}}></iframe>
 
                           @endif
 

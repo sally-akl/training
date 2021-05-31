@@ -67,4 +67,6 @@ return [
     'typemessage'=>'Type your message...',
     'Typetosearch'=>'Type to search',
     'phone'=>'Phone number',
+    'subscribe_questions'=>'Trainer Questions',
+    'Fill'=>'fill',
 ];
